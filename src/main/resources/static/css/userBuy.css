@@ -1,0 +1,80 @@
+.table-wrapper {
+    padding: 20px;
+}
+
+.table-wrapper .table b {
+    color: #1caf9a;
+    font-size: 20px;
+}
+
+.table-wrapper .table td{
+    height: 60px;
+    vertical-align: middle;
+}
+
+.card {
+    padding: 30px 40px;
+    color: #444444;
+    margin-bottom: 40px;
+}
+
+.card .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0 5px 0;
+}
+
+.card .header .title {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+
+/*DingLingyan 2019.5.15*/
+
+.content-container {
+    overflow-y: auto;
+}
+
+.container {
+    width: 80%;
+    margin: 20px auto;
+    background: #ffffff;
+    min-height: 100%;
+}
+
+.content-header {
+    margin: 8px auto;
+    text-align: center;
+    border-bottom: 1px solid #dddddd;
+}
+
+.nav-tabs-item {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.no-ticket-tip {
+    text-align: center;
+    display: none;
+}
+
+#ticket-list {
+    margin: 10px auto;
+}
+
+#ticket-list td {
+    text-align: center;
+    padding: 10px 25px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+#ticket-list .table-head > td {
+    font-weight: bold;
+    font-size: 20px;
+}
