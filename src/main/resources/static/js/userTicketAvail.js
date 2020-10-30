@@ -94,7 +94,7 @@ function getValidSche(scheList,callback) {
 var renderOrder=function (finList) {
     let orderStr=""
     finList.forEach(function (order) {
-        // console.log(order)
+        console.log(order)
         //判断是否过期
         if (order.scheId!=null){
             let ordItemStr=''
@@ -105,9 +105,9 @@ var renderOrder=function (finList) {
                 seatList+='<div class="order-ticket">'+(ticket.rowIndex + 1) + "排" + (ticket.columnIndex + 1) + "座" +'</div>'
                 var ticketOb={
                     id:ticket.id,
-                    seat:ticket.rowIndex + 1 + "排" + ticket.columnIndex + 1 + "座",
+                    seat:(ticket.rowIndex + 1) + "排" + (ticket.columnIndex + 1) + "座",
                 }
-                // console.log(ticketOb.seat)
+                console.log(ticketOb)
                 tStrList.push(JSON.stringify(ticketOb))
             })
             seatList='<div class="ticket-item col-md-8 right">'+seatList+'</div>'
@@ -158,13 +158,12 @@ function isBefore(first,second) {
 
 //点击退票按钮
 $(document).on('click','.refund-ticket',function (e) {
-    // console.log(e)
     let data=e.target.dataset
     //填入数据基本信息
     let basicMsg= '<div class="refund-content-name">' +data.name+'</div><div class="refund-content-hall">'+data.hall+'</div><div class="refund-content-time">'+ data.time.substring(0, 10) + ' ' + data.time.substring(11, 16)+'</div>'
     $('.refund-basic-info-content').html(basicMsg)
-    // console.log(JSON.parse(data.ticl))
     let list=JSON.parse(data.ticl)
+
     let ticketList=''
     for (var j=0;j<list.length;j++){
         var ticket=JSON.parse(list[j])
@@ -182,7 +181,7 @@ function getRefundStrategy() {
     getRequest(
         '/refund/get',
         function (res) {
-            console.log(res)
+            // console.log(res)
             if (res.success) {
                 renderRefundList(res.content)
             }
@@ -207,7 +206,7 @@ function renderRefundList(list) {
         stra.hour=temp.hour
         stra.min=temp.min
         stra.sec=temp.sec
-        console.log(stra)
+        // console.log(stra)
         var line=$('<tr>'+'<td>'+stra.day+"天"+stra.hour+"小时"+stra.min+"分钟"+stra.sec+"秒"+'</td>'+'<td>'+stra.refundPercentage+'</td>'+'</tr>')
         $("#refund-table-body-in").append(line)
     }

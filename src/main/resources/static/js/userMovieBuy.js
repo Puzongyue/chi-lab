@@ -299,7 +299,9 @@ function postPayRequest(isVIP) {
                 '/ticket/buy?ticketId='+order.ticketId+'&couponId='+order.couponId,
                 null,
                 function (res) {
-                    console.log('not',res)
+                    $('#order-state').css("display", "none");
+                    $('#success-state').css("display", "");
+                    $('#buyModal').modal('hide')
                 }
             );
     }
