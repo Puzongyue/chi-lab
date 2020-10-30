@@ -3,8 +3,10 @@ package com.example.cinema.controller.statistics;
 import com.example.cinema.bl.statistics.StatisticsService;
 import com.example.cinema.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -33,7 +35,7 @@ public class StatisticsController {
     }
 
     @RequestMapping(value = "statistics/PlacingRate", method = RequestMethod.GET)
-    public ResponseVO getMoviePlacingRateByDate(@RequestParam Date date){
+    public ResponseVO getMoviePlacingRateByDate(@RequestParam(required=false) Date date){
         return statisticsService.getMoviePlacingRateByDate(date);
     }
 
@@ -41,14 +43,4 @@ public class StatisticsController {
     public ResponseVO getPopularMovies(@RequestParam int days, @RequestParam int movieNum){
         return statisticsService.getPopularMovies(days, movieNum);
     }
-
-
-
-
-
-
-
-
-
-
 }

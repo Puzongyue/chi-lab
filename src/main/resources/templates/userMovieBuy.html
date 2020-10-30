@@ -36,8 +36,9 @@
             <span class="gray-text" style="vertical-align: middle">用户A&nbsp;<span class="caret"></span></span>
         </button>
         <ul class="dropdown-menu">
-            <li><a href="/user/buy">电影票</a></li>
+            <li><a href="/user/ticket/unpay">我的电影票</a></li>
             <li><a href="/user/member">卡包</a></li>
+            <li><a href="/user/record/consume">我的消费记录</a></li>
             <li id="logout"><a href="#">登出</a></li>
         </ul>
     </div>
@@ -157,7 +158,7 @@
 
             <div class="success-notice" style="text-align: center">
                 <img src="/images/success.png"/>
-                <div class="hint">支付成功，至<a class="hint" href="/user/buy">“我的电影票”</a>页面查看</div>
+                <div class="hint">支付成功，至<a class="hint" href="/user/ticket/avail">“我的电影票”</a>页面查看</div>
             </div>
         </div>
     </div>
@@ -195,7 +196,6 @@
                 </div>
 
                 <div id="pay-amount"><b>金额：</b>&nbsp;&nbsp;90元</div>
-                <p id="VIP-balance-error" class="notice">会员卡余额不足！</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>

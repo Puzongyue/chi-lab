@@ -2,6 +2,7 @@ var dates;
 var movieId;
 
 $(document).ready(function () {
+    console.log(window.location.href)
     movieId = parseInt(window.location.href.split('?')[1].split('&')[0].split('=')[1]);
 
     getSchedule();
@@ -13,6 +14,7 @@ $(document).ready(function () {
                 if (res.success) {
                     $('#schedule').css("display", "");
                     dates = res.content;
+                    console.log(dates)
                     repaintScheduleDate(0);
                 } else {
                     $('#none-hint').css("display", "");
@@ -41,6 +43,9 @@ function repaintScheduleDate(curDateLoc) {
 }
 
 function repaintScheduleBody(curDateLoc) {
+
+    console.log("插入整个排片")
+    console.log(curDateLoc)
     var scheduleItems = dates[curDateLoc].scheduleItemList;
 
     if (scheduleItems.length == 0) {
@@ -50,12 +55,13 @@ function repaintScheduleBody(curDateLoc) {
     }
     var bodyContent = "";
     for (var i = 0; i < scheduleItems.length; i++) {
+        console.log("插入逐条排片")
+        console.log(scheduleItems[i])
         bodyContent += "<tr><td>" + scheduleItems[i].startTime.substring(11, 16) + "</td>" +
             "<td>预计" + scheduleItems[i].endTime.substring(11, 16) + "散场</td>" +
             "<td>" + scheduleItems[i].hallName + "</td>" +
             "<td><b>" + scheduleItems[i].fare.toFixed(2) + "</b></td>" +
-            "<td><a class='btn btn-primary' href='/user/movieDetail/buy?id="+movieId+"&scheduleId="+scheduleItems[i].id+"' role='button'>选座购票</a></td></tr>";
+            "<td><a class='btn btn-primary' href='/user/movieDetail/buy?id="+movieId+"&scheduleId="+scheduleItems[i].id+"&unpay=false' role='button'>选座购票</a></td></tr>";
     }
-
     $('#schedule-body').html(bodyContent);
 }

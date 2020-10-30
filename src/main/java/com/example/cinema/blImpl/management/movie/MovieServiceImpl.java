@@ -23,6 +23,9 @@ import java.util.List;
 public class MovieServiceImpl implements MovieService, MovieServiceForBl {
     private static final String SCHEDULE_ERROR_MESSAGE = "有电影后续仍有排片或已有观众购票且未使用";
 
+    /**
+     *
+     */
     @Autowired
     private MovieMapper movieMapper;
     @Autowired

@@ -3,6 +3,7 @@ package com.example.cinema.blImpl.user;
 import com.example.cinema.bl.user.AccountService;
 import com.example.cinema.data.user.AccountMapper;
 import com.example.cinema.po.User;
+import com.example.cinema.vo.ManagerForm;
 import com.example.cinema.vo.UserForm;
 import com.example.cinema.vo.ResponseVO;
 import com.example.cinema.vo.UserVO;
@@ -37,6 +38,8 @@ public class AccountServiceImpl implements AccountService {
         }
         return new UserVO(user);
     }
+
+
 
 
 }

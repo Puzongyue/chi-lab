@@ -27,7 +27,9 @@
         select * from coupon c left join coupon_user  cu on c.id=cu.coupon_id where cu.user_id=#{userId} and c.start_time &lt; Now() and c.end_time &gt; Now() and #{amount}>c.target_amount
 
     </select>
-
+    <select id="selectValidCoupon" resultMap="Coupon">
+        select * from coupon c where c.end_time > Now()
+    </select>
     <resultMap id="Coupon" type="com.example.cinema.po.Coupon">
         <result column="description" property="description"></result>
         <result column="id" property="id"></result>

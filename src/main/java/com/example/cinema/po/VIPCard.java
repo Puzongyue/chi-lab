@@ -33,9 +33,21 @@ public class VIPCard {
      */
     private Timestamp joinDate;
 
+    /**
+     * 办卡以后使用该卡的累计消费
+     */
+    private double consume;
+
+    public double getConsume() {
+        return consume;
+    }
+
+    public void setConsume(double consume) {
+        this.consume = consume;
+    }
 
     public VIPCard() {
-
+        this.consume=0;
     }
 
 
@@ -71,8 +83,4 @@ public class VIPCard {
         this.joinDate = joinDate;
     }
 
-    public double calculate(double amount) {
-        return (int)(amount/200)*30+amount;
-
-    }
 }

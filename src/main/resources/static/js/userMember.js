@@ -92,7 +92,7 @@ function confirmCommit() {
                         getVIP();
                     },
                     function (error) {
-                        alert(error);
+                        alert(JSON.stringify(error));
                     });
             }
         } else {
@@ -129,7 +129,10 @@ function getCoupon() {
                 var couponList = res.content;
                 var couponListContent = '';
                 for (let coupon of couponList) {
-                    couponListContent += '<div class="col-md-6 coupon-wrapper"><div class="coupon"><div class="content">' +
+                    couponListContent += '<div class="col-md-6 coupon-wrapper">' +
+                        '<div class="coupon">' +
+                        '<div class="content">' +
+
                         '<div class="col-md-8 left">' +
                         '<div class="name">' +
                         coupon.name +
@@ -141,10 +144,15 @@ function getCoupon() {
                         '满' + coupon.targetAmount + '减' + coupon.discountAmount +
                         '</div>' +
                         '</div>' +
+
                         '<div class="col-md-4 right">' +
                         '<div>有效日期：</div>' +
                         '<div>' + formatDate(coupon.startTime) + ' ~ ' + formatDate(coupon.endTime) + '</div>' +
-                        '</div></div></div></div>'
+                        '</div>' +
+
+                        '</div>' +
+                        '</div>'+
+                        '</div>'
                 }
                 $('#coupon-list').html(couponListContent);
 

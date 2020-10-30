@@ -66,8 +66,13 @@ public class MovieController {
         return movieService.getMovieByKeyword(keyword);
     }
 
+
+
     @RequestMapping(value = "/movie/off/batch",method = RequestMethod.POST)
     public ResponseVO pullOfBatchOfMovie(@RequestBody MovieBatchOffForm movieBatchOffForm){
+//        System.out.println("deleteMovie56+");
+//        System.out.println(movieBatchOffForm);
+//        System.out.println("end");
         return movieService.pullOfBatchOfMovie(movieBatchOffForm);
     }
 

@@ -13,6 +13,7 @@ public class SeatForm {
      */
     private int rowIndex;
 
+
     public int getColumnIndex() {
         return columnIndex;
     }

@@ -1,5 +1,7 @@
 package com.example.cinema.po;
 
+import com.example.cinema.vo.HallForm;
+
 /**
  * @author fjj
  * @date 2019/4/28 5:09 PM
@@ -9,7 +11,13 @@ public class Hall {
     private String name;
     private Integer row;
     private Integer column;
-
+    public Hall(HallForm hallForm){
+        this.id=hallForm.getId();
+        this.name=hallForm.getName();
+        this.row=hallForm.getRow();
+        this.column=hallForm.getColumn();
+    }
+    public Hall(){}
     public Integer getId() {
         return id;
     }

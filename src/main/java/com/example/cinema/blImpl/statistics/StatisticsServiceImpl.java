@@ -2,17 +2,19 @@ package com.example.cinema.blImpl.statistics;
 
 import com.example.cinema.bl.statistics.StatisticsService;
 import com.example.cinema.data.statistics.StatisticsMapper;
-import com.example.cinema.po.*;
-import com.example.cinema.vo.AudiencePriceVO;
-import com.example.cinema.vo.MovieScheduleTimeVO;
-import com.example.cinema.vo.MovieTotalBoxOfficeVO;
-import com.example.cinema.vo.ResponseVO;
-import io.micrometer.core.instrument.Statistic;
+import com.example.cinema.po.AudiencePrice;
+import com.example.cinema.po.Hall;
+import com.example.cinema.po.MovieScheduleTime;
+import com.example.cinema.po.MovieTotalBoxOffice;
+import com.example.cinema.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author fjj
@@ -25,6 +27,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Override
     public ResponseVO getScheduleRateByDate(Date date) {
         try{
+
             Date requireDate = date;
             if(requireDate == null){
                 requireDate = new Date();
@@ -75,44 +78,67 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public ResponseVO getMoviePlacingRateByDate(Date date) {
-        try {
-            Date requireDate = date;
-            if (date == null) {
-                requireDate = new Date();
-            }
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            requireDate = simpleDateFormat.parse(simpleDateFormat.format(requireDate));
+        public ResponseVO getMoviePlacingRateByDate(Date date) {
+        try{
+            List<MovieTotalBoxOffice> movieTotalBoxOffices=statisticsMapper.selectAudienceNum(date,getNumDayAfterDate(date,1));
+            List<PlacingRateVO> placingRateVOList=new ArrayList<>();
+            List<MovieScheduleTime> movieScheduleTimeList=statisticsMapper.selectMovieScheduleTimes(date,getNumDayAfterDate(date,1));
+            int totalSeats=0,hallNums=0;//座位数，影厅数
 
-            Date nextDate = getNumDayAfterDate(requireDate, 1);
-            List<MoviePlacingRate> moviePlacingRateList = statisticsMapper.selectMoviePlacingRate(requireDate, nextDate);
-            for (MoviePlacingRate moviePlacingRate : moviePlacingRateList){
-                moviePlacingRate.setPlacingRate((double)moviePlacingRate.getTicketCount() / moviePlacingRate.getTotalSeat() * 100);
+
+            List<Hall> halls=statisticsMapper.selectTotalHalls();
+
+            for(int j=0;j<halls.size();j++){
+                totalSeats=totalSeats+halls.get(j).getColumn()*halls.get(j).getRow();
+                hallNums++;
             }
-            Collections.reverse(moviePlacingRateList);
-            return ResponseVO.buildSuccess(moviePlacingRateList);
-        }
-        catch (Exception e){
+
+            double placingRate=0;
+            double AudienceNum;
+
+            for(int i=0;i<movieTotalBoxOffices.size();i++){
+                AudienceNum=0;
+                for(int j=0;j<movieScheduleTimeList.size();j++){
+                    if(movieTotalBoxOffices.get(i).getMovieId()==movieScheduleTimeList.get(j).getMovieId()){
+                        AudienceNum=movieTotalBoxOffices.get(i).getBoxOffice()+0.0;
+                    }
+                }
+                if(AudienceNum==0){
+                    placingRateVOList.add(new PlacingRateVO(movieTotalBoxOffices.get(i).getMovieId(),0));
+                    continue;
+                }
+                placingRate=AudienceNum/totalSeats/movieScheduleTimeList.get(i).getTime();
+                PlacingRateVO prv=new PlacingRateVO(movieTotalBoxOffices.get(i).getMovieId(),placingRate);
+                prv.setName(movieTotalBoxOffices.get(i).getName());
+                placingRateVOList.add(prv);
+            }
+
+            return ResponseVO.buildSuccess(placingRateVOList);
+        }catch(Exception e){
             e.printStackTrace();
             return ResponseVO.buildFailure("失败");
         }
+        //要求见接口说明
     }
 
     @Override
     public ResponseVO getPopularMovies(int days, int movieNum) {
-        try {
+        //要求见接口说明
+        try{
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date currentDate = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
-            List<MovieLatestBoxOffice> boxOfficeList =
-                    statisticsMapper.selectLatestBoxOffice(getNumDayAfterDate(currentDate, -days + 1), getNumDayAfterDate(currentDate, 1));
-            Collections.reverse(boxOfficeList);
-            if (boxOfficeList.size() < movieNum)
-                return ResponseVO.buildSuccess(boxOfficeList);
-            else
-                return ResponseVO.buildSuccess(boxOfficeList.subList(0, movieNum));
-        }
-        catch (Exception e){
-            e.printStackTrace();
+            Date today = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+            List<MovieTotalBoxOffice> movieTotalBoxOffices=statisticsMapper.selectMovieBoxOfficeOnCertainDate(today,getNumDayAfterDate(today,days));
+            List<PopularMovieVO> popularMovieVOS=new ArrayList<>();
+
+            for(int i=0;i<movieNum;i++){
+                PopularMovieVO popularMoviePO=new PopularMovieVO();
+                popularMoviePO.setMovieId(movieTotalBoxOffices.get(i).getMovieId());
+                popularMoviePO.setName(movieTotalBoxOffices.get(i).getName());
+                popularMoviePO.setPopularRank(i+1);
+                popularMovieVOS.add(popularMoviePO);
+            }
+            return ResponseVO.buildSuccess(popularMovieVOS);
+        }catch (Exception e){
             return ResponseVO.buildFailure("失败");
         }
     }

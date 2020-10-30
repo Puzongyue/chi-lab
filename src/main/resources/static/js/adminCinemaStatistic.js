@@ -1,15 +1,28 @@
 $(document).ready(function() {
-
-
+    //选择是否显示root权限
+    var role=sessionStorage.getItem('role')
+    console.log(role)
+    console.log(role==='root')
+    if (role==='root'){
+        $('#root-staff-manage').css("display","")
+    }
+    console.log("start")
     getScheduleRate();
-    
+    console.log("sr")
+
     getBoxOffice();
+    console.log("bo")
 
     getAudiencePrice();
+    console.log("ap")
 
     getPlacingRate();
+    console.log("pr")
 
-    getPolularMovie();
+    getPopularMovie();
+    console.log("pm")
+
+    console.log("stac")
 
     function getScheduleRate() {
 
@@ -76,20 +89,22 @@ $(document).ready(function() {
     }
 
     function getBoxOffice() {
-
+        console.log("asdfhj")
         getRequest(
             '/statistics/boxOffice/total',
             function (res) {
                 var data = res.content || [];
                 var tableData = data.map(function (item) {
+//                console.log(item)
                     return item.boxOffice;
                 });
                 var nameList = data.map(function (item) {
+//                console.log(item)
                     return item.name;
                 });
                 var option = {
                     title : {
-                        text: '所有电影票房',
+                        text: '所有票房',
                         subtext: '截止至'+new Date().toLocaleDateString(),
                         x:'center'
                     },
@@ -114,12 +129,15 @@ $(document).ready(function() {
     }
 
     function getAudiencePrice() {
+        console.log("sdffwqe")
         getRequest(
             '/statistics/audience/price',
             function (res) {
                 var data = res.content || [];
                 var tableData = data.map(function (item) {
-                    return item.price;
+//console.log(item)
+                     return item.price;
+
                 });
                 var nameList = data.map(function (item) {
                     return formatDate(new Date(item.date));
@@ -147,84 +165,95 @@ $(document).ready(function() {
             function (error) {
                 alert(JSON.stringify(error));
             });
+
     }
 
-    //puzongyue 2019/5/18
     function getPlacingRate() {
-        var date = formatDate(new Date());
+        // todo
+        var date=new Date().toLocaleDateString();
         getRequest(
-            '/statistics/PlacingRate?date=' + date.replace(/-/g,'/'),//????????
+            '/statistics/PlacingRate?date=' + date,
             function (res) {
-                var data = res.content || [];
-                var tableData = data.map(function (item) {
-                    return item.placingRate;
-                });
-                var nameList = data.map(function (item) {
-                    return item.name;
-                });
-                var option = {
-                    title : {
-                        text: '今日上座率',
-                        subtext: '日期：'+new Date().toLocaleDateString(),
-                        x:'center'
+                        var data = res.content || [];
+                        var tableData = data.map(function (item) {
+                             return item.placingRate;
+                        });
+                        var nameList = data.map(function (item) {
+                            return item.name;
+                        });
+                        var option = {
+                            title : {
+                               text: '每日上座率',
+                                x:'center'
+                            },
+                            xAxis: {
+                                type: 'category',
+                                data: nameList
+                            },
+                            yAxis: {
+                                type: 'value'
+                            },
+                            series: [{
+                                data: tableData,
+                                type: 'line'
+                            }]
+                        };
+                        var scheduleRateChart = echarts.init($("#place-rate-container")[0]);
+                        scheduleRateChart.setOption(option);
                     },
-                    xAxis: {
-                        type: 'category',
-                        data: nameList
-                    },
-                    yAxis: {
-                        type: 'value'
-                    },
-                    series: [{
-                        data: tableData,
-                        type: 'bar'
-                    }]
-                };
-                var placingRateChart = echarts.init($("#place-rate-container")[0]);
-                placingRateChart.setOption(option);
-            },
-            function (error) {
-                alert(JSON.stringify(error));
-            });
+                    function (error) {
+                        alert(JSON.stringify(error));
+                    });
+
     }
 
-    //puzongyue 2019/5/18
-    function getPolularMovie() {
-        var days = 3;
-        var movieNum = 5;
-        getRequest(
-            '/statistics/popular/movie?days=' + days + "&movieNum=" + movieNum,
-            function (res) {
-                var data = res.content || [];
-                var tableData = data.map(function (item) {
-                    return item.boxOffice;
-                });
-                var nameList = data.map(function (item) {
-                    return item.name;
-                });
-                var option = {
-                    title : {
-                        text: '近三天最受欢迎电影',
-                        subtext: '截止至'+new Date().toLocaleDateString(),
-                        x:'center'
-                    },
-                    xAxis: {
-                        type: 'category',
-                        data: nameList
-                    },
-                    yAxis: {
-                        type: 'value'
-                    },
-                    series: [{
-                        data: tableData,
-                        type: 'bar'
-                    }]
-                };
-                var scheduleRateChart = echarts.init($("#popular-movie-container")[0]);
-                scheduleRateChart.setOption(option);
-            },
-            function (error) {
-                alert(JSON.stringify(error));
-            });
+    function getPopularMovie() {
+//                var date=new Date().toLocaleDateString();
+                   console.log("进去function")
+                   getRequest(
+                           '/statistics/popular/movie?days=1&movieNum=9',
+                           //这个是报错呢还是进入的不是下面这个function而是进了err那个？
+                           //但是很玄幻的是他也没有alert
+                               function (res) {
+                                                   console.log("get成功")
+
+                                            console.log(res)
+                                           var data = res.content || [];
+                                           var tableData = data.map(function (item) {
+                                                console.log(item)
+                                                return item.movieId;
+                                           });
+                                           var nameList = data.map(function (item) {
+                                               return item.name;
+                                           });
+                                           var option = {
+                                               title : {
+                                                  text: '最受欢迎电影排行',
+                                                   x:'center'
+                                               },
+                                               xAxis: {
+                                                   type: 'category',
+                                                   data: nameList
+                                               },
+                                               yAxis: {
+                                                   type: 'value'
+                                               },
+                                               series: [{
+                                                   data: tableData,
+                                                   type: 'bar'
+                                               }]
+                                           };
+                                           var scheduleRateChart = echarts.init($("#popular-movie-container")[0]);
+                                           scheduleRateChart.setOption(option);
+                                       },
+                                       function (error) {
+                                        console.log("get失败")
+
+                                           alert(JSON.stringify(error));
+                                       });
+
+
     }
+        // todo
+//
 });

@@ -20,6 +20,11 @@ public class ViewController {
         return "signUp";
     }
 
+    @RequestMapping(value = "/adminLogin")
+    public String getAdminLogin() {
+        return "/adminLogin";
+    }
+
     @RequestMapping(value = "/admin/movie/manage")
     public String getAdminMovieManage() {
         return "adminMovieManage";
@@ -48,6 +53,12 @@ public class ViewController {
     @RequestMapping(value = "/admin/movieDetail")
     public String getAdminMovieDetail(@RequestParam int id) { return "adminMovieDetail"; }
 
+    @RequestMapping(value = "/admin/coupon/manage")
+    public String getAdminCouponManage() { return "adminCouponManage"; }
+
+    @RequestMapping(value = "/root/staffManage")
+    public String getRootStaffManage() { return "rootStaffManage"; }
+
     @RequestMapping(value = "/user/home")
     public String getUserHome() {
         return "userHome";
@@ -64,7 +75,7 @@ public class ViewController {
     }
 
     @RequestMapping(value = "/user/movieDetail/buy")
-    public String getUserMovieBuy(@RequestParam int id) {
+    public String getUserMovieBuy(@RequestParam int id ) {
         return "userMovieBuy";
     }
 
@@ -76,5 +87,43 @@ public class ViewController {
     @RequestMapping(value = "/user/member")
     public String getUserMember() {
         return "userMember";
+    }
+    
+    @RequestMapping(value = "/admin/membercard/manage")
+    public String getaddcard() { return "addcard"; }
+
+    @RequestMapping(value = "/user/ticket/refund")
+    public String getUserTicketRefund() {
+        return "userTicketRefund";
+    }
+
+    @RequestMapping(value = "/user/ticket/used")
+    public String getUserTicketUsed() {
+        return "userTicketUsed";
+    }
+
+    @RequestMapping(value = "/user/ticket/unpay")
+    public String getUserTicketUnpay() {
+        return "userTicketUnpay";
+    }
+
+    @RequestMapping(value = "/user/ticket/avail")
+    public String getUserTicket() {
+        return "userTicketAvail";
+    }
+
+    @RequestMapping(value = "/user/record/consume")
+    public String getUserConsumeRecord() {
+        return "userConsumeRecord";
+    }
+
+    @RequestMapping(value = "/user/record/charge")
+    public String getUserRechargeRecord() {
+        return "userRechargeRecord";
+    }
+
+    @RequestMapping(value = "/admin/ticket/refund")
+    public String getrefundTicket() {
+        return "refundTicket";
     }
 }

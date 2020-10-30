@@ -29,6 +29,10 @@
             <li role="presentation"><a href="/admin/promotion/manage"><i class="icon-gift"></i> 活动管理</a></li>
             <li role="presentation"><a href="/admin/cinema/manage"><i class="icon-cogs"></i> 影院管理</a></li>
             <li role="presentation"><a href="/admin/cinema/statistic"><i class="icon-bar-chart"></i> 影院统计</a></li>
+            <li role="presentation"><a href="/admin/membercard/manage"><i class="icon-credit-card"></i> 会员卡管理</a></li>
+            <li role="presentation"><a href="/admin/ticket/refund"><i class="icon-credit-card"></i> 退票策略</a></li>
+            <li role="presentation"><a href="/admin/coupon/manage"><i class="icon-bar-chart"></i> 赠送优惠券</a></li>
+            <li role="presentation" id="root-staff-manage" style="display:none"><a href="/root/staffManage"><i class="icon-bar-chart"></i> 员工管理</a></li>
         </ul>
     </div>
     <div class="content-container">
@@ -97,21 +101,18 @@
                             <input type="datetime-local" class="form-control" id="schedule-start-date-input" placeholder="请选择开始时间">
                         </div>
                     </div>
-                    <p id="schedule-start-date-error" class="notice">请选择开始时间！</p>
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="schedule-end-date-input"><span class="error-text">*</span>结束时间</label>
                         <div class="col-sm-10">
                             <input type="datetime-local" class="form-control" id="schedule-end-date-input" placeholder="请选择结束时间">
                         </div>
                     </div>
-                    <p id="schedule-end-date-error" class="notice">请选择结束时间！</p>
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="schedule-price-input"><span class="error-text">*</span>场次票价</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="schedule-price-input" placeholder="请输入票价">
                         </div>
                     </div>
-                    <p id="schedule-price-error" class="notice">请输入正确的价格！</p>
                 </form>
             </div>
             <div class="modal-footer">

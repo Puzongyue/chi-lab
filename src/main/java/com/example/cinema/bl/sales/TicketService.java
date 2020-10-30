@@ -2,6 +2,7 @@ package com.example.cinema.bl.sales;
 
 import com.example.cinema.vo.ResponseVO;
 import com.example.cinema.vo.TicketForm;
+import com.example.cinema.vo.TicketVO;
 
 import java.util.List;
 
@@ -12,7 +13,8 @@ import java.util.List;
 public interface TicketService {
     /**
      * TODO:锁座【增加票但状态为未付款】
-     *
+     * 订单状态：
+     * 0：未完成 1：已完成 2:已失效
      * @param ticketForm
      * @return
      */
@@ -59,4 +61,28 @@ public interface TicketService {
      * @return
      */
     ResponseVO cancelTicket(List<Integer> id);
+
+    /**
+     * 得到所有的退票策略
+     * @return
+     */
+    ResponseVO getRefundStrategies();
+    /**
+     * 退票
+     * @param ticketId
+     * @return
+     */
+    ResponseVO refundTickets(List<Integer> ticketId);
+
+    /**
+     * 得到用户所有退的票
+     */
+    ResponseVO getRefundedTickets(int userId);
+
+    /**
+     * 得到再支付票需要的相关信息：观众可用优惠券，所有优惠活动，总价
+     *
+     * @return
+     */
+    ResponseVO getInfoOfUnpaidTickets (int userId,int scheduleId);
 }

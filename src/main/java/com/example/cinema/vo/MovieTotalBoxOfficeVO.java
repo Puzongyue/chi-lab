@@ -11,7 +11,7 @@ public class MovieTotalBoxOfficeVO {
     /**
      * 票房(单位：元)，(PS:如果后续数据量大，可自行处理单位，如改成单位：万元)
      */
-    private Integer boxOffice;
+    private Integer boxOffice=0;
     private String name;
 
     public MovieTotalBoxOfficeVO(MovieTotalBoxOffice movieTotalBoxOffice){

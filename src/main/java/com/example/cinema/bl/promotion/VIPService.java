@@ -17,6 +17,11 @@ public interface VIPService {
 
     ResponseVO getVIPInfo();
 
+    /**
+     * 给会员卡充值
+     * @param vipCardForm
+     * @return
+     */
     ResponseVO charge(VIPCardForm vipCardForm);
 
     ResponseVO getCardByUserId(int userId);

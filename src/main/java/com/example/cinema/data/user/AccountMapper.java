@@ -25,7 +25,4 @@ public interface AccountMapper {
      * @return
      */
     public User getAccountByName(@Param("username") String username);
-
-    public int getUserIdentityById(@Param("user_id") int userId);
-
 }

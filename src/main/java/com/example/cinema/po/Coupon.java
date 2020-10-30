@@ -1,5 +1,7 @@
 package com.example.cinema.po;
 
+import com.example.cinema.vo.CouponForm;
+
 import java.sql.Timestamp;
 
 /**
@@ -34,6 +36,17 @@ public class Coupon {
      * 失效时间
      */
     private Timestamp endTime;
+
+    public CouponForm getCouponForm(){
+        CouponForm couponForm=new CouponForm();
+        couponForm.setDescription(this.description);
+        couponForm.setName(this.name);
+        couponForm.setTargetAmount(this.targetAmount);
+        couponForm.setDiscountAmount(this.discountAmount);
+        couponForm.setStartTime(this.startTime);
+        couponForm.setEndTime(this.endTime);
+        return couponForm;
+    }
 
     public Timestamp getStartTime() {
         return startTime;

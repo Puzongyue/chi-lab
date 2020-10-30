@@ -20,11 +20,19 @@
         <result column="id" property="id"></result>
         <result column="user_id" property="userId"></result>
         <result column="balance" property="balance"></result>
+        <result column="consume" property="consume"></result>
     </resultMap>
 
     <update id="updateCardBalance" >
         update vip_card set balance = #{balance} where id=#{id}
     </update>
+    <update id="updateVipConsume">
+        update vip_card set consume=#{consume} where id=#{id}
+    </update>
+
+    <select id="selectVipByConsume" resultMap="VIPCard">
+        select * from vip_card where consume &gt;= #{consume}
+    </select>
 
 
 </mapper>

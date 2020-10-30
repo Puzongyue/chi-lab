@@ -1,5 +1,6 @@
 package com.example.cinema.bl.user;
 
+import com.example.cinema.vo.ManagerForm;
 import com.example.cinema.vo.UserForm;
 import com.example.cinema.vo.ResponseVO;
 import com.example.cinema.vo.UserVO;
@@ -21,5 +22,7 @@ public interface AccountService {
      * @return
      */
     public UserVO login(UserForm userForm);
+
+
 
 }

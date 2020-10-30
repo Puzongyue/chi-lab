@@ -3,6 +3,7 @@ package com.example.cinema.controller.sales;
 import com.example.cinema.bl.sales.TicketService;
 import com.example.cinema.vo.ResponseVO;
 import com.example.cinema.vo.TicketForm;
+import com.example.cinema.vo.TicketVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,38 +15,52 @@ import java.util.List;
 @RestController
 @RequestMapping("/ticket")
 public class TicketController {
-
     @Autowired
     TicketService ticketService;
 
-    @GetMapping("/get/occupiedSeats")
-    public ResponseVO getOccupiedSeats(@RequestParam int scheduleId) {
-        return ticketService.getBySchedule(scheduleId);
+    @PostMapping("/vip/buy")
+    public ResponseVO buyTicketByVIPCard(@RequestParam List<Integer> ticketId, @RequestParam int couponId){
+        return ticketService.completeByVIPCard(ticketId,couponId);
     }
 
     @PostMapping("/lockSeat")
-    public ResponseVO lockSeat(@RequestBody TicketForm ticketForm) {
+    public ResponseVO lockSeat(@RequestBody TicketForm ticketForm){
         return ticketService.addTicket(ticketForm);
     }
-
     @PostMapping("/buy")
-    public ResponseVO buyTicket(@RequestParam List<Integer> ticketId, @RequestParam int couponId) {
-        return ticketService.completeTicket(ticketId, couponId);
+    public ResponseVO buyTicket(@RequestParam List<Integer> ticketId,@RequestParam int couponId){
+        return ticketService.completeTicket(ticketId,couponId);
     }
-
-    @PostMapping("/vip/buy")
-    public ResponseVO buyTicketByVIPCard(@RequestParam List<Integer> ticketId, @RequestParam int couponId) {
-        return ticketService.completeByVIPCard(ticketId, couponId);
-    }
-
     @GetMapping("/get/{userId}")
-    public ResponseVO getTicketByUserId(@PathVariable int userId) {
+    public ResponseVO getTicketByUserId(@PathVariable int userId){
         return ticketService.getTicketByUser(userId);
     }
 
+    @GetMapping("/get/occupiedSeats")
+    public ResponseVO getOccupiedSeats(@RequestParam int scheduleId){
+        return ticketService.getBySchedule(scheduleId);
+    }
     @PostMapping("/cancel")
-    public ResponseVO cancelTicket(@RequestParam List<Integer> ticketId) {
+    public ResponseVO cancelTicket(@RequestParam List<Integer> ticketId){
         return ticketService.cancelTicket(ticketId);
     }
 
+    @GetMapping("/get/refundStrategy")
+    public ResponseVO getRefundStrategies(){
+        return ticketService.getRefundStrategies();
+    }
+    @DeleteMapping("/delete")
+    public ResponseVO refundTickets(@RequestParam List<Integer> ticketId){
+        return ticketService.refundTickets(ticketId);
+    }
+
+    @GetMapping("/get/refundedTickets/{userId}")
+    public ResponseVO getRefundedTickets(@PathVariable int userId){
+        return ticketService.getRefundedTickets(userId);
+    }
+
+    @GetMapping("/get/info/unpaid")
+    public ResponseVO getInfoOfUnpaidTickets (@RequestParam int userId,@RequestParam int scheduleId){
+        return ticketService.getInfoOfUnpaidTickets(userId,scheduleId);
+    }
 }

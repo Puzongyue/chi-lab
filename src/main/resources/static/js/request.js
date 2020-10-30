@@ -3,9 +3,9 @@ function getRequest(url, onSuccess, onError) {
     $.ajax({
         type: 'GET',
         url: url,
-        async: true,
+        async: false,
         success: onSuccess,
-        error: onError
+        error: onError,
     });
 }
 

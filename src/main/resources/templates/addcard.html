@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新增会员卡</title>
+    <link rel="stylesheet" type="text/css" href="/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css"/>
+
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/request.js"></script>
+    <script src="/js/addcard.js"></script>
+</head>
+<body>
+<div class="main-container">
+    <div class="nav-left-container">
+        <div class="nav-user-container" style="margin-bottom: 50px;">
+            <img class="avatar-lg" src="/images/defaultAvatar.jpg" />
+            <p class="title">Admin</p>
+        </div>
+        <ul class="nav nav-pills nav-stacked">
+            <li role="presentation"><a href="/admin/movie/manage"><i class="icon-film"></i> 电影管理</a></li>
+            <li role="presentation"><a href="/admin/session/manage"><i class="icon-calendar"></i> 排片管理</a></li>
+            <li role="presentation"><a href="/admin/promotion/manage"><i class="icon-gift"></i> 活动管理</a></li>
+            <li role="presentation"><a href="/admin/cinema/manage"><i class="icon-cogs"></i> 影院管理</a></li>
+            <li role="presentation"><a href="/admin/cinema/statistic"><i class="icon-bar-chart"></i> 影院统计</a></li>
+            <li role="presentation" class="active"><a href="/admin/membercard/manage"><i class="icon-credit-card"></i> 会员卡管理</a></li>
+            <li role="presentation"><a href="/admin/ticket/refund"><i class="icon-credit-card"></i> 退票策略</a></li>
+            <li role="presentation"><a href="/admin/coupon/manage"><i class="icon-bar-chart"></i> 赠送优惠券</a></li>
+            <li role="presentation" id="root-staff-manage" style="display:none"><a href="/root/staffManage"><i class="icon-bar-chart"></i> 员工管理</a></li>
+
+
+        </ul>
+    </div>
+    <div class="content-container">
+        <div class="header">
+            <div class="content-header">
+                <span class="title gray-text" style="margin-right: 75%">会员卡管理</span>
+                <button type="button" class="btn btn-primary" data-backdrop="static" data-toggle="modal" data-target="#addcard"><i class="icon-plus-sign"></i> 发布会员卡</button>
+            </div>
+<!--            会员卡显示界面-->
+            <div class="table">
+                <table class="staff-table table">
+                    <thead class="staff-table-head col-md">
+                    <tr>
+                        <th>最低消费额</th>
+                        <th>赠送金额</th>
+                    </tr>
+                    </thead>
+                    <tbody class="card-table-body" id="card-table-body-in">
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--发布会员卡按钮界面-->
+<div class="modal fade" id="addcard" tabindex="-1" role="dialog" aria-labelledby="movieModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="vipcardAdd">发布会员卡</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+<!--                    <div class="form-group">-->
+<!--                        <label class="col-sm-2 control-label" for="VIPcard-name-input"><span class="error-text">*</span>会员卡名称</label>-->
+<!--                        <div class="col-sm-10">-->
+<!--                            <input type="text" class="form-control" id="VIPcard-name-input" placeholder="请输入会员卡名称">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label class="col-sm-2 control-label" for="VIPcard-description-input">会员卡活动描述</label>-->
+<!--                        <div class="col-sm-10">-->
+<!--                            <input type="text" class="form-control" id="VIPcard-description-input" placeholder="请输入活动描述">-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="VIPcard-money-input"><span class="error-text">*</span>最低消费</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="VIPcard-money-input" placeholder="请输入消费金额">
+<!--                            满多少减多少的满足金额-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="discount-input"><span class="error-text">*</span>赠送金额</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="discount-input" placeholder="请输入赠送金额">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="card-form-btn">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/编辑会员卡-->
+<div class="modal fade" id="addcardedit" tabindex="-1" role="dialog" aria-labelledby="movieModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="vipcardEdit">编辑会员卡</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+<!--                    <div class="form-group">-->
+<!--                        <label class="col-sm-2 control-label" for="VIPcard-name-edit-input"><span class="error-text">*</span>会员卡名称</label>-->
+<!--                        <div class="col-sm-10">-->
+<!--                            <input type="text" class="form-control" id="VIPcard-name-edit-input" placeholder="请输入会员卡名称">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label class="col-sm-2 control-label" for="VIPcard-description-edit-input">会员卡活动描述</label>-->
+<!--                        <div class="col-sm-10">-->
+<!--                            <input type="text" class="form-control" id="VIPcard-description-edit-input" placeholder="请输入活动描述">-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="VIPcard-money-edit-input"><span class="error-text">*</span>最低消费</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="VIPcard-money-edit-input" placeholder="请输入固定金额减免所需要的最低消费">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="discount-edit-input"><span class="error-text">*</span>优惠金额</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="discount-edit-input" >
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="card-form-edit-btn">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

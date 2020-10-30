@@ -25,43 +25,30 @@
         on schedule.id = schedule_id group by user_id
     </select>
 
-    <select id="selectScheduleSeat" resultType="com.example.cinema.po.ScheduleSeat">
-        select schedule.id as scheduleId, hall_id as hallId, hall.column as `column`, hall.row as `row` from schedule
-            left join hall
-                on hall_id = hall.id
-        where start_time between #{date} and #{nextDate}
-    </select>
-
-    <select id="countTotalTicket" resultType="java.lang.Integer">
-        select count(*) from ticket left join schedule
-                                              on ticket.schedule_id = schedule.id
-        where schedule.start_time between #{date} and #{nextDate}
-    </select>
-
-    <select id="selectMoviePlacingRate" resultType="com.example.cinema.po.MoviePlacingRate">
-        select seatCount.movie_id, movie.name,coalesce(ticketCount, 0) as ticketCount, totalSeat from
-            (select movie_id, count(*) as ticketCount from ticket left join schedule
-                                                                            on ticket.schedule_id = schedule.id
-             where schedule.start_time between #{date} and #{nextDate} and ticket.state = 1 group by movie_id) movieCount
-                right join
-            (select movie_id, sum(`row` * `column`) as totalSeat from schedule left join hall
-                                                                                         on schedule.hall_id = hall.id
-             where schedule.start_time between #{date} and #{nextDate} group by movie_id with rollup) seatCount
-            on movieCount.movie_id = seatCount.movie_id
-                left join movie
-                          on seatCount.movie_id = movie.id
-        where seatCount.movie_id IS NOT NULL;
-    </select>
-
-    <select id="selectLatestBoxOffice" resultType="com.example.cinema.po.MovieLatestBoxOffice">
-        select movie.id as movieId, boxOffice, name from movie
-        right join
-            (select movie_id as movieId, sum(fare) as boxOffice from schedule
-            right join
-                (select schedule_id from ticket where state = 1) t
-            on schedule.id = schedule_id
-            where start_time between #{date} and #{nextDate}) s
-        on movieId = movie.id
+    <select id="selectAudienceNum" resultType="com.example.cinema.po.MovieTotalBoxOffice">
+        select movie.id as movieId, boxOffice,name from movie
+        left join
+          (select movie_id as movieId,sum(1) as boxOffice from
+            (select * from schedule where start_time between #{date} and #{nextDate}) m
+          right join
+          (select schedule_id from ticket where state = 1) t
+          on m.id = t.schedule_id group by movie_id) s
+        on s.movieId = movie.id
         order by boxOffice desc
+    </select>
+
+    <select id="selectMovieBoxOfficeOnCertainDate" resultType="com.example.cinema.po.MovieTotalBoxOffice">
+        select movie.id as movieId, boxOffice,name from movie
+        left join
+          (select movie_id as movieId,sum(fare) as boxOffice from
+            (select * from schedule where start_time between #{date} and #{nextDate}) m
+          right join
+          (select schedule_id from ticket where state = 1) t
+          on m.id = t.schedule_id group by movie_id) s
+        on s.movieId = movie.id
+        order by boxOffice desc
+    </select>
+    <select id="selectTotalHalls"  resultType="com.example.cinema.po.Hall">
+        select * from hall
     </select>
 </mapper>

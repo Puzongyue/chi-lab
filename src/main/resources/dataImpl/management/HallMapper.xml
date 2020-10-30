@@ -7,7 +7,13 @@
     <select id="selectHallById" resultMap="Hall">
         select * from hall where id = #{hallId}
     </select>
-
+    <insert id="insertHall" parameterType="com.example.cinema.po.Hall"
+        useGeneratedKeys="true" keyProperty="id">
+        insert into hall values(null,#{name},#{column},#{row})
+    </insert>
+    <update id="updateHall" parameterType="com.example.cinema.po.Hall">
+        update hall set `name`=#{name},`column`=#{column},`row`=#{row} where `id`=#{id}
+    </update>
     <resultMap id="Hall" type="com.example.cinema.po.Hall">
     </resultMap>
 

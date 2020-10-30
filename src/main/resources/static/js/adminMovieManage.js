@@ -1,4 +1,11 @@
 $(document).ready(function(){
+//选择是否显示root权限
+    var role=sessionStorage.getItem('role')
+    console.log(role)
+    console.log(role==='root')
+    if (role==='root'){
+        $('#root-staff-manage').css("display","")
+    }
 
     getMovieList();
 
@@ -19,17 +26,6 @@ $(document).ready(function(){
             });
     });
 
-    $('#add-movie').click(function () {
-        clearMovieForm();
-    });
-
-    //puzongyue 2019/5/15
-    function clearMovieForm() {
-        console.info(2);
-        $('#movie-name-input').val('?????');
-        console.info(3);
-    }
-
     function getMovieForm() {
         return {
             name: $('#movie-name-input').val(),
@@ -45,85 +41,20 @@ $(document).ready(function(){
             language: $('#movie-language-input').val()
         };
     }
-    //puzongyue 2019/5/15
+
     function validateMovieForm(data) {
         var isValidate = true;
         if(!data.name) {
             isValidate = false;
             $('#movie-name-input').parent('.form-group').addClass('has-error');
-            $('#movie-name-error').css("visibility", "visible");
-        }else{
-            $('#movie-name-error').css("visibility", "hidden");
         }
         if(!data.posterUrl) {
             isValidate = false;
             $('#movie-img-input').parent('.form-group').addClass('has-error');
-            $('#movie-img-error').css("visibility", "visible");
-        }else{
-            $('#movie-img-error').css("visibility", "hidden");
         }
         if(!data.startDate) {
             isValidate = false;
             $('#movie-date-input').parent('.form-group').addClass('has-error');
-            $('#movie-date-error').css("visibility", "visible");
-        }else{
-            $('#movie-date-error').css("visibility", "hidden");
-        }
-        if(!data.description){
-            isValidate = false;
-            $('#movie-description-input').parent('.form-group').addClass('has-error');
-            $('#movie-description-error').css("visibility", "visible");
-        }else{
-            $('#movie-description-error').css("visibility", "hidden");
-        }
-        if (!data.type){
-            isValidate = false;
-            $('#movie-type-input').parent('.form-group').addClass('has-error');
-            $('#movie-type-error').css("visibility", "visible");
-        }else{
-            $('#movie-type-error').css("visibility", "hidden");
-        }
-        if (!data.country){
-            isValidate = false;
-            $('#movie-country-input').parent('.form-group').addClass('has-error');
-            $('#movie-country-error').css("visibility", "visible");
-        }else{
-            $('#movie-country-error').css("visibility", "hidden");
-        }
-        if (!data.starring){
-            isValidate = false;
-            $('#movie-star-input').parent('.form-group').addClass('has-error');
-            $('#movie-star-error').css("visibility", "visible");
-        }else{
-            $('#movie-star-error').css("visibility", "hidden");
-        }
-        if (!data.director){
-            isValidate = false;
-            $('#movie-director-input').parent('.form-group').addClass('has-error');
-            $('#movie-director-error').css("visibility", "visible");
-        }else{
-            $('#movie-director-error').css("visibility", "hidden");
-        }
-        if (!data.screenWriter){
-            isValidate = false;
-            $('#movie-writer-input').parent('.form-group').addClass('has-error');
-            $('#movie-writer-error').css("visibility", "visible");
-        }else{
-            $('#movie-writer-error').css("visibility", "hidden");
-        }
-        if (!data.language){
-            isValidate = false;
-            $('#movie-language-input').parent('.form-group').addClass('has-error');
-            $('#movie-language-error').css("visibility", "visible");
-        }else{
-            $('#movie-language-error').css("visibility", "hidden");
-        }
-        if (!data.length){
-            isValidate = false;
-            $('#movie-length-input').parent('.form-group').addClass('has-error');
-            $('#movie-length-error').css("visibility", "visible");
-        }else{
-            $('#movie-length-error').css("visibility", "hidden");
         }
         return isValidate;
     }

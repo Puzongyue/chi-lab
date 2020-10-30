@@ -1,7 +1,6 @@
 target/
 /target/
 !.mvn/wrapper/maven-wrapper.jar
-src/main/resources/application.yml
 
 ### STS ###
 .apt_generated
@@ -25,3 +24,6 @@ src/main/resources/application.yml
 /nbdist/
 /.nb-gradle/
 /build/
+
+###application.yml###
+application.yml

@@ -2,6 +2,8 @@ $(document).ready(function () {
 
     $("#login-btn").click(function () {
         var formData = getLoginForm();
+        console.log(formData+'data')
+
         if (!validateLoginForm(formData)) {
             return;
         }
@@ -13,13 +15,9 @@ $(document).ready(function () {
                 if (res.success) {
                     sessionStorage.setItem('username', formData.username);
                     sessionStorage.setItem('id', res.content.id);
-                    if (formData.username == "root") {
-                        sessionStorage.setItem('role', 'admin');
-                        window.location.href = "/admin/movie/manage"
-                    } else {
-                        sessionStorage.setItem('role', 'user');
-                        window.location.href = "/user/home"
-                    }
+                    sessionStorage.setItem('role', 'user');
+                    window.location.href = "/user/home"
+
                 } else {
                     alert(res.message);
                 }
@@ -37,6 +35,7 @@ $(document).ready(function () {
     }
 
     function validateLoginForm(data) {
+        console.log(data)
         var isValidate = true;
         if (!data.username) {
             isValidate = false;

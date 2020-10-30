@@ -1,5 +1,5 @@
 var colors = [
-    '#FF6666',
+    '#ff6162',
     '#3399FF',
     '#FF9933',
     '#66cccc',
@@ -9,6 +9,15 @@ var colors = [
 ];
 
 $(document).ready(function() {
+    //选择是否显示root权限
+    var role=sessionStorage.getItem('role')
+    console.log(role)
+    console.log(role==='root')
+    if (role==='root'){
+        $('#root-staff-manage').css("display","")
+    }
+
+
     var hallId,
         scheduleDate = formatDate(new Date()),
         schedules = [];
@@ -112,6 +121,8 @@ $(document).ready(function() {
     }
 
     $(document).on('click','.schedule-item',function (e) {
+        // console.log("click")
+        // console.log(e)
         var schedule = JSON.parse(e.target.dataset.schedule);
         $("#schedule-edit-hall-input").children('option[value='+schedule.hallId+']').attr('selected',true);
         $("#schedule-edit-movie-input").children('option[value='+schedule.movieId+']').attr('selected',true);
@@ -131,10 +142,19 @@ $(document).ready(function() {
             endTime: $("#schedule-end-date-input").val(),
             fare: $("#schedule-price-input").val()
         };
-        //puzongyue 2019/5/15
-        if (!validateScheduleForm(form)){
-            return;
-        }
+        //todo 需要做一下表单验证？
+        if(form.startTime == null||form.startTime == ''){
+                     alert('开始时间不能为空');
+                     return false;
+                     }
+                if(form.endTime == null||form.endTime == ''){
+                             alert('结束时间不能为空');
+                             return false;
+                }
+                if(form.fare == null||form.fare == ''){
+                             alert('电影费用不能为空');
+                             return false;
+                }
 
         postRequest(
             '/schedule/add',
@@ -153,33 +173,6 @@ $(document).ready(function() {
         );
     });
 
-    //puzongyue 2019/5/15
-    function validateScheduleForm(data) {
-        var isValidate = true;
-        if (!data.startTime){
-            isValidate = false;
-            $('#schedule-start-date-input').parent('.form-group').addClass('has-error');
-            $('#schedule-start-date-error').css("visibility", "visible");
-        }else{
-            $('#schedule-start-date-error').css("visibility", "hidden");
-        }
-        if (!data.endTime){
-            isValidate = false;
-            $('#schedule-end-date-input').parent('.form-group').addClass('has-error');
-            $('#schedule-end-date-error').css("visibility", "visible");
-        }else{
-            $('#schedule-end-date-error').css("visibility", "hidden");
-        }
-        if (!data.fare || data.fare <= 0) {
-            isValidate = false;
-            $('#schedule-price-input').parent('.form-group').addClass('has-error');
-            $('#schedule-price-error').css("visibility", "visible");
-        }else{
-            $('#schedule-price-error').css("visibility", "hidden");
-        }
-        return isValidate;
-    }
-
     $('#schedule-edit-form-btn').click(function () {
         var form = {
             id: Number($('#scheduleEditModal')[0].dataset.scheduleId),
@@ -189,10 +182,20 @@ $(document).ready(function() {
             endTime: $("#schedule-edit-end-date-input").val(),
             fare: $("#schedule-edit-price-input").val()
         };
-        //puzongyue 2019/5/15
-        if (!validateScheduleForm(form)){
-            return;
+        //todo 需要做一下表单验证？
+        if(form.startTime == null||form.startTime == ''){
+             alert('开始时间不能为空');
+             return false;
+             }
+        if(form.endTime == null||form.endTime == ''){
+                     alert('结束时间不能为空');
+                     return false;
         }
+        if(form.fare == null||form.fare == ''){
+                     alert('电影费用不能为空');
+                     return false;
+        }
+
 
         postRequest(
             '/schedule/update',
@@ -214,7 +217,7 @@ $(document).ready(function() {
     $("#schedule-edit-remove-btn").click(function () {
         var r=confirm("确认要删除该排片信息吗")
         if (r) {
-            deleteRequest(
+            postRequest(
                 '/schedule/delete/batch',
                 {scheduleIdList:[Number($('#scheduleEditModal')[0].dataset.scheduleId)]},
                 function (res) {
