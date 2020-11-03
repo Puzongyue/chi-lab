@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.29, for Win64 (x86_64)
 --
 -- Host: localhost    Database: cinema
 -- ------------------------------------------------------
--- Server version	8.0.15
+-- Server version	5.7.29
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
- SET NAMES utf8mb4 ;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,7 +21,7 @@
 
 DROP TABLE IF EXISTS `activity`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `activity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `activity_name` varchar(45) NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE `activity` (
   `coupon_id` int(11) DEFAULT NULL,
   `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,11 +49,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `activity_movie`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `activity_movie` (
   `activity_id` int(11) DEFAULT NULL,
   `movie_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,16 +72,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `chargerecord`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `chargerecord` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
-  `chargetime` timestamp NOT NULL,
+  `chargetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `amount` double NOT NULL,
   `VIPActivity` varchar(255) DEFAULT NULL,
   `given` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,17 +99,17 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `consumerecord`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `consumerecord` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
   `amount` double NOT NULL,
-  `consumetime` timestamp NOT NULL,
+  `consumetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `way` int(11) NOT NULL,
   `seat` varchar(255) NOT NULL,
   `schedule_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,17 +128,17 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `coupon`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `coupon` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(255) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   `target_amount` float DEFAULT NULL,
   `discount_amount` float DEFAULT NULL,
-  `start_time` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `start_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `end_time` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,11 +157,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `coupon_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `coupon_user` (
   `coupon_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -180,14 +180,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `hall`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hall` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `column` int(11) DEFAULT NULL,
   `row` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -196,7 +196,7 @@ CREATE TABLE `hall` (
 
 LOCK TABLES `hall` WRITE;
 /*!40000 ALTER TABLE `hall` DISABLE KEYS */;
-INSERT INTO `hall` VALUES (1,'1号厅',10,5),(2,'2号厅',12,8);
+INSERT INTO `hall` VALUES (1,'1号厅',10,5),(2,'2号厅',12,8),(3,'3号厅',15,9),(4,'4号厅',8,7),(5,'5号厅',8,7),(6,'6号厅',8,7),(7,'7号厅',8,7);
 /*!40000 ALTER TABLE `hall` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -206,7 +206,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `manager`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `manager` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
@@ -214,7 +214,7 @@ CREATE TABLE `manager` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id_uindex` (`id`),
   UNIQUE KEY `user_username_uindex` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,7 +232,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `movie`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `movie` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `poster_url` varchar(255) DEFAULT NULL,
@@ -248,7 +248,7 @@ CREATE TABLE `movie` (
   `description` text,
   `status` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -267,13 +267,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `movie_like`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `movie_like` (
   `movie_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `like_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`movie_id`,`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -292,7 +292,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `order` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `schedule_id` int(11) DEFAULT NULL,
@@ -319,13 +319,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `refund_strategy`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `refund_strategy` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `refund_percentage` float(9,6) NOT NULL,
   `available_time` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -344,16 +344,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `schedule`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `schedule` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `hall_id` int(11) NOT NULL,
   `movie_id` int(11) NOT NULL,
-  `start_time` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `end_time` timestamp NOT NULL,
+  `start_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `end_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `fare` double NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=192 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -362,7 +362,7 @@ CREATE TABLE `schedule` (
 
 LOCK TABLES `schedule` WRITE;
 /*!40000 ALTER TABLE `schedule` DISABLE KEYS */;
-INSERT INTO `schedule` VALUES (20,1,12,'2019-04-13 17:00:00','2019-04-13 18:00:00',20.5),(21,1,10,'2019-04-11 12:00:00','2019-04-11 13:00:00',90),(27,1,11,'2019-04-17 18:01:00','2019-04-17 20:01:00',20.5),(28,1,11,'2019-04-19 16:00:00','2019-04-19 18:00:00',20.5),(30,1,11,'2019-04-18 18:01:00','2019-04-18 20:01:00',20.5),(31,1,11,'2019-04-12 16:00:00','2019-04-12 18:00:00',20.5),(32,1,11,'2019-04-12 20:00:00','2019-04-12 22:00:00',20.5),(37,1,11,'2019-04-15 00:00:00','2019-04-15 02:00:00',20.5),(38,1,11,'2019-04-14 17:00:00','2019-04-14 19:00:00',20.5),(40,1,10,'2019-04-10 16:00:00','2019-04-10 18:00:00',20.5),(41,1,11,'2019-04-10 19:00:00','2019-04-10 21:00:00',20.5),(42,1,11,'2019-04-10 22:00:00','2019-04-11 00:00:00',20.5),(43,1,10,'2019-04-11 01:00:00','2019-04-11 03:00:00',20.5),(44,2,10,'2019-04-11 01:00:00','2019-04-11 03:00:00',20.5),(45,2,10,'2019-04-10 22:00:00','2019-04-11 00:00:00',20.5),(46,2,11,'2019-04-10 19:00:00','2019-04-10 21:00:00',20.5),(47,2,11,'2019-04-10 16:00:00','2019-04-10 18:00:00',20.5),(48,2,10,'2019-04-11 13:00:00','2019-04-11 15:59:00',20.5),(50,1,10,'2019-04-15 16:00:00','2019-04-15 19:00:00',2),(51,1,10,'2019-04-17 05:00:00','2019-04-17 07:00:00',9),(52,1,10,'2019-04-18 05:00:00','2019-04-18 07:00:00',9),(53,1,16,'2019-04-19 07:00:00','2019-04-19 10:00:00',9),(54,1,16,'2019-04-16 19:00:00','2019-04-16 22:00:00',9),(55,1,15,'2019-04-17 23:00:00','2019-04-18 01:00:00',9),(56,2,10,'2019-04-19 13:00:00','2019-04-19 15:59:00',20.5),(57,2,10,'2019-04-20 13:00:00','2019-04-20 15:59:00',20.5),(58,2,10,'2019-04-21 13:00:00','2019-04-21 15:59:00',20.5),(61,1,13,'2019-04-20 11:00:00','2019-04-20 13:00:00',25),(62,1,11,'2019-04-20 08:00:00','2019-04-20 10:00:00',25),(63,2,15,'2019-04-20 16:01:30','2019-04-21 05:30:00',30),(64,1,16,'2019-04-22 02:00:00','2019-04-22 05:30:00',30),(65,1,10,'2019-04-23 02:00:00','2019-04-23 05:30:00',30),(66,2,13,'2019-04-21 07:31:29','2019-04-16 15:59:00',20.5),(67,2,10,'2019-04-25 13:00:00','2019-04-25 15:59:00',20.5),(68,2,10,'2019-06-26 13:00:00','2019-06-26 15:59:00',20.5),(69,2,10,'2020-10-31 07:05:00','2020-10-31 12:05:00',1);
+INSERT INTO `schedule` VALUES (20,1,12,'2019-04-13 17:00:00','2019-04-13 18:00:00',20.5),(21,1,10,'2019-04-11 12:00:00','2019-04-11 13:00:00',90),(27,1,11,'2019-04-17 18:01:00','2019-04-17 20:01:00',20.5),(28,1,11,'2019-04-19 16:00:00','2019-04-19 18:00:00',20.5),(30,1,11,'2019-04-18 18:01:00','2019-04-18 20:01:00',20.5),(31,1,11,'2019-04-12 16:00:00','2019-04-12 18:00:00',20.5),(32,1,11,'2019-04-12 20:00:00','2019-04-12 22:00:00',20.5),(37,1,11,'2019-04-15 00:00:00','2019-04-15 02:00:00',20.5),(38,1,11,'2019-04-14 17:00:00','2019-04-14 19:00:00',20.5),(40,1,10,'2019-04-10 16:00:00','2019-04-10 18:00:00',20.5),(41,1,11,'2019-04-10 19:00:00','2019-04-10 21:00:00',20.5),(42,1,11,'2019-04-10 22:00:00','2019-04-11 00:00:00',20.5),(43,1,10,'2019-04-11 01:00:00','2019-04-11 03:00:00',20.5),(44,2,10,'2019-04-11 01:00:00','2019-04-11 03:00:00',20.5),(45,2,10,'2019-04-10 22:00:00','2019-04-11 00:00:00',20.5),(46,2,11,'2019-04-10 19:00:00','2019-04-10 21:00:00',20.5),(47,2,11,'2019-04-10 16:00:00','2019-04-10 18:00:00',20.5),(48,2,10,'2019-04-11 13:00:00','2019-04-11 15:59:00',20.5),(50,1,10,'2019-04-15 16:00:00','2019-04-15 19:00:00',2),(51,1,10,'2019-04-17 05:00:00','2019-04-17 07:00:00',9),(52,1,10,'2019-04-18 05:00:00','2019-04-18 07:00:00',9),(53,1,16,'2019-04-19 07:00:00','2019-04-19 10:00:00',9),(54,1,16,'2019-04-16 19:00:00','2019-04-16 22:00:00',9),(55,1,15,'2019-04-17 23:00:00','2019-04-18 01:00:00',9),(56,2,10,'2019-04-19 13:00:00','2019-04-19 15:59:00',20.5),(57,2,10,'2019-04-20 13:00:00','2019-04-20 15:59:00',20.5),(58,2,10,'2019-04-21 13:00:00','2019-04-21 15:59:00',20.5),(61,1,13,'2019-04-20 11:00:00','2019-04-20 13:00:00',25),(62,1,11,'2019-04-20 08:00:00','2019-04-20 10:00:00',25),(63,2,15,'2019-04-20 16:01:30','2019-04-21 05:30:00',30),(64,1,16,'2019-04-22 02:00:00','2019-04-22 05:30:00',30),(65,1,10,'2019-04-23 02:00:00','2019-04-23 05:30:00',30),(66,2,13,'2019-04-21 07:31:29','2019-04-16 15:59:00',20.5),(67,2,10,'2019-04-25 13:00:00','2019-04-25 15:59:00',20.5),(68,2,10,'2019-06-26 13:00:00','2019-06-26 15:59:00',20.5),(69,2,10,'2020-10-31 07:05:00','2020-10-31 12:05:00',1),(70,1,10,'2020-11-07 01:40:00','2020-11-07 03:42:00',34.5),(71,1,10,'2020-11-07 04:00:00','2020-11-07 06:02:00',34.5),(72,1,10,'2020-11-07 06:20:00','2020-11-07 08:22:00',34.5),(73,1,10,'2020-11-07 08:40:00','2020-11-07 10:42:00',34.5),(74,1,10,'2020-11-07 11:00:00','2020-11-07 13:02:00',34.5),(75,1,10,'2020-11-07 13:20:00','2020-11-07 15:22:00',34.5),(76,1,10,'2020-11-06 01:40:00','2020-11-06 03:42:00',34.5),(77,1,10,'2020-11-06 04:00:00','2020-11-06 06:02:00',34.5),(78,1,10,'2020-11-06 06:20:00','2020-11-06 08:22:00',34.5),(79,1,10,'2020-11-06 08:40:00','2020-11-06 10:42:00',34.5),(80,1,10,'2020-11-06 11:00:00','2020-11-06 13:02:00',34.5),(81,1,10,'2020-11-06 13:20:00','2020-11-06 15:22:00',34.5),(82,1,10,'2020-11-08 01:40:00','2020-11-08 03:42:00',34.5),(83,1,10,'2020-11-08 04:00:00','2020-11-08 06:02:00',34.5),(84,1,10,'2020-11-08 06:20:00','2020-11-08 08:22:00',34.5),(85,1,10,'2020-11-08 08:40:00','2020-11-08 10:42:00',34.5),(86,1,10,'2020-11-08 11:00:00','2020-11-08 13:02:00',34.5),(87,1,10,'2020-11-08 13:20:00','2020-11-08 15:22:00',34.5),(88,2,10,'2020-11-06 02:25:00','2020-11-06 04:27:00',44.5),(89,2,10,'2020-11-06 04:45:00','2020-11-06 06:47:00',44.5),(90,2,10,'2020-11-06 07:05:00','2020-11-06 09:07:00',44.5),(91,2,10,'2020-11-06 09:25:00','2020-11-06 11:27:00',44.5),(92,2,10,'2020-11-06 11:45:00','2020-11-06 13:47:00',44.5),(93,2,10,'2020-11-07 02:25:00','2020-11-07 04:27:00',44.5),(94,2,10,'2020-11-07 04:45:00','2020-11-07 06:47:00',44.5),(95,2,10,'2020-11-07 07:05:00','2020-11-07 09:07:00',44.5),(96,2,10,'2020-11-07 09:25:00','2020-11-07 11:27:00',44.5),(97,2,10,'2020-11-07 11:45:00','2020-11-07 13:47:00',44.5),(98,2,10,'2020-11-08 11:45:00','2020-11-08 13:47:00',44.5),(99,2,10,'2020-11-08 02:25:00','2020-11-08 04:27:00',44.5),(100,2,10,'2020-11-08 04:45:00','2020-11-08 06:47:00',44.5),(101,2,10,'2020-11-08 07:05:00','2020-11-08 09:07:00',44.5),(102,2,10,'2020-11-08 09:25:00','2020-11-08 11:27:00',44.5),(103,3,13,'2020-11-06 01:40:00','2020-11-06 03:17:00',34.5),(104,3,13,'2020-11-06 03:35:00','2020-11-06 05:12:00',34.5),(105,3,13,'2020-11-06 05:30:00','2020-11-06 07:07:00',34.5),(106,3,13,'2020-11-06 07:25:00','2020-11-06 09:02:00',34.5),(107,3,13,'2020-11-06 09:20:00','2020-11-06 10:57:00',34.5),(108,3,13,'2020-11-06 11:15:00','2020-11-06 12:52:00',34.5),(109,3,13,'2020-11-06 13:10:00','2020-11-06 14:47:00',34.5),(110,3,13,'2020-11-07 13:10:00','2020-11-07 14:47:00',34.5),(111,3,13,'2020-11-07 01:40:00','2020-11-07 03:17:00',34.5),(112,3,13,'2020-11-07 03:35:00','2020-11-07 05:12:00',34.5),(113,3,13,'2020-11-07 05:30:00','2020-11-07 07:07:00',34.5),(114,3,13,'2020-11-07 07:25:00','2020-11-07 09:02:00',34.5),(115,3,13,'2020-11-07 09:20:00','2020-11-07 10:57:00',34.5),(116,3,13,'2020-11-07 11:15:00','2020-11-07 12:52:00',34.5),(117,3,13,'2020-11-08 11:15:00','2020-11-08 12:52:00',34.5),(118,3,13,'2020-11-08 13:10:00','2020-11-08 14:47:00',34.5),(119,3,13,'2020-11-08 01:40:00','2020-11-08 03:17:00',34.5),(120,3,13,'2020-11-08 03:35:00','2020-11-08 05:12:00',34.5),(121,3,13,'2020-11-08 05:30:00','2020-11-08 07:07:00',34.5),(122,3,13,'2020-11-08 07:25:00','2020-11-08 09:02:00',34.5),(123,3,13,'2020-11-08 09:20:00','2020-11-08 10:57:00',34.5),(124,4,15,'2020-11-06 01:50:00','2020-11-06 03:42:00',34.5),(125,4,15,'2020-11-06 04:00:00','2020-11-06 05:52:00',34.5),(126,4,15,'2020-11-06 06:10:00','2020-11-06 08:02:00',34.5),(127,4,15,'2020-11-06 08:20:00','2020-11-06 10:12:00',34.5),(128,4,15,'2020-11-06 13:25:00','2020-11-06 15:17:00',34.5),(129,4,15,'2020-11-07 01:50:00','2020-11-07 03:42:00',34.5),(130,4,15,'2020-11-07 04:00:00','2020-11-07 05:52:00',34.5),(131,4,15,'2020-11-07 06:10:00','2020-11-07 08:02:00',34.5),(132,4,15,'2020-11-07 08:20:00','2020-11-07 10:12:00',34.5),(133,4,15,'2020-11-07 10:30:00','2020-11-07 12:22:00',34.5),(134,4,15,'2020-11-07 12:40:00','2020-11-07 14:32:00',34.5),(135,4,15,'2020-11-08 12:40:00','2020-11-08 14:32:00',34.5),(136,4,15,'2020-11-08 01:50:00','2020-11-08 03:42:00',34.5),(137,4,15,'2020-11-08 04:00:00','2020-11-08 05:52:00',34.5),(138,4,15,'2020-11-08 06:10:00','2020-11-08 08:02:00',34.5),(139,4,15,'2020-11-08 08:20:00','2020-11-08 10:12:00',34.5),(140,4,15,'2020-11-08 10:30:00','2020-11-08 12:22:00',34.5),(141,5,11,'2020-11-06 02:50:00','2020-11-06 04:25:00',29.5),(142,5,11,'2020-11-06 04:45:00','2020-11-06 06:20:00',29.5),(143,5,11,'2020-11-06 06:40:00','2020-11-06 08:15:00',29.5),(144,5,11,'2020-11-06 08:35:00','2020-11-06 10:10:00',29.5),(145,5,11,'2020-11-06 10:30:00','2020-11-06 12:05:00',29.5),(146,5,11,'2020-11-06 12:25:00','2020-11-06 14:00:00',29.5),(147,5,11,'2020-11-06 14:20:00','2020-11-06 15:55:00',29.5),(148,5,11,'2020-11-07 01:55:00','2020-11-07 03:30:00',29.5),(149,5,11,'2020-11-07 03:50:00','2020-11-07 05:25:00',29.5),(150,5,11,'2020-11-07 05:45:00','2020-11-07 07:20:00',29.5),(151,5,11,'2020-11-07 07:40:00','2020-11-07 09:15:00',29.5),(152,5,11,'2020-11-07 09:35:00','2020-11-07 11:10:00',29.5),(153,5,11,'2020-11-07 11:30:00','2020-11-07 13:05:00',34.5),(154,5,11,'2020-11-07 13:25:00','2020-11-07 15:00:00',29.5),(155,5,11,'2020-11-08 02:50:00','2020-11-08 04:25:00',29.5),(156,5,11,'2020-11-08 04:45:00','2020-11-08 06:20:00',29.5),(157,5,11,'2020-11-08 06:40:00','2020-11-08 08:15:00',29.5),(158,5,11,'2020-11-08 08:35:00','2020-11-08 10:10:00',29.5),(159,5,11,'2020-11-08 10:30:00','2020-11-08 12:05:00',34.5),(160,5,11,'2020-11-08 12:25:00','2020-11-08 14:00:00',34.5),(161,5,11,'2020-11-08 14:20:00','2020-11-08 15:55:00',29.5),(162,6,14,'2020-11-06 01:00:00','2020-11-06 02:59:00',29.5),(163,6,14,'2020-11-06 03:20:00','2020-11-06 05:19:00',29.5),(164,6,14,'2020-11-06 05:40:00','2020-11-06 07:39:00',29.5),(165,6,14,'2020-11-06 08:00:00','2020-11-06 09:59:00',34.5),(166,6,14,'2020-11-06 10:20:00','2020-11-06 12:19:00',34.5),(167,6,14,'2020-11-06 12:40:00','2020-11-06 14:39:00',34.5),(168,6,14,'2020-11-07 01:50:00','2020-11-07 03:49:00',29.5),(169,6,14,'2020-11-07 04:10:00','2020-11-07 06:09:00',29.5),(170,6,14,'2020-11-07 06:30:00','2020-11-07 08:29:00',39.5),(171,6,14,'2020-11-07 08:50:00','2020-11-07 10:49:00',39.5),(172,6,14,'2020-11-07 11:10:00','2020-11-07 13:09:00',39.5),(173,6,14,'2020-11-07 13:30:00','2020-11-07 15:29:00',29.5),(174,7,12,'2020-11-06 02:15:00','2020-11-06 03:59:00',29.5),(175,7,12,'2020-11-06 04:20:00','2020-11-06 06:04:00',29.5),(176,7,12,'2020-11-06 06:25:00','2020-11-06 08:09:00',29.5),(177,7,12,'2020-11-06 08:30:00','2020-11-06 10:14:00',29.5),(178,7,12,'2020-11-06 10:35:00','2020-11-06 12:19:00',34.5),(179,7,12,'2020-11-06 12:40:00','2020-11-06 14:24:00',34.5),(180,7,12,'2020-11-07 03:20:00','2020-11-07 05:04:00',29.5),(181,7,12,'2020-11-07 05:25:00','2020-11-07 07:09:00',29.5),(182,7,12,'2020-11-07 07:30:00','2020-11-07 09:14:00',29.5),(183,7,12,'2020-11-07 09:35:00','2020-11-07 11:19:00',29.5),(184,7,12,'2020-11-07 11:40:00','2020-11-07 13:24:00',34.5),(185,7,12,'2020-11-07 13:45:00','2020-11-07 15:29:00',29.5),(186,7,12,'2020-11-08 03:20:00','2020-11-08 05:04:00',29.5),(187,7,12,'2020-11-08 05:25:00','2020-11-08 07:09:00',29.5),(188,7,12,'2020-11-08 07:30:00','2020-11-08 09:14:00',29.5),(189,7,12,'2020-11-08 09:35:00','2020-11-08 11:19:00',29.5),(190,7,12,'2020-11-08 11:40:00','2020-11-08 13:24:00',34.5),(191,7,12,'2020-11-08 13:45:00','2020-11-08 15:29:00',29.5);
 /*!40000 ALTER TABLE `schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -372,7 +372,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ticket`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ticket` (
   `user_id` int(11) DEFAULT NULL,
   `schedule_id` int(11) DEFAULT NULL,
@@ -384,7 +384,7 @@ CREATE TABLE `ticket` (
   `consume` double NOT NULL DEFAULT '1',
   `way` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -403,7 +403,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ticket_refunded`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ticket_refunded` (
   `user_id` int(11) DEFAULT NULL,
   `schedule_id` int(11) DEFAULT NULL,
@@ -415,7 +415,7 @@ CREATE TABLE `ticket_refunded` (
   `consume` double NOT NULL DEFAULT '1',
   `way` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -434,7 +434,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
@@ -442,7 +442,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id_uindex` (`id`),
   UNIQUE KEY `user_username_uindex` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=209 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=209 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -461,12 +461,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `view`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `view` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `day` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -485,7 +485,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `vip_activity`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `vip_activity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
@@ -493,7 +493,7 @@ CREATE TABLE `vip_activity` (
   `cost_in_need` float(9,3) NOT NULL DEFAULT '0.000',
   `bonus_balance` float(9,3) NOT NULL DEFAULT '0.000',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -512,7 +512,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `vip_card`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `vip_card` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
@@ -521,7 +521,7 @@ CREATE TABLE `vip_card` (
   `consume` double NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `vip_card_user_id_uindex` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -543,4 +543,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-02 20:56:41
+-- Dump completed on 2020-11-02 22:14:06
