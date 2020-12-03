@@ -8,13 +8,24 @@
           fit="contain"
         ></el-image>
       </el-col>
-      <el-col :span="16">
-        <div id="moive-detail">
-          <div id="movie-title">{{ movie.name }}</div>
-          <div class="detail">
-              <div>导演：{{movie.director}}</div>
-              <!-- <div>主演：<span class="actor" v-for=""></div> -->
+      <el-col :span="16" id="moive-detail">
+        <div id="movie-title">{{ movie.name }}</div>
+        <div class="detail">
+          <div>导演：{{ movie.director }}</div>
+          <div>
+            主演：{{
+              movie.stars
+                .map(star => star.star + "（ 饰" + star.role + " ）")
+                .join("、")
+            }}
           </div>
+          <div>类型：{{ movie.types.join(" / ") }}</div>
+          <div>制片国家/地区：{{ movie.location }}</div>
+          <div>
+            上映时间：{{ movie.startDay.toISOString().substring(0, 10) }}
+          </div>
+          <div>时长：{{ movie.time }}分钟</div>
+          <div>简介：{{ movie.description }}</div>
         </div>
       </el-col>
     </el-row>
@@ -53,9 +64,16 @@ export default {
 #moive-detail {
   height: 100%;
   background-color: chartreuse;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
 }
-#movie-title{
-    font-size: 26px;
+#movie-title {
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+.detail {
+  font-size: 12px;
 }
 .schedual {
   background-color: aqua;
