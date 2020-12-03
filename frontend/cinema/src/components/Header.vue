@@ -19,6 +19,7 @@ export default {
     top: 0;
     background-color:aqua;
     height: 80px;
+    z-index: 1000;
     width: 100%;
 }
 </style>
