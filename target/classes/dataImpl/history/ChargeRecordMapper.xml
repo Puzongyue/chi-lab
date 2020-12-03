@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.cinema.data.history.ChargeRecordMapper">
+    <select id="getChargeRecords"  resultMap="ChargeRecordPO">
+        select * from chargerecord where userid=#{userID} order by chargetime asc
+    </select>
+    <resultMap id="ChargeRecordPO" type="com.example.cinema.po.ChargeRecordPO">
+        <id column="id" property="id"></id>
+        <result column="userid" property="userID"></result>
+        <result column="amount" property="amount"></result>
+        <result column="chargetime" property="chargeTime"></result>
+        <result column="VIPactivity" property="VIPactivity"></result>
+        <result column="given" property="givenAmount"></result>
+    </resultMap>
+    <insert id="addChargeRecord" parameterType="com.example.cinema.vo.ChargeRecordUserVO" useGeneratedKeys="true" keyProperty="id">
+        insert into chargerecord(userid, amount, chargetime, VIPactivity, given)
+        values (#{userID},#{amount},#{chargeTime},#{VIPActivity},#{givenAmount})
+    </insert>
+</mapper>
