@@ -6,17 +6,16 @@
 </template>
 
 <script>
-
-import Header from './components/Header.vue'
+import Header from "./components/Header.vue";
 export default {
   components: { Header },
-  name: 'App'
-}
+  name: "App"
+};
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
