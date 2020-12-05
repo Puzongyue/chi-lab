@@ -21,5 +21,6 @@ export default {
     height: 80px;
     z-index: 1000;
     width: 100%;
+    z-index: 1000;
 }
 </style>
