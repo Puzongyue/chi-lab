@@ -45,9 +45,9 @@
     <div class="schedual">
       <div class="schedual-title">选座购票</div>
       <el-divider></el-divider>
-      <div class="schedual-time">
-        <span class="schedual-time-title">观影日期</span>
-        <el-radio-group v-model="chosenDate" @change="dateChange">
+      <div class="schedual-date">
+        <span class="schedual-date-title">观影日期：</span>
+        <el-radio-group size="small" v-model="chosenDate" @change="dateChange">
           <el-radio-button
             v-for="schedual in schedualList"
             :key="schedual.date"
@@ -55,21 +55,45 @@
           />
         </el-radio-group>
       </div>
-
       <div class="schedual-table">
-        <el-table :data="chosenSchedual" border style="width: 90%">
-          <el-table-column label="放映时间" class-name="time">
+        <el-table
+          :data="chosenSchedual"
+          stripe
+          style="width: 100%; text-align: center"
+          :header-cell-style="{ ...tableStyle, 'background-color': '#f7f7f7' }"
+          :cell-style="tableStyle"
+        >
+          <el-table-column label="放映时间">
             <template slot-scope="scope">
-              <span>{{
-                new Date(scope.row.startTime).toTimeString().substring(0,5)
-              }}</span>
+              <div class="schedual-time">
+                <div class="start-time">
+                  {{
+                    new Date(scope.row.startTime).toTimeString().substring(0, 5)
+                  }}
+                </div>
+                <div class="end-time">
+                  预计{{
+                    new Date(scope.row.endTime).toTimeString().substring(0, 5)
+                  }}散场
+                </div>
+              </div>
             </template>
           </el-table-column>
           <el-table-column prop="language" label="语言版本"> </el-table-column>
           <el-table-column prop="theater" label="放映厅"> </el-table-column>
-          <el-table-column prop="prize" label="现价/影院价（元）">
-          </el-table-column>
-          <el-table-column label="选座购票"> </el-table-column>
+          <el-table-column prop="prize" label="售价（元）"> </el-table-column>
+          <el-table-column label="选座购票"
+            ><template slot-scope="scope">
+              <el-button
+                el-button
+                type="primary"
+                round
+                size="small"
+                @click="buyTicket(scope.row.id)"
+                >选座购票</el-button
+              >
+            </template></el-table-column
+          >
         </el-table>
       </div>
     </div>
@@ -90,7 +114,12 @@ export default {
       detailStyle,
       originScheList: schedualList,
       chosenDate: "",
-      chosenSchedual: []
+      chosenSchedual: [],
+      tableStyle: {
+        "text-align": "center",
+        color: "#333",
+        "font-size": "15px"
+      }
     };
   },
   mounted: function() {
@@ -158,6 +187,9 @@ export default {
       this.chosenSchedual = this.schedualList.find(
         v => v.date === this.chosenDate
       ).schedual;
+    },
+    buyTicket: function(id) {
+      console.log("schedual id", id);
     }
   }
 };
@@ -197,7 +229,7 @@ export default {
 }
 
 .movie-content {
-  height: 400px;
+  height: 350px;
   width: 100%;
   position: relative;
 }
@@ -229,32 +261,28 @@ export default {
 .schedual-title {
   font-size: 26px;
   margin-top: 45px;
-  /* margin-bottom: 20px; */
 }
 
-.schedual-time {
+.schedual-date {
   margin-bottom: 20px;
 }
 
-.schedual-time-title {
+.schedual-date-title {
   font-size: 15px;
-  margin-right: 30px;
+  margin-right: 10px;
 }
 
 .schedual .el-divider {
   margin: 20px 0;
 }
 
-.schedual .schedual-table {
-  display: flex;
-  justify-content: center;
+.schedual-table .schedual-time .start-time {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 5px;
 }
-
-.schedual-table .time .cell{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px;
+.schedual-table .schedual-time .end-time {
+  font-size: 12px;
+  color: #999;
 }
 </style>
