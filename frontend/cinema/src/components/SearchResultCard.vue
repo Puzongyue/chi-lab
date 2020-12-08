@@ -1,27 +1,34 @@
 <template>
   <el-card class="el-card" shadow="hover">
-    <div class="card">
-      <div class="movie-poster" @click="jumpToMovieDetail">
-        <img :src="this.movie.poster" />
-      </div>
-      <div class="movie-info">
-        <div class="movie-name" @click="jumpToMovieDetail">{{ this.movie.name }}</div>
-
-        <div class="movie-like" v-if="this.movie.score === -1">
-          <span class="num">{{ this.movie.like }}</span>
-          <span class="text"> 人想看</span>
+    <el-row class="card">
+      <!-- <div class="card"> -->
+      <el-col :span="9" :offset="3">
+        <div class="movie-poster" @click="jumpToMovieDetail">
+          <img :src="this.movie.poster" />
         </div>
-
-        <div class="movie-score" v-else>
-          <span class="num">{{ this.movie.score }}</span>
+      </el-col>
+      <el-col :span="12">
+        <div class="movie-name" @click="jumpToMovieDetail">
+          <a>{{ this.movie.name }}</a>
         </div>
+        <div class="movie-info">
+          <div class="movie-like" v-if="this.movie.score === -1">
+            <span class="num">{{ this.movie.like }}</span>
+            <span class="text"> 人想看</span>
+          </div>
 
-        <div class="movie-type">{{ this.movie.types.join(" / ") }}</div>
-        <div class="movie-start-date">
-          {{ this.movie.startDay.toISOString().substring(0, 10) }}上映
+          <div class="movie-score" v-else>
+            <span class="num">{{ this.movie.score }}</span>
+          </div>
+
+          <div class="movie-type">{{ this.movie.types.join(" / ") }}</div>
+          <div class="movie-start-date">
+            {{ this.movie.startDay.toISOString().substring(0, 10) }}上映
+          </div>
         </div>
-      </div>
-    </div>
+      </el-col>
+      <!-- </div> -->
+    </el-row>
   </el-card>
 </template>
 
@@ -29,31 +36,33 @@
 export default {
   name: "SearchResultCard",
 
-	props: ["movie"],
-	
-	methods: {
-		jumpToMovieDetail() {
-			console.log(this.movie.id);
-		}
-	}
+  props: ["movie"],
+
+  methods: {
+    jumpToMovieDetail() {
+      console.log(this.movie.id);
+    },
+  },
 };
 </script>
 
 <style scoped>
 .el-card {
-	margin-bottom: 8px;
+  margin-bottom: 8px;
 }
 .card {
-  display: flex;
-  justify-content: space-around;
-	padding: 0 100px 0 50px;
+  position: relative;
 }
 
 .card .movie-poster {
   display: inline-block;
+  position: relative;
+  margin: -1px;
+  /* float: left; */
   width: 180px;
   height: 240px;
-	cursor: pointer;
+  cursor: pointer;
+  margin-right: 20px;
 }
 
 .card .movie-poster img {
@@ -61,16 +70,33 @@ export default {
   height: 100%;
 }
 
-.card .movie-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+.card .movie-name {
+  color: #333;
+  text-align: left;
+  font-size: 26px;
+  width: auto;
+  margin-top: 27px;
+  padding-bottom: 1px;
+  margin-bottom: -1px;
+  vertical-align: top;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
 }
 
-.card .movie-info .movie-name {
-  color: #333;
-  font-size: 26px;
-	cursor: pointer;
+.card .movie-info {
+  line-height: 1.2;
+  margin-top: 20px;
+}
+
+
+.card .movie-info .movie-like,
+.card .movie-info .movie-score {
+  height: 31px;
+  line-height: 31px;
+  margin-bottom: 13px;
 }
 
 .card .movie-info .movie-like .num,
@@ -85,10 +111,25 @@ export default {
 }
 
 .card .movie-info .movie-type {
+  margin-top: 5px;
+  font-size: 16px;
+  color: #333;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-bottom: 1px;
+  margin-bottom: -1px;
   line-height: 1.2;
 }
 
 .card .movie-info .movie-start-date {
   color: #999;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-bottom: 1px;
+  margin-bottom: -1px;
+  margin-top: 5px;
+  font-size: 16px;
 }
 </style>

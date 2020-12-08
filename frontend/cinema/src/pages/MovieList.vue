@@ -41,15 +41,28 @@
       <el-radio-group v-model="radio">
         <el-radio :label="0">按热度排序</el-radio>
         <el-radio :label="1">按时间排序</el-radio>
-        <el-radio :label="2" v-if="activeName === 'current'">按评分排序</el-radio>
+        <el-radio :label="2" v-if="activeName === 'current'"
+          >按评分排序</el-radio
+        >
       </el-radio-group>
     </div>
 
-    <el-tab-pane label="正在热映" name="current">正在热映</el-tab-pane>
+    <el-tab-pane label="正在热映" name="current">
+      <el-row :gutter="20">
+        <el-col :span="12" v-for="movie in movies" :key="movie.id">
+          <simple-movie-card :movie="movie"></simple-movie-card>
+        </el-col>
+      </el-row>
+    </el-tab-pane>
     <el-tab-pane label="即将上映" name="future">即将上映</el-tab-pane>
   </el-tabs>
 </template>
+
+
 <script>
+import SimpleMovieCard from '../components/SimpleMovieCard.vue';
+import movies from "../lib/movieList";
+
 export default {
   data() {
     return {
@@ -98,7 +111,8 @@ export default {
       ],
       currentTypeIdx: -1,
       currentLocationIdx: -1,
-      radio: 0
+      radio: 0,
+      movies: movies,
     };
   },
   methods: {

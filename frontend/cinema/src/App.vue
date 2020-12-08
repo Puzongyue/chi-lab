@@ -22,5 +22,7 @@ export default {
 
   margin-left: 100px;
   margin-right: 100px;
+
+  min-width: 85vw;
 }
 </style>
