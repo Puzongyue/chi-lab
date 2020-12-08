@@ -66,11 +66,19 @@
 
 
 <script>
-import SimpleMovieCard from '../components/SimpleMovieCard.vue';
-import movies from "../lib/movieList";
+import SimpleMovieCard from "../components/SimpleMovieCard.vue";
+import {
+  getCurrentMovies,
+  getFutureMovies,
+  sortCurrentMoviesByHeat,
+  sortFutureMoviesByHeat,
+  sortCurrentMoviesByDate,
+  sortFutureMoviesByDate,
+  sortMoviesByScore
+} from "../lib/movieList";
 
 export default {
-  components: {SimpleMovieCard},
+  components: { SimpleMovieCard },
 
   data() {
     return {
@@ -120,15 +128,22 @@ export default {
       currentTypeIdx: -1,
       currentLocationIdx: -1,
       radio: 0,
-      movies: movies,
+      movies: [],
     };
   },
+
+  mounted() {
+    this.movies = getCurrentMovies();
+  },
+
   methods: {
     switchTab(tab, event) {
       console.log(event.target);
       this.radio = 0; // default sort type
       this.currentTypeIdx = -1; // default type
       this.currentLocationIdx = -1; // default location
+
+      this.sortMovie();
     },
 
     filterType(idx) {
@@ -149,7 +164,35 @@ export default {
 
     sortMovie() {
       console.log(this.radio);
-    }
+
+      if (this.activeName === "current") {
+        switch(this.radio) {
+          case 0:
+            this.movies = sortCurrentMoviesByHeat();
+            break;
+          case 1:
+            this.movies = sortCurrentMoviesByDate();
+            break;
+          case 2:
+            this.movies = sortMoviesByScore();
+            break;
+          default:
+            break;
+        }
+      }
+      else {
+        switch(this.radio) {
+          case 0:
+            this.movies = sortFutureMoviesByHeat();
+            break;
+          case 1:
+            this.movies = sortFutureMoviesByDate();
+            break;
+          default:
+            break;
+        }
+      }
+    },
   },
 };
 </script>

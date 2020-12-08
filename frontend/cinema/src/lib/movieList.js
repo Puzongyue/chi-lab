@@ -4,7 +4,7 @@
   解析出来的日期比填进去的早一天，目前把日期填晚了一天
 */
 
-const movies = [
+export const movies = [
   {
     id: 1,
     name: "一秒钟",
@@ -368,4 +368,81 @@ const movies = [
   }
 ];
 
-export default movies;
+export function getAllMovies() {
+  return movies;
+}
+
+export function getMoviesByKeyword(keyword) {
+  const ans = [];
+
+  movies.map(item => {
+    if (item.name.includes(keyword)) ans.push(item);
+  });
+
+  return ans;
+}
+
+export function getCurrentMovies() {
+  const ans = [];
+  const today = new Date();
+
+  movies.map(item => {
+    if (item.startDay.getTime() < today.getTime()) ans.push(item);
+  });
+
+  return ans;
+}
+
+export function getFutureMovies() {
+  const ans = [];
+  const today = new Date();
+
+  movies.map(item => {
+    if (item.startDay.getTime() > today.getTime()) ans.push(item);
+  });
+
+  return ans;
+}
+
+export function sortCurrentMoviesByHeat() {
+  const ans = getCurrentMovies();
+  ans.sort((a, b) => a.boxOffice - b.boxOffice);
+  return ans;
+}
+
+export function sortFutureMoviesByHeat() {
+  const ans = getFutureMovies();
+  ans.sort((a, b) => a.boxOffice - b.boxOffice);
+  return ans;
+}
+
+export function sortCurrentMoviesByDate() {
+  const ans = getCurrentMovies();
+  ans.sort((a, b) => a.startDay.getTime() - b.startDay.getTime());
+  return ans;
+}
+
+export function sortFutureMoviesByDate() {
+  const ans = getFutureMovies();
+  ans.sort((a, b) => a.startDay.getTime() - b.startDay.getTime());
+  return ans;
+}
+
+export function sortMoviesByScore() {
+  const currentMovies = getCurrentMovies();
+  currentMovies.sort((a, b) => b.score - a.score);
+  return currentMovies;
+}
+
+// export {
+//   movies,
+//   getAllMovies,
+//   getMoviesByKeyword,
+//   getCurrentMovies,
+//   getFutureMovies,
+//   sortMoviesByDate,
+//   sortMoviesByHeat,
+//   sortMoviesByScore
+// }
+
+// export default movies;

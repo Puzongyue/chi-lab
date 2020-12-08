@@ -1,4 +1,5 @@
-import movies from "../lib/movieList";
+import {movies} from "../lib/movieList";
+// import movies from "../lib/movieList";
 
 let currentMoviesInfo  = [];
 let pos = 0;
