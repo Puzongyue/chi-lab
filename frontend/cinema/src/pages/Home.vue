@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-    <el-row>
-      <el-carousel :interval="4000" type="card" height="250px" id="movie-ad">
-        <el-carousel-item v-for="item in 6" :key="item">
-          <h3 class="medium">{{ item }}</h3>
+    <el-row id="carousel-row">
+      <el-carousel :interval="4000" height="370px" id="movie-ad">
+        <el-carousel-item v-for="url in carouselInfo" :key="url">
+          <img class="carousel-poster" alt="poster" :src="url"/>
         </el-carousel-item>
       </el-carousel>
     </el-row>
@@ -92,14 +92,15 @@
 </template>
 
 <script>
-import currentMoviesInfo from "../lib/homeInfo";
+import homeInfo from "../lib/homeInfo";
 
 export default {
   name: "Home",
   data() {
     return {
       msg: "Home",
-      currentMoviesInfo: currentMoviesInfo,
+      carouselInfo: homeInfo.carouselInfo,
+      currentMoviesInfo: homeInfo.currentMoviesInfo,
       rankList: [
         {
           id: 0,
@@ -186,9 +187,19 @@ export default {
 
 /* carousel */
 
+#carousel-row {
+  margin: 0 -100px;
+}
+
 #movie-ad {
   margin-left: 0;
   margin-right: 0;
+  margin-bottom: 40px;
+}
+
+.carousel-poster {
+  width: 100%;
+  height: 100%;
 }
 
 .el-carousel__item h3 {
@@ -300,6 +311,7 @@ export default {
 .current-movie-name {
   color: #fff;
   padding-bottom: 6px;
+  font-size: 16px;
 }
 
 .current-movie-score {
