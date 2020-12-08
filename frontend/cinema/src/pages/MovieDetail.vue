@@ -127,12 +127,13 @@
 </template>
 
 <script>
-// import { movies as movieList} from "@/lib/movieList";
-import movies from "@/lib/movieList";
+import { movies as movieList} from "@/lib/movieList";
+// import {movies} from "@/lib/movieList";
 import schedualList from "@/lib/schedualList";
 export default {
   name: "MovieDetail",
   data() {
+    // console.log("moive",movies)
     const movie = movieList[0];
     const detailStyle = "background-image: url('" + movie.poster + "'); ";
     return {

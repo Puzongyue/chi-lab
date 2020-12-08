@@ -8,49 +8,7 @@ const schedualList = [
     language: "原版3D",
     theater: "1号厅",
     prize: 33.0
-  }, {
-    id: "0",
-    startTime: curTime.setTime(curTime.setHours(curTime.getHours() + 1)),
-    endTime: curTime.setTime(curTime.setHours(curTime.getHours() + 4)),
-    language: "原版3D",
-    theater: "1号厅",
-    prize: 33.0
-  }, {
-    id: "0",
-    startTime: curTime.setTime(curTime.setHours(curTime.getHours() + 1)),
-    endTime: curTime.setTime(curTime.setHours(curTime.getHours() + 4)),
-    language: "原版3D",
-    theater: "1号厅",
-    prize: 33.0
-  }, {
-    id: "0",
-    startTime: curTime.setTime(curTime.setHours(curTime.getHours() + 1)),
-    endTime: curTime.setTime(curTime.setHours(curTime.getHours() + 4)),
-    language: "原版3D",
-    theater: "1号厅",
-    prize: 33.0
-  }, {
-    id: "0",
-    startTime: curTime.setTime(curTime.setHours(curTime.getHours() + 1)),
-    endTime: curTime.setTime(curTime.setHours(curTime.getHours() + 4)),
-    language: "原版3D",
-    theater: "1号厅",
-    prize: 33.0
-  }, {
-    id: "0",
-    startTime: curTime.setTime(curTime.setHours(curTime.getHours() + 1)),
-    endTime: curTime.setTime(curTime.setHours(curTime.getHours() + 4)),
-    language: "原版3D",
-    theater: "1号厅",
-    prize: 33.0
-  }, {
-    id: "0",
-    startTime: curTime.setTime(curTime.setHours(curTime.getHours() + 1)),
-    endTime: curTime.setTime(curTime.setHours(curTime.getHours() + 4)),
-    language: "原版3D",
-    theater: "1号厅",
-    prize: 33.0
-  },
+  }, 
   {
     id: "1",
     startTime: curTime.setTime(curTime.setHours(curTime.getHours() + 3)),
