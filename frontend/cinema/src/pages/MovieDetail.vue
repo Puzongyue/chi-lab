@@ -18,10 +18,10 @@
             fit="contain"
           ></el-image>
         </el-col>
-        <el-col :span="16" id="moive-detail">
-          <div class="movie-title">{{ movie.name }}</div>
+        <el-col :span="16" id="movie-detail">
+          <div class="title">{{ movie.name }}</div>
           <div class="detail">
-            <div>导演：{{ movie.director }}</div>
+            <div>导演：{{ movie.director.join("、") }}</div>
             <div>
               主演：{{
                 movie.stars
@@ -37,7 +37,33 @@
               }}
             </div>
             <div>时长：{{ movie.time }}分钟</div>
-            <div>简介：{{ movie.description }}</div>
+            <div class="movie-description">
+              <div :class="descriptionClose ? 'close' : 'open'">
+                简介：{{
+                  isExpand
+                    ? movie.description
+                    : movie.description.substring(0, 100) + "……"
+                }}
+              </div>
+              <span
+                @click="
+                  () => {
+                    isExpand = !isExpand;
+                  }
+                "
+                >展开>>></span
+              >
+            </div>
+          </div>
+          <div class="movie-statics">
+            <div>
+              <span class="number">{{ movie.like }}</span
+              ><span class="tip">人想看</span>
+            </div>
+            <div>
+              <span class="number">{{ movie.score }}</span
+              ><span class="tip">分</span>
+            </div>
           </div>
         </el-col>
       </el-row>
@@ -119,7 +145,8 @@ export default {
         "text-align": "center",
         color: "#333",
         "font-size": "15px"
-      }
+      },
+      isExpand: false
     };
   },
   mounted: function() {
@@ -156,15 +183,15 @@ export default {
         const curDay = new Date();
         const date =
           key === curDay.toLocaleDateString()
-            ? "（今天）"
+            ? "今天"
             : key ===
               new Date(
-                curDay.setTime(curDay.setDate(curDay.getDate() + 2))
+                curDay.setTime(curDay.setDate(curDay.getDate() + 1))
               ).toLocaleDateString()
-            ? "（后天）"
-            : `（周${weekMap[new Date(value[0].startTime).getDay()]}）`;
+            ? "后天"
+            : `周${weekMap[new Date(value[0].startTime).getDay()]}`;
         list.push({
-          date: key.replaceAll("/", "-") + date,
+          date: date + "  " + key.replaceAll("/", "-").substring(5),
           schedual: value
         });
       });
@@ -203,7 +230,7 @@ export default {
   background: #42383d;
   z-index: 1;
   overflow: hidden;
-  padding-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .detail-wrap .detail-bg {
@@ -239,25 +266,48 @@ export default {
   align-items: center;
   height: 100%;
 }
-#moive-detail {
+#movie-detail {
   height: 100%;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   align-content: center;
-  justify-content: center;
+  justify-content: center; */
   color: #fff;
 }
-.movie-title {
+
+#movie-detail .title {
   font-size: 26px;
   margin-bottom: 20px;
 }
-.detail {
+
+#movie-detail .detail {
   font-size: 12px;
 }
+
+.movie-description .close {
+  display: -webkit-inline-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.movie-statics {
+  display: flex;
+  align-content: flex-end;
+  height: 100%;
+}
+.movie-statics .number {
+  color: #ffb400;
+  font-size: 26px;
+}
+.movie-statics .tip {
+  color: #fff;
+  font-size: 12px;
+}
+
 .schedual {
   width: 100%;
 }
-
 .schedual-title {
   font-size: 26px;
   margin-top: 45px;
