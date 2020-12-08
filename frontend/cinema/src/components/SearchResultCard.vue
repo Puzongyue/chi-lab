@@ -7,7 +7,7 @@
           <img :src="this.movie.poster" />
         </div>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="10" :offset="2">
         <div class="movie-name" @click="jumpToMovieDetail">
           <a>{{ this.movie.name }}</a>
         </div>
