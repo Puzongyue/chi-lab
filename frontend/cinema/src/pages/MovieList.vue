@@ -38,7 +38,7 @@
     </div>
 
     <div class="sort">
-      <el-radio-group v-model="radio">
+      <el-radio-group v-model="radio" @change="sortMovie">
         <el-radio :label="0">按热度排序</el-radio>
         <el-radio :label="1">按时间排序</el-radio>
         <el-radio :label="2" v-if="activeName === 'current'"
@@ -49,21 +49,37 @@
 
     <el-tab-pane label="正在热映" name="current">
       <el-row :gutter="20">
-        <el-col :span="12" v-for="movie in movies" :key="movie.id">
+        <el-col :span="4" v-for="movie in movies" :key="movie.id">
           <simple-movie-card :movie="movie"></simple-movie-card>
         </el-col>
       </el-row>
     </el-tab-pane>
-    <el-tab-pane label="即将上映" name="future">即将上映</el-tab-pane>
+    <el-tab-pane label="即将上映" name="future">
+      <el-row :gutter="20">
+        <el-col :span="4" v-for="movie in movies" :key="movie.id">
+          <simple-movie-card :movie="movie"></simple-movie-card>
+        </el-col>
+      </el-row>
+    </el-tab-pane>
   </el-tabs>
 </template>
 
 
 <script>
-import SimpleMovieCard from '../components/SimpleMovieCard.vue';
-import movies from "../lib/movieList";
+import SimpleMovieCard from "../components/SimpleMovieCard.vue";
+import {
+  getCurrentMovies,
+  getFutureMovies,
+  sortCurrentMoviesByHeat,
+  sortFutureMoviesByHeat,
+  sortCurrentMoviesByDate,
+  sortFutureMoviesByDate,
+  sortMoviesByScore
+} from "../lib/movieList";
 
 export default {
+  components: { SimpleMovieCard },
+
   data() {
     return {
       activeName: "current",
@@ -112,12 +128,22 @@ export default {
       currentTypeIdx: -1,
       currentLocationIdx: -1,
       radio: 0,
-      movies: movies,
+      movies: [],
     };
   },
+
+  mounted() {
+    this.movies = getCurrentMovies();
+  },
+
   methods: {
     switchTab(tab, event) {
       console.log(event.target);
+      this.radio = 0; // default sort type
+      this.currentTypeIdx = -1; // default type
+      this.currentLocationIdx = -1; // default location
+
+      this.sortMovie();
     },
 
     filterType(idx) {
@@ -133,6 +159,38 @@ export default {
         this.currentLocationIdx = -1;
       } else {
         this.currentLocationIdx = idx;
+      }
+    },
+
+    sortMovie() {
+      console.log(this.radio);
+
+      if (this.activeName === "current") {
+        switch(this.radio) {
+          case 0:
+            this.movies = sortCurrentMoviesByHeat();
+            break;
+          case 1:
+            this.movies = sortCurrentMoviesByDate();
+            break;
+          case 2:
+            this.movies = sortMoviesByScore();
+            break;
+          default:
+            break;
+        }
+      }
+      else {
+        switch(this.radio) {
+          case 0:
+            this.movies = sortFutureMoviesByHeat();
+            break;
+          case 1:
+            this.movies = sortFutureMoviesByDate();
+            break;
+          default:
+            break;
+        }
       }
     },
   },

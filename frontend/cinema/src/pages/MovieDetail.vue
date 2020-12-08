@@ -137,7 +137,8 @@
 </template>
 
 <script>
-import movieList from "@/lib/movieList";
+import { movies as movieList} from "@/lib/movieList";
+// import {movies} from "@/lib/movieList";
 import schedualList from "@/lib/schedualList";
 export default {
   name: "MovieDetail",
