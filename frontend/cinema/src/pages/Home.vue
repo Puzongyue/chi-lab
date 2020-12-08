@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <el-row>
-      <el-carousel :interval="4000" type="card" height="250px">
+      <el-carousel :interval="4000" type="card" height="250px" id="movie-ad">
         <el-carousel-item v-for="item in 6" :key="item">
           <h3 class="medium">{{ item }}</h3>
         </el-carousel-item>
@@ -15,18 +15,38 @@
             <div class="hint-font" id="show-all-movies">查看全部</div>
           </div>
           <div id="current-movies-content">
-            <div class="current-movie-item" v-for="i in 9" v-bind:key="i">
-              <img
-                class="current-movie-poster"
-                alt="poster"
-                width="160px"
-                height="220px"
-                src="https://p0.meituan.net/movie/303c2e671cc4df875c151d688ecbd8962085989.jpg@464w_644h_1e_1c"
-              />
-              <div class="current-movie-overlay"></div>
-              <div class="current-movie-info">
-                <div class="current-movie-name">赤狐书生</div>
-                <div class="current-movie-score">7.8</div>
+            <div
+              class="current-movie-item"
+              v-for="item in currentMoviesInfo"
+              v-bind:key="item.id"
+            >
+              <div
+                class="current-movie-item-inner"
+                :class="{
+                  left: item.position % 3 == 0,
+                  middle: item.position % 3 == 1,
+                  right: item.position % 3 == 2,
+                }"
+              >
+                <img
+                  class="current-movie-poster"
+                  alt="poster"
+                  width="160px"
+                  height="220px"
+                  :src="item.poster"
+                />
+                <div class="current-movie-overlay"></div>
+                <div class="current-movie-info">
+                  <div class="current-movie-name">{{ item.name }}</div>
+                  <div class="current-movie-score">
+                    {{ item.score.toFixed(1) }}
+                  </div>
+                </div>
+                <div class="current-movie-buy">
+                  <el-button type="danger" round class="current-movie-buy-btn"
+                    >购票</el-button
+                  >
+                </div>
               </div>
             </div>
           </div>
@@ -72,11 +92,14 @@
 </template>
 
 <script>
+import currentMoviesInfo from "../lib/homeInfo";
+
 export default {
   name: "Home",
   data() {
     return {
       msg: "Home",
+      currentMoviesInfo: currentMoviesInfo,
       rankList: [
         {
           id: 0,
@@ -162,6 +185,12 @@ export default {
 }
 
 /* carousel */
+
+#movie-ad {
+  margin-left: 0;
+  margin-right: 0;
+}
+
 .el-carousel__item h3 {
   color: #475669;
   font-size: 14px;
@@ -204,28 +233,44 @@ export default {
   cursor: pointer;
 }
 
+#show-all-movies:hover {
+  text-decoration: orangered underline;
+}
+
 #current-movies-content {
   width: 100%;
-  height: 750px;
+  height: auto;
   padding-top: 15px;
 
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   flex-wrap: wrap;
-
-  /* border: solid 2px orange; */
 }
 
 .current-movie-item {
-  width: 160px;
+  width: 33.3%;
   height: 220px;
+  margin-bottom: 25px;
   position: relative;
+  display: flex;
 }
 
-.current-movie-item:hover {
-  cursor: pointer;
-  box-shadow: 10px 10px 20px #d3d2d2;
+.current-movie-item-inner {
+  position: absolute;
+  width: 160px;
+  height: 100%;
+}
+
+.current-movie-item > .left {
+  left: 0;
+}
+
+.current-movie-item > .middle {
+  left: calc(calc(100% - 160px) / 2);
+}
+
+.current-movie-item > .right {
+  right: 0;
 }
 
 .current-movie-poster,
@@ -233,9 +278,6 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
-  top: 0;
-  left: 0;
-  /* border: solid 2px lightgreen; */
 }
 
 .current-movie-overlay {
@@ -264,6 +306,31 @@ export default {
   color: #fdbf54;
   font-size: 18px;
   font-style: italic;
+}
+
+.current-movie-buy {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  visibility: hidden;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.current-movie-buy-btn {
+  background-color: orangered;
+}
+
+.current-movie-item-inner:hover > .current-movie-buy {
+  visibility: visible;
+  background-color: rgba(0, 0, 0, 0.192);
+  cursor: pointer;
+  box-shadow: 10px 10px 20px #d3d2d2;
 }
 
 /* movie-rank module */
