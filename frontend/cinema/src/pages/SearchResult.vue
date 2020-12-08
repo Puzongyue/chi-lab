@@ -20,7 +20,8 @@
 
 <script>
 import SearchResultCard from "../components/SearchResultCard.vue";
-import movies from "../lib/movieList";
+import {movies, getMoviesByKeyword} from "../lib/movieList";
+// import movies from "../lib/movieList";
 
 export default {
   components: { SearchResultCard },
