@@ -1,70 +1,80 @@
 <template>
   <div>
     <div class="detail-wrap">
-      <div
-        class="detail-bg"
-        data-bg="https://p1.meituan.net/movie/13cb85d810b0530b951625430c2f35044951112.jpg@464w_644h_1e_1c"
-        style="opacity: 0.4;"
-      >
-        <img
-          src="https://p1.meituan.net/movie/13cb85d810b0530b951625430c2f35044951112.jpg@464w_644h_1e_1c"
-        />
+      <div class="detail-bg" :data-bg="movie.poster" style="opacity: 0.4;">
+        <img :src="movie.poster" />
       </div>
       <el-row class="movie-content">
-        <el-col :span="8" id="movie-poster">
+        <el-col :span="7" id="movie-poster">
           <el-image
             style="width: 230px; height: 300px"
             :src="movie.poster"
             fit="contain"
           ></el-image>
         </el-col>
-        <el-col :span="16" id="movie-detail">
-          <div class="title">{{ movie.name }}</div>
-          <div class="detail">
-            <div>导演：{{ movie.director.join("、") }}</div>
-            <div>
-              主演：{{
-                movie.stars
-                  .map(star => star.star + "（ 饰" + star.role + " ）")
-                  .join("、")
-              }}
-            </div>
-            <div>类型：{{ movie.types.join(" / ") }}</div>
-            <div>制片国家/地区：{{ movie.location }}</div>
-            <div>
-              上映时间：{{
-                movie.startDay.toLocaleDateString().replaceAll("/", "-")
-              }}
-            </div>
-            <div>时长：{{ movie.time }}分钟</div>
-            <div class="movie-description">
-              <div :class="descriptionClose ? 'close' : 'open'">
-                简介：{{
-                  isExpand
-                    ? movie.description
-                    : movie.description.substring(0, 100) + "……"
-                }}
+        <el-col :span="17" id="movie-detail">
+          <el-row style="height: 100%">
+            <el-col :span="16" class="movie-info">
+              <div class="title">{{ movie.name }}</div>
+              <div class="detail">
+                <div>导演：{{ movie.director.join("、") }}</div>
+                <div>
+                  主演：{{
+                    movie.stars
+                      .map(star => star.star + "（ 饰" + star.role + " ）")
+                      .join("、")
+                  }}
+                </div>
+                <div>类型：{{ movie.types.join(" / ") }}</div>
+                <div>制片国家/地区：{{ movie.location }}</div>
+                <div>
+                  上映时间：{{
+                    movie.startDay.toLocaleDateString().replaceAll("/", "-")
+                  }}
+                </div>
+                <div>时长：{{ movie.time }}分钟</div>
+                <div class="movie-description">
+                  <div :class="descriptionClose ? 'close' : 'open'">
+                    简介：{{
+                      isExpand
+                        ? movie.description
+                        : movie.description.substring(0, 100) + "……"
+                    }}
+                  </div>
+                  <span
+                    @click="
+                      () => {
+                        isExpand = !isExpand;
+                      }
+                    "
+                    >展开>>></span
+                  >
+                </div>
               </div>
-              <span
-                @click="
-                  () => {
-                    isExpand = !isExpand;
-                  }
-                "
-                >展开>>></span
-              >
-            </div>
-          </div>
-          <div class="movie-statics">
-            <div>
-              <span class="number">{{ movie.like }}</span
-              ><span class="tip">人想看</span>
-            </div>
-            <div>
-              <span class="number">{{ movie.score }}</span
-              ><span class="tip">分</span>
-            </div>
-          </div>
+            </el-col>
+
+            <el-col
+              :offset="1"
+              :span="7"
+              style="height: 100%; position: relative"
+            >
+              <div class="movie-statics">
+                <div class="movie-static">
+                  <div class="static-info">
+                    <span class="number">{{ movie.like }}</span>
+                    <span class="tip">人想看</span>
+                    <el-button type="primary" icon="el-icon-view" plain circle></el-button>
+                    <!-- <el-button type="primary" icon="el-icon-edit" circle></el-button> -->
+                  </div>
+                  <div class="static-info">
+                    <span class="number">{{ movie.score }}</span>
+                    <span class="tip">分</span>
+                    <el-rate v-model="value2" :colors="colors"> </el-rate>
+                  </div>
+                </div>
+              </div>
+            </el-col>
+          </el-row>
         </el-col>
       </el-row>
     </div>
@@ -127,13 +137,13 @@
 </template>
 
 <script>
-// import { movies as movieList} from "@/lib/movieList";
-import movies from "@/lib/movieList";
+import { movies as movieList} from "@/lib/movieList";
+// import {movies} from "@/lib/movieList";
 import schedualList from "@/lib/schedualList";
 export default {
   name: "MovieDetail",
   data() {
-    const movie = movieList[0];
+    const movie = movieList[1];
     const detailStyle = "background-image: url('" + movie.poster + "'); ";
     return {
       movieList,
@@ -147,7 +157,9 @@ export default {
         color: "#333",
         "font-size": "15px"
       },
-      isExpand: false
+      isExpand: false,
+      value2: null,
+      colors: ["#99A9BF", "#F7BA2A", "#FF9900"] // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
     };
   },
   mounted: function() {
@@ -189,7 +201,7 @@ export default {
               new Date(
                 curDay.setTime(curDay.setDate(curDay.getDate() + 1))
               ).toLocaleDateString()
-            ? "后天"
+            ? "明天"
             : `周${weekMap[new Date(value[0].startTime).getDay()]}`;
         list.push({
           date: date + "  " + key.replaceAll("/", "-").substring(5),
@@ -257,9 +269,11 @@ export default {
 }
 
 .movie-content {
-  height: 350px;
+  height: 400px;
   width: 100%;
   position: relative;
+  display: flex;
+  align-content: center;
 }
 #movie-poster {
   display: flex;
@@ -269,20 +283,19 @@ export default {
 }
 #movie-detail {
   height: 100%;
-  /* display: flex;
-  flex-direction: column;
-  align-content: center;
-  justify-content: center; */
+  padding-top: 50px;
+  /* padding-right: 50px; */
   color: #fff;
 }
 
-#movie-detail .title {
+#movie-detail .movie-info .title {
   font-size: 26px;
   margin-bottom: 20px;
 }
 
-#movie-detail .detail {
+#movie-detail .movie-info .detail {
   font-size: 12px;
+  line-height: 20px;
 }
 
 .movie-description .close {
@@ -293,17 +306,24 @@ export default {
 }
 
 .movie-statics {
-  display: flex;
-  align-content: flex-end;
-  height: 100%;
+  position: absolute;
+  bottom: 50px;
 }
-.movie-statics .number {
+.movie-statics .movie-static .static-info {
+  margin-bottom: 10px;
+  /* display: inline-block; */
+}
+
+.movie-static .static-info .number {
   color: #ffb400;
-  font-size: 26px;
+  font-size: 30px;
 }
-.movie-statics .tip {
+.movie-static .static-info .tip {
   color: #fff;
   font-size: 12px;
+}
+.wannnaSee{
+  margin-left: 10px;
 }
 
 .schedual {
