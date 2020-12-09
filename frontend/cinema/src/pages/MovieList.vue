@@ -58,7 +58,7 @@
     </div>
 
     <el-tab-pane label="正在热映" name="current">
-      <div class="no-movie-tip" v-if="movies.length === 0">这里是空哒</div>
+      <empty-tip v-if="movies.length === 0" :tipSentences="tipSentences"></empty-tip>
       <el-row :gutter="20">
         <el-col :span="4" v-for="movie in movies" :key="movie.id">
           <simple-movie-card :movie="movie"></simple-movie-card>
@@ -66,7 +66,7 @@
       </el-row>
     </el-tab-pane>
     <el-tab-pane label="即将上映" name="future">
-      <div class="no-movie-tip" v-if="movies.length === 0">这里是空哒</div>
+      <empty-tip v-if="movies.length === 0" :tipSentences="tipSentences"></empty-tip>
       <el-row :gutter="20">
         <el-col :span="4" v-for="movie in movies" :key="movie.id">
           <simple-movie-card :movie="movie"></simple-movie-card>
@@ -79,6 +79,7 @@
 
 <script>
 import SimpleMovieCard from "../components/SimpleMovieCard.vue";
+import EmptyTip from "../components/EmptyTip.vue";
 import {
   getCurrentMovies,
   getFutureMovies,
@@ -91,7 +92,7 @@ import {
 } from "../lib/movieList";
 
 export default {
-  components: { SimpleMovieCard },
+  components: { SimpleMovieCard, EmptyTip },
 
   data() {
     return {
@@ -102,6 +103,7 @@ export default {
       currentLocationIdx: -1,
       radio: 0,
       movies: [],
+      tipSentences: ["请修改选择的类型或区域", "请切换至“正在热映”或“即将上映”"]
     };
   },
 
@@ -229,9 +231,5 @@ export default {
 .tab .sort {
   /* background-color: aquamarine; */
   margin: 50px 0 10px 0;
-}
-
-.tab .no-movie-tip {
-  height: 100px;
 }
 </style>

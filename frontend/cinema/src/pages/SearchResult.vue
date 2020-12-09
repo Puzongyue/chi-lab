@@ -9,6 +9,7 @@
       </el-input>
     </div>
     <div class="movie-list">
+      <empty-tip v-if="movies.length === 0" :tipSentences="tipSentences"></empty-tip>
       <el-row :gutter="20">
         <el-col :span="12" v-for="movie in movies" :key="movie.id">
           <search-result-card :movie="movie"></search-result-card>
@@ -20,23 +21,25 @@
 
 <script>
 import SearchResultCard from "../components/SearchResultCard.vue";
+import EmptyTip from "../components/EmptyTip.vue";
 import {movies, getMoviesByKeyword} from "../lib/movieList";
 // import movies from "../lib/movieList";
 
 export default {
-  components: { SearchResultCard },
+  components: { SearchResultCard, EmptyTip },
   name: "SearchResult",
 
   data() {
     return {
 			movies: movies,
-			keyword: ""
+      keyword: "",
+      tipSentences: ["请检查输入的关键词是否有误", "请缩短关键词"]
     };
 	},
 	
 	methods: {
 		searchMovie() {
-			console.log(this.keyword);
+			this.movies = getMoviesByKeyword(this.keyword);
 		}
 	}
 };
@@ -68,5 +71,11 @@ export default {
 
 .main .movie-list {
 	margin-top: 20px;
+}
+
+.main .movie-list .no-movie-tip {
+  position: relative;
+  left: 80%;
+  transform: translateX(-50%);
 }
 </style>
