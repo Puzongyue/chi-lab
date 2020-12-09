@@ -222,7 +222,7 @@ export const movies = [
   },
   {
     id: 7,
-    name: "哆啦A梦：大雄的新恐龙longlonglong",
+    name: "哆啦A梦：大雄的新恐龙",
     types: ["动画", "冒险", "剧情"],
     location: ["日本"],
     time: 111,

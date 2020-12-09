@@ -2,7 +2,9 @@ import {movies} from "../lib/movieList";
 // import movies from "../lib/movieList";
 
 let currentMoviesInfo  = [];
-let pos = 0;
+let incomingMoviesInfo = [];
+let currentPos = 0;
+let incomingPos = 0;
 movies.forEach(item=>{
     if(item.score > -1){
         currentMoviesInfo.push({
@@ -10,9 +12,18 @@ movies.forEach(item=>{
             name: item.name,
             poster: item.poster,
             score: item.score,
-            position: pos
+            position: currentPos
         });
-        pos += 1;
+        currentPos += 1;
+    }
+    else {
+        incomingMoviesInfo.push({
+            id: item.id,
+            name: item.name,
+            poster: item.poster,
+            position: incomingPos
+        });
+        incomingPos += 1;
     }
 });
 
@@ -23,7 +34,8 @@ let carouselInfo = [
 
 let homeInfo = {
     "currentMoviesInfo": currentMoviesInfo,
-    "carouselInfo": carouselInfo
+    "carouselInfo": carouselInfo,
+    "incomingMoviesInfo": incomingMoviesInfo
 }
 
 export default homeInfo;
