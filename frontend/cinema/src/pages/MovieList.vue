@@ -6,7 +6,12 @@
           <el-col :offset="1" :span="1" class="tag-title">类型:</el-col>
           <el-col :span="20">
             <ul class="list">
-              <li :class="{ active: currentTypeIdx === -1 }">全部</li>
+              <li 
+                :class="{ active: currentTypeIdx === -1 }"
+                @click="filterType(-1)"
+              >
+                全部
+              </li>
               <li
                 v-for="(type, index) in this.allTypes"
                 :class="{ active: currentTypeIdx === index }"
@@ -22,7 +27,12 @@
           <el-col :offset="1" :span="1" class="tag-title">区域:</el-col>
           <el-col :span="20">
             <ul class="list">
-              <li :class="{ active: currentLocationIdx === -1 }">全部</li>
+              <li 
+                :class="{ active: currentLocationIdx === -1 }"
+                @click="filterLocation(-1)"
+                >
+                  全部
+              </li>
               <li
                 v-for="(location, index) in this.allLocations"
                 :class="{ active: currentLocationIdx === index }"
@@ -70,11 +80,13 @@ import SimpleMovieCard from "../components/SimpleMovieCard.vue";
 import {
   getCurrentMovies,
   getFutureMovies,
-  sortCurrentMoviesByHeat,
-  sortFutureMoviesByHeat,
-  sortCurrentMoviesByDate,
-  sortFutureMoviesByDate,
-  sortMoviesByScore
+  getAllMovieTypes,
+  getAllMovieLocations,
+  sortMoviesByHeat,
+  sortMoviesByDate,
+  sortMoviesByScore,
+  filterMoviesByType,
+  filterMoviesByLocation
 } from "../lib/movieList";
 
 export default {
@@ -83,48 +95,8 @@ export default {
   data() {
     return {
       activeName: "current",
-      allTypes: [
-        "爱情",
-        "喜剧",
-        "动画",
-        "剧情",
-        "恐怖",
-        "惊悚",
-        "科幻",
-        "动作",
-        "悬疑",
-        "犯罪",
-        "冒险",
-        "战争",
-        "奇幻",
-        "运动",
-        "家庭",
-        "古装",
-        "武侠",
-        "西部",
-        "历史",
-        "传记",
-        "歌舞",
-      ],
-      allLocations: [
-        "爱情",
-        "喜剧",
-        "动画",
-        "剧情",
-        "恐怖",
-        "惊悚",
-        "科幻",
-        "动作",
-        "悬疑",
-        "犯罪",
-        "冒险",
-        "战争",
-        "奇幻",
-        "运动",
-        "家庭",
-        "古装",
-        "武侠",
-      ],
+      allTypes: [],
+      allLocations: [],
       currentTypeIdx: -1,
       currentLocationIdx: -1,
       radio: 0,
@@ -134,6 +106,8 @@ export default {
 
   mounted() {
     this.movies = getCurrentMovies();
+    this.allTypes = getAllMovieTypes();
+    this.allLocations = getAllMovieLocations();
   },
 
   methods: {
@@ -163,34 +137,18 @@ export default {
     },
 
     sortMovie() {
-      console.log(this.radio);
-
-      if (this.activeName === "current") {
-        switch(this.radio) {
-          case 0:
-            this.movies = sortCurrentMoviesByHeat();
-            break;
-          case 1:
-            this.movies = sortCurrentMoviesByDate();
-            break;
-          case 2:
-            this.movies = sortMoviesByScore();
-            break;
-          default:
-            break;
-        }
-      }
-      else {
-        switch(this.radio) {
-          case 0:
-            this.movies = sortFutureMoviesByHeat();
-            break;
-          case 1:
-            this.movies = sortFutureMoviesByDate();
-            break;
-          default:
-            break;
-        }
+      switch(this.radio) {
+        case 0:
+          this.movies = sortMoviesByHeat(this.activeName);
+          break;
+        case 1:
+          this.movies = sortMoviesByDate(this.activeName);
+          break;
+        case 2:
+          this.movies = sortMoviesByScore();
+          break;
+        default:
+          break;
       }
     },
   },

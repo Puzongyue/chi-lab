@@ -9,7 +9,7 @@ export const movies = [
     id: 1,
     name: "一秒钟",
     types: ["剧情", "犯罪"],
-    location: "中国大陆",
+    location: ["中国大陆"],
     time: 104,
     boxOffice: 96280, // 以k为单位
     poster:
@@ -47,7 +47,7 @@ export const movies = [
     id: 2,
     name: "如果声音不记得",
     types: ["爱情", "青春", "奇幻"],
-    location: "中国大陆",
+    location: ["中国大陆"],
     time: 102,
     boxOffice: 96280, // 以k为单位
     poster:
@@ -86,7 +86,7 @@ export const movies = [
     id: 3,
     name: "赤狐书生",
     types: ["奇幻", "古装", "喜剧"],
-    location: "中国大陆",
+    location: ["中国大陆"],
     time: 125,
     boxOffice: 96280, // 以k为单位
     poster:
@@ -144,7 +144,7 @@ export const movies = [
     id: 5,
     name: "疯狂原始人",
     types: ["喜剧", "动画", "冒险"],
-    location: "美国",
+    location: ["美国"],
     time: 96,
     boxOffice: 96280, // 以k为单位
     poster:
@@ -184,7 +184,7 @@ export const movies = [
     id: 6,
     name: "野性的呼唤",
     types: ["剧情", "冒险"],
-    location: "美国",
+    location: ["美国"],
     time: 100,
     boxOffice: 96280, // 以k为单位
     poster:
@@ -224,7 +224,7 @@ export const movies = [
     id: 7,
     name: "哆啦A梦：大雄的新恐龙longlonglong",
     types: ["动画", "冒险", "剧情"],
-    location: "日本",
+    location: ["日本"],
     time: 111,
     boxOffice: 96280, // 以k为单位
     poster:
@@ -260,7 +260,7 @@ export const movies = [
     id: 8,
     name: "紧急救援",
     types: ["剧情", "灾难", "动作"],
-    location: "中国大陆",
+    location: ["中国大陆"],
     time: 134,
     boxOffice: 96280, // 以k为单位
     poster:
@@ -299,7 +299,7 @@ export const movies = [
     id: 9,
     name: "城市猎人",
     types: ["喜剧", "动作", "爱情"],
-    location: "法国",
+    location: ["法国"],
     time: 91,
     boxOffice: 96280, // 以k为单位
     poster:
@@ -336,7 +336,7 @@ export const movies = [
     id: 10,
     name: "少女佳禾",
     types: ["剧情"],
-    location: "中国大陆",
+    location: ["中国大陆"],
     time: 100,
     boxOffice: 96280, // 以k为单位
     poster:
@@ -372,6 +372,20 @@ export function getAllMovies() {
   return movies;
 }
 
+export function getAllMovieTypes() {
+  let types = [];
+  movies.map(item => types.push(...item.types));
+  types = [...new Set(types)];
+  return types;
+}
+
+export function getAllMovieLocations() {
+  let locations = [];
+  movies.map(item => locations.push(...item.location));
+  locations = [...new Set(locations)];
+  return locations;
+}
+
 export function getMoviesByKeyword(keyword) {
   const ans = [];
 
@@ -404,26 +418,22 @@ export function getFutureMovies() {
   return ans;
 }
 
-export function sortCurrentMoviesByHeat() {
-  const ans = getCurrentMovies();
+export function sortMoviesByHeat(active) {
+  let ans = [];
+
+  if (active === "current") ans = getCurrentMovies();
+  else getFutureMovies();
+
   ans.sort((a, b) => a.boxOffice - b.boxOffice);
   return ans;
 }
 
-export function sortFutureMoviesByHeat() {
-  const ans = getFutureMovies();
-  ans.sort((a, b) => a.boxOffice - b.boxOffice);
-  return ans;
-}
+export function sortMoviesByDate(active) {
+  let ans = [];
 
-export function sortCurrentMoviesByDate() {
-  const ans = getCurrentMovies();
-  ans.sort((a, b) => a.startDay.getTime() - b.startDay.getTime());
-  return ans;
-}
+  if (active === "current") ans = getCurrentMovies();
+  else getFutureMovies();
 
-export function sortFutureMoviesByDate() {
-  const ans = getFutureMovies();
   ans.sort((a, b) => a.startDay.getTime() - b.startDay.getTime());
   return ans;
 }
@@ -432,6 +442,13 @@ export function sortMoviesByScore() {
   const currentMovies = getCurrentMovies();
   currentMovies.sort((a, b) => b.score - a.score);
   return currentMovies;
+}
+
+export function filterMoviesByType(type, active) {
+}
+
+export function filterMoviesByLocation(location, active) {
+
 }
 
 // export {
