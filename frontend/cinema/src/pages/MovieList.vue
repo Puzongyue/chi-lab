@@ -151,8 +151,6 @@ export default {
       let type = this.currentTypeIdx === -1 ? "all" : this.allTypes[this.currentTypeIdx];
       this.movies = filterMovies(type, location, this.activeName);
       this.sortMovie();
-
-      console.log(this.movies);
     },
 
     sortMovie() {

@@ -45,8 +45,6 @@ export default {
 <style>
 .main {
   margin-top: 20px;
-  height: 1000px;
-  /* background-color: aquamarine; */
 }
 
 .main .search-bar {
