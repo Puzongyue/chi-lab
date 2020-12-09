@@ -58,6 +58,7 @@
     </div>
 
     <el-tab-pane label="正在热映" name="current">
+      <div class="no-movie-tip" v-if="movies.length === 0">这里是空哒</div>
       <el-row :gutter="20">
         <el-col :span="4" v-for="movie in movies" :key="movie.id">
           <simple-movie-card :movie="movie"></simple-movie-card>
@@ -65,6 +66,7 @@
       </el-row>
     </el-tab-pane>
     <el-tab-pane label="即将上映" name="future">
+      <div class="no-movie-tip" v-if="movies.length === 0">这里是空哒</div>
       <el-row :gutter="20">
         <el-col :span="4" v-for="movie in movies" :key="movie.id">
           <simple-movie-card :movie="movie"></simple-movie-card>
@@ -85,8 +87,7 @@ import {
   sortMoviesByHeat,
   sortMoviesByDate,
   sortMoviesByScore,
-  filterMoviesByType,
-  filterMoviesByLocation
+  filterMovies
 } from "../lib/movieList";
 
 export default {
@@ -108,41 +109,59 @@ export default {
     this.movies = getCurrentMovies();
     this.allTypes = getAllMovieTypes();
     this.allLocations = getAllMovieLocations();
+    this.sortMovie();
   },
 
   methods: {
-    switchTab(tab, event) {
-      console.log(event.target);
+    switchTab() {
       this.radio = 0; // default sort type
       this.currentTypeIdx = -1; // default type
       this.currentLocationIdx = -1; // default location
 
+      this.movies = this.activeName === "current"? getCurrentMovies() : getFutureMovies();
       this.sortMovie();
+      this.filterType(-1);
+      this.filterLocation(-1);
     },
 
     filterType(idx) {
-      if (idx === null) {
+      let type = "all";
+      if (idx === -1) {
         this.currentTypeIdx = -1;
       } else {
         this.currentTypeIdx = idx;
+        type = this.allTypes[this.currentTypeIdx];
       }
+
+      let location = this.currentLocationIdx === -1 ? "all" : this.allLocations[this.currentLocationIdx];
+
+      this.movies = filterMovies(type, location, this.activeName);
+      this.sortMovie();
     },
 
     filterLocation(idx) {
-      if (idx === null) {
+      let location = "all";
+      if (idx === -1) {
         this.currentLocationIdx = -1;
       } else {
         this.currentLocationIdx = idx;
+        location = this.allLocations[this.currentLocationIdx];
       }
+
+      let type = this.currentTypeIdx === -1 ? "all" : this.allTypes[this.currentTypeIdx];
+      this.movies = filterMovies(type, location, this.activeName);
+      this.sortMovie();
+
+      console.log(this.movies);
     },
 
     sortMovie() {
       switch(this.radio) {
         case 0:
-          this.movies = sortMoviesByHeat(this.activeName);
+          this.movies = sortMoviesByHeat();
           break;
         case 1:
-          this.movies = sortMoviesByDate(this.activeName);
+          this.movies = sortMoviesByDate();
           break;
         case 2:
           this.movies = sortMoviesByScore();
@@ -212,5 +231,9 @@ export default {
 .tab .sort {
   /* background-color: aquamarine; */
   margin: 50px 0 10px 0;
+}
+
+.tab .no-movie-tip {
+  height: 100px;
 }
 </style>

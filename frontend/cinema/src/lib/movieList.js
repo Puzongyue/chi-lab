@@ -118,7 +118,7 @@ export const movies = [
     types: ["犯罪", "剧情", "动作"],
     location: ["中国香港", "中国大陆"],
     time: 95,
-    boxOffice: 96280, // 以k为单位
+    boxOffice: 96288, // 以k为单位
     poster:
       "https://p1.meituan.net/movie/38dd31a0e1b18e1b00aeb2170c5a65b13885486.jpg@464w_644h_1e_1c",
     score: 8.6,
@@ -301,7 +301,7 @@ export const movies = [
     types: ["喜剧", "动作", "爱情"],
     location: ["法国"],
     time: 91,
-    boxOffice: 96280, // 以k为单位
+    boxOffice: 96281, // 以k为单位
     poster:
       "https://p0.meituan.net/movie/80b9ec1d4bc6bb7e727a252d9e4e54432714531.jpg@464w_644h_1e_1c",
     score: -1,
@@ -338,7 +338,7 @@ export const movies = [
     types: ["剧情"],
     location: ["中国大陆"],
     time: 100,
-    boxOffice: 96280, // 以k为单位
+    boxOffice: 96277, // 以k为单位
     poster:
       "https://p0.meituan.net/movie/59b5174b5eb82aeed2cb738eb261b18d797572.jpg@464w_644h_1e_1c",
     score: -1,
@@ -367,6 +367,8 @@ export const movies = [
     ]
   }
 ];
+
+export let moviesOnScreen = movies;
 
 export function getAllMovies() {
   return movies;
@@ -404,6 +406,7 @@ export function getCurrentMovies() {
     if (item.startDay.getTime() < today.getTime()) ans.push(item);
   });
 
+  moviesOnScreen = ans;
   return ans;
 }
 
@@ -415,51 +418,70 @@ export function getFutureMovies() {
     if (item.startDay.getTime() > today.getTime()) ans.push(item);
   });
 
+  moviesOnScreen = ans;
   return ans;
 }
 
 export function sortMoviesByHeat(active) {
-  let ans = [];
+  // let ans = [];
 
-  if (active === "current") ans = getCurrentMovies();
-  else getFutureMovies();
-
-  ans.sort((a, b) => a.boxOffice - b.boxOffice);
-  return ans;
+  // if (active === "current") ans = getCurrentMovies();
+  // else getFutureMovies();
+  moviesOnScreen.sort((a, b) => b.boxOffice - a.boxOffice);
+  return moviesOnScreen;
 }
 
 export function sortMoviesByDate(active) {
-  let ans = [];
+  // let ans = [];
 
-  if (active === "current") ans = getCurrentMovies();
-  else getFutureMovies();
+  // if (active === "current") ans = getCurrentMovies();
+  // else getFutureMovies();
 
-  ans.sort((a, b) => a.startDay.getTime() - b.startDay.getTime());
-  return ans;
+  moviesOnScreen.sort((a, b) => a.startDay.getTime() - b.startDay.getTime());
+  return moviesOnScreen;
 }
 
 export function sortMoviesByScore() {
-  const currentMovies = getCurrentMovies();
-  currentMovies.sort((a, b) => b.score - a.score);
-  return currentMovies;
+  // const currentMovies = getCurrentMovies();
+  moviesOnScreen.sort((a, b) => b.score - a.score);
+  return moviesOnScreen;
 }
 
-export function filterMoviesByType(type, active) {
+export function filterMovies(type, location, active) {
+  let moviesToFilter = active === "current"? getCurrentMovies() : getFutureMovies();
+  let ans = [];
+
+  if (type !== "all" && location !== "all") {
+    moviesToFilter = filterMoviesByType(moviesToFilter, type);
+    ans = filterMoviesByLocation(moviesToFilter, location);
+  }
+  else if (type === "all" && location !== "all") {
+    ans = filterMoviesByLocation(moviesToFilter, location);
+  }
+  else if (type !== "all" && location === "all") {
+    ans = filterMoviesByType(moviesToFilter, type);
+  }
+  else {
+    ans = moviesToFilter;
+  }
+
+  moviesOnScreen = ans;
+  return ans;
 }
 
-export function filterMoviesByLocation(location, active) {
+function filterMoviesByType(movieList, type) {
+  let ans = [];
 
+  ans = movieList.filter(item => item.types.includes(type));
+
+  return ans;
 }
 
-// export {
-//   movies,
-//   getAllMovies,
-//   getMoviesByKeyword,
-//   getCurrentMovies,
-//   getFutureMovies,
-//   sortMoviesByDate,
-//   sortMoviesByHeat,
-//   sortMoviesByScore
-// }
+function filterMoviesByLocation(movieList, location) {
+  console.log(movieList, location);
+  let ans = [];
 
-// export default movies;
+  ans = movieList.filter(item => item.location.includes(location));
+
+  return ans;
+}
