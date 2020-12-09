@@ -99,7 +99,7 @@
           <div
             class="rank-item"
             :class="{ topItem: item.rank < 4 }"
-            v-for="item in rankList"
+            v-for="item in movieRankInfo"
             v-bind:key="item.id"
           >
             <div class="rank-item-inner" v-if="item.rank < 4">
@@ -111,7 +111,10 @@
                 height="65px"
                 src="https://p1.meituan.net/movie/80a0afab60ba5bc548a0c606635fef291479960.jpg@120w_80h_1e_1c"
               />
-              <span class="item-name top-item-name">{{ item.name }}</span>
+              <div class="item-name top-item-name">
+                <span>{{ item.name }}</span>
+                <span class="top-item-type">{{ item.types.join(" / ") }}</span>
+              </div>
               <span class="item-boxoffice hint-font"
                 >{{ item.boxOffice }}万</span
               >
@@ -141,68 +144,8 @@ export default {
       carouselInfo: homeInfo.carouselInfo,
       currentMoviesInfo: homeInfo.currentMoviesInfo,
       incomingMoviesInfo: homeInfo.incomingMoviesInfo,
-      rankList: [
-        {
-          id: 0,
-          name: "如果声音不记得",
-          boxOffice: 576,
-          rank: 1,
-        },
-        {
-          id: 1,
-          name: "如果声音不记得",
-          boxOffice: 576,
-          rank: 2,
-        },
-        {
-          id: 2,
-          name: "如果声音不记得",
-          boxOffice: 576,
-          rank: 3,
-        },
-        {
-          id: 3,
-          name: "到了30岁还是处男，似乎会变成魔法师",
-          boxOffice: 576,
-          rank: 4,
-        },
-        {
-          id: 4,
-          name: "如果声音不记得",
-          boxOffice: 576,
-          rank: 5,
-        },
-        {
-          id: 5,
-          name: "疯狂原始人2",
-          boxOffice: 576,
-          rank: 6,
-        },
-        {
-          id: 6,
-          name: "疯狂原始人2",
-          boxOffice: 576,
-          rank: 7,
-        },
-        {
-          id: 7,
-          name: "疯狂原始人2",
-          boxOffice: 576,
-          rank: 8,
-        },
-        {
-          id: 8,
-          name: "疯狂原始人2",
-          boxOffice: 576,
-          rank: 9,
-        },
-        {
-          id: 9,
-          name: "疯狂原始人2",
-          boxOffice: 576,
-          rank: 10,
-        },
-      ],
+      movieRankInfo: homeInfo.movieRankInfo,
+
       currentMoviesTitle: "正在热映",
       incomingMoviesTitle: "即将上映",
       movieRankTitle: "票房排行",
@@ -444,7 +387,7 @@ export default {
 }
 
 .item-name {
-  width: 250px;
+  width: 230px;
   display: inline-block;
 
   font-size: 18px;
@@ -452,11 +395,22 @@ export default {
 }
 
 .top-item-name {
-  width: 140px;
+  width: 130px;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-item-type {
+  font-size: 14px;
+  color: #99a9bf;
+  margin-top: 10px;
 }
 
 .item-boxoffice {
   display: inline-block;
   line-height: 20px;
+  width: 20%;
+
 }
 </style>
