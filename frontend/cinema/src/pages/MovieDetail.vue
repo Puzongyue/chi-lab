@@ -101,19 +101,16 @@
         </el-col>
       </el-row>
       <div v-else class="choose">
-        <div class="choose-wrap">
-          <div class="choose-content">
-            <ul class="movie-list">
-              <li v-for="movie in movieList" :key="movie.id">
-                <el-image
-                  style="width: 180px; height: 240px"
-                  :src="movie.poster"
-                  fit="fill"
-                ></el-image>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <swiper ref="mySwiper" class="choose-content" :options="swiperOptions">
+          <swiper-slide class="side" v-for="movie in movieList" :key="movie.id">
+            <el-image
+              style="width: 150px; height: 200px"
+              :src="movie.poster"
+              fit="contain"
+            ></el-image
+          ></swiper-slide>
+          <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
       </div>
     </div>
     <div class="schedual">
@@ -186,9 +183,11 @@ export default {
   components: { IconBase, IconHeart, SimpleMovieCard },
   name: "MovieDetail",
   data() {
-    const movie = movieList[5];
+    const id = 3;
+    const movie = movieList[id];
     const detailStyle = "background-image: url('" + movie.poster + "'); ";
     return {
+      id,
       movieList,
       movie,
       detailStyle,
@@ -205,8 +204,29 @@ export default {
       isLike: false,
       isDisplay: true,
       value2: 4,
-      colors: ["#99A9BF", "#F7BA2A", "#FF9900"] // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
+      colors: ["#99A9BF", "#F7BA2A", "#FF9900"], // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }，
+      swiperOptions: {
+        slidesPerView: 5,
+        initialSlide :id,
+        centeredSlides: true,
+        // spaceBetween: 48,
+        pagination: {
+          el: ".swiper-pagination"
+        },
+
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev"
+        }
+
+        // Some Swiper option/callback...
+      }
     };
+  },
+  computed: {
+    swiper() {
+      return this.$refs.mySwiper.$swiper;
+    }
   },
   mounted: function() {
     this.schedualList = this.getScheList();
@@ -312,7 +332,7 @@ export default {
   top: 0;
   height: auto;
   width: 120%;
-  filter: blur(5px);
+  filter: blur(8px);
 }
 
 .movie-content {
@@ -381,36 +401,12 @@ export default {
   position: relative;
 }
 
-.choose .choose-wrap {
-  width: 864px;
-  min-width: 864px;
+.choose .choose-content {
+  width: 800px;
+  min-width: 800px;
   margin: 0 auto;
   position: relative;
   top: 80px;
-}
-
-.choose .choose-wrap .choose-content {
-  width: 100%;
-  overflow: hidden;
-  font-size: 0;
-}
-
-.movie-list {
-  display: block;
-  width: auto;
-  height: 240px;
-  overflow: hidden;
-  white-space: nowrap;
-  margin-left: -48px;
-}
-.movie-list li {
-  display: inline-block;
-  zoom: 1;
-  margin-right: 48px;
-  width: 180px;
-  height: 240px;
-  overflow: hidden;
-  position: relative;
 }
 
 .schedual {
