@@ -49,7 +49,7 @@ export const movies = [
     types: ["爱情", "青春", "奇幻"],
     location: ["中国大陆"],
     time: 102,
-    boxOffice: 96280, // 以k为单位
+    boxOffice: 96281, // 以k为单位
     poster:
       "https://p1.meituan.net/movie/f6ec2a022d3644ef493f881d359f65303190471.jpg@464w_644h_1e_1c",
     score: 8.0,
@@ -88,7 +88,7 @@ export const movies = [
     types: ["奇幻", "古装", "喜剧"],
     location: ["中国大陆"],
     time: 125,
-    boxOffice: 96280, // 以k为单位
+    boxOffice: 96282, // 以k为单位
     poster:
       "https://p0.meituan.net/movie/303c2e671cc4df875c151d688ecbd8962085989.jpg@464w_644h_1e_1c",
     score: 7.7,
@@ -146,7 +146,7 @@ export const movies = [
     types: ["喜剧", "动画", "冒险"],
     location: ["美国"],
     time: 96,
-    boxOffice: 96280, // 以k为单位
+    boxOffice: 96290, // 以k为单位
     poster:
       "https://p1.meituan.net/moviemachine/6fb1855f663f9856bfc47b7d013e0474651230.jpg@464w_644h_1e_1c",
     score: 9.1,
@@ -222,7 +222,7 @@ export const movies = [
   },
   {
     id: 7,
-    name: "哆啦A梦：大雄的新恐龙longlonglong",
+    name: "哆啦A梦：大雄的新恐龙",
     types: ["动画", "冒险", "剧情"],
     location: ["日本"],
     time: 111,

@@ -3,7 +3,7 @@
     <el-row id="carousel-row">
       <el-carousel :interval="4000" height="370px" id="movie-ad">
         <el-carousel-item v-for="url in carouselInfo" :key="url">
-          <img class="carousel-poster" alt="poster" :src="url"/>
+          <img class="carousel-poster" alt="poster" :src="url" />
         </el-carousel-item>
       </el-carousel>
     </el-row>
@@ -51,6 +51,45 @@
             </div>
           </div>
         </div>
+        <div id="incoming-movies">
+          <div id="incoming-movies-header">
+            <h2 class="module-header">{{ incomingMoviesTitle }}</h2>
+            <div class="hint-font" id="show-all-incoming-movies">查看全部</div>
+          </div>
+          <div id="incoming-movies-content">
+            <div
+              class="incoming-movie-item"
+              v-for="item in incomingMoviesInfo"
+              v-bind:key="item.id"
+            >
+              <div
+                class="incoming-movie-item-inner"
+                :class="{
+                  left: item.position % 3 == 0,
+                  middle: item.position % 3 == 1,
+                  right: item.position % 3 == 2,
+                }"
+              >
+                <img
+                  class="incoming-movie-poster"
+                  alt="poster"
+                  width="160px"
+                  height="220px"
+                  :src="item.poster"
+                />
+                <div class="incoming-movie-overlay"></div>
+                <div class="incoming-movie-info">
+                  <div class="incoming-movie-name">{{ item.name }}</div>
+                </div>
+                <div class="incoming-movie-buy">
+                  <el-button type="danger" round class="incoming-movie-buy-btn"
+                    >购票</el-button
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </el-col>
       <el-col :span="8">
         <div id="movie-rank">
@@ -60,7 +99,7 @@
           <div
             class="rank-item"
             :class="{ topItem: item.rank < 4 }"
-            v-for="item in rankList"
+            v-for="item in movieRankInfo"
             v-bind:key="item.id"
           >
             <div class="rank-item-inner" v-if="item.rank < 4">
@@ -72,7 +111,10 @@
                 height="65px"
                 src="https://p1.meituan.net/movie/80a0afab60ba5bc548a0c606635fef291479960.jpg@120w_80h_1e_1c"
               />
-              <span class="item-name top-item-name">{{ item.name }}</span>
+              <div class="item-name top-item-name">
+                <span>{{ item.name }}</span>
+                <span class="top-item-type">{{ item.types.join(" / ") }}</span>
+              </div>
               <span class="item-boxoffice hint-font"
                 >{{ item.boxOffice }}万</span
               >
@@ -101,69 +143,11 @@ export default {
       msg: "Home",
       carouselInfo: homeInfo.carouselInfo,
       currentMoviesInfo: homeInfo.currentMoviesInfo,
-      rankList: [
-        {
-          id: 0,
-          name: "如果声音不记得",
-          boxOffice: 576,
-          rank: 1,
-        },
-        {
-          id: 1,
-          name: "如果声音不记得",
-          boxOffice: 576,
-          rank: 2,
-        },
-        {
-          id: 2,
-          name: "如果声音不记得",
-          boxOffice: 576,
-          rank: 3,
-        },
-        {
-          id: 3,
-          name: "到了30岁还是处男，似乎会变成魔法师",
-          boxOffice: 576,
-          rank: 4,
-        },
-        {
-          id: 4,
-          name: "如果声音不记得",
-          boxOffice: 576,
-          rank: 5,
-        },
-        {
-          id: 5,
-          name: "疯狂原始人2",
-          boxOffice: 576,
-          rank: 6,
-        },
-        {
-          id: 6,
-          name: "疯狂原始人2",
-          boxOffice: 576,
-          rank: 7,
-        },
-        {
-          id: 7,
-          name: "疯狂原始人2",
-          boxOffice: 576,
-          rank: 8,
-        },
-        {
-          id: 8,
-          name: "疯狂原始人2",
-          boxOffice: 576,
-          rank: 9,
-        },
-        {
-          id: 9,
-          name: "疯狂原始人2",
-          boxOffice: 576,
-          rank: 10,
-        },
-      ],
+      incomingMoviesInfo: homeInfo.incomingMoviesInfo,
+      movieRankInfo: homeInfo.movieRankInfo,
+
       currentMoviesTitle: "正在热映",
+      incomingMoviesTitle: "即将上映",
       movieRankTitle: "票房排行",
     };
   },
@@ -218,17 +202,20 @@ export default {
   background-color: #d3dce6;
 }
 
-/* current-movies module */
-#current-movies {
-  height: 800px;
+/* current-movies module & incoming-movies module*/
+#current-movies,
+#incoming-movies {
+  height: auto;
   display: flex;
   flex-direction: column;
 
   padding-right: 100px;
+  margin-bottom: 50px;
 }
 
 #current-movies-header,
-#movie-rank-header {
+#movie-rank-header,
+#incoming-movies-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -238,17 +225,20 @@ export default {
   width: 100%;
 }
 
-#show-all-movies {
+#show-all-movies,
+#show-all-incoming-movies {
   padding: 0;
   margin: 10px 0; /* For alignment purpose */
   cursor: pointer;
 }
 
-#show-all-movies:hover {
+#show-all-movies:hover,
+#show-all-incoming-movies:hover {
   text-decoration: orangered underline;
 }
 
-#current-movies-content {
+#current-movies-content,
+#incoming-movies-content {
   width: 100%;
   height: auto;
   padding-top: 15px;
@@ -258,7 +248,8 @@ export default {
   flex-wrap: wrap;
 }
 
-.current-movie-item {
+.current-movie-item,
+.incoming-movie-item {
   width: 33.3%;
   height: 220px;
   margin-bottom: 25px;
@@ -266,37 +257,45 @@ export default {
   display: flex;
 }
 
-.current-movie-item-inner {
+.current-movie-item-inner,
+.incoming-movie-item-inner {
   position: absolute;
   width: 160px;
   height: 100%;
 }
 
-.current-movie-item > .left {
+.current-movie-item > .left,
+.incoming-movie-item > .left {
   left: 0;
 }
 
-.current-movie-item > .middle {
+.current-movie-item > .middle,
+.incoming-movie-item > .middle {
   left: calc(calc(100% - 160px) / 2);
 }
 
-.current-movie-item > .right {
+.current-movie-item > .right,
+.incoming-movie-item > .right {
   right: 0;
 }
 
 .current-movie-poster,
-.current-movie-overlay {
+.current-movie-overlay,
+.incoming-movie-poster,
+.incoming-movie-overlay {
   position: absolute;
   width: 100%;
   height: 100%;
 }
 
-.current-movie-overlay {
+.current-movie-overlay,
+.incoming-movie-overlay {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAABQCAMAAACpg44GAAAAbFBMVEUiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiK2HsfSAAAAJHRSTlPMxr63q6OahzclHRULBgHCsZOOf3p1cGtmYVxXUk1IQz4wLBAszz8hAAAAhklEQVRo3u3OxY0DAAADsBxDmZn337FTVPIjnsAZ4/zgCOcHhzg/+MBlgPOD/zg/+Ifzg3dcbrj84vzgFZcLLmdcTrgccTngssdlh8sWlw0ua1xWuCxxWeDyg/ODc1xmuHzj/OAXzg9+4vzgFJcPnB98x/nBCS5vOD9YVVVVVVVVVVVVr/IEUdzLcLhtP2AAAAAASUVORK5CYII=)
     repeat-x bottom;
 }
 
-.current-movie-info {
+.current-movie-info,
+.incoming-movie-info {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -308,7 +307,8 @@ export default {
   justify-content: space-between;
 }
 
-.current-movie-name {
+.current-movie-name,
+.incoming-movie-name {
   color: #fff;
   padding-bottom: 6px;
   font-size: 16px;
@@ -320,7 +320,8 @@ export default {
   font-style: italic;
 }
 
-.current-movie-buy {
+.current-movie-buy,
+.incoming-movie-buy {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -334,11 +335,13 @@ export default {
   align-items: center;
 }
 
-.current-movie-buy-btn {
+.current-movie-buy-btn,
+.incoming-movie-buy-btn {
   background-color: orangered;
 }
 
-.current-movie-item-inner:hover > .current-movie-buy {
+.current-movie-item-inner:hover > .current-movie-buy,
+.incoming-movie-item-inner:hover > .incoming-movie-buy {
   visibility: visible;
   background-color: rgba(0, 0, 0, 0.192);
   cursor: pointer;
@@ -384,7 +387,7 @@ export default {
 }
 
 .item-name {
-  width: 250px;
+  width: 230px;
   display: inline-block;
 
   font-size: 18px;
@@ -392,11 +395,22 @@ export default {
 }
 
 .top-item-name {
-  width: 140px;
+  width: 130px;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-item-type {
+  font-size: 14px;
+  color: #99a9bf;
+  margin-top: 10px;
 }
 
 .item-boxoffice {
   display: inline-block;
   line-height: 20px;
+  width: 20%;
+
 }
 </style>
