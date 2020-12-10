@@ -4,17 +4,17 @@
       <div class="detail-bg" :data-bg="movie.poster" style="opacity: 0.4;">
         <img :src="movie.poster" />
       </div>
-      <el-row class="movie-content">
-        <el-col :span="7" id="movie-poster">
+      <el-row class="movie-content" v-if="isDisplay">
+        <el-col :span="6" id="movie-poster">
           <el-image
             style="width: 230px; height: 300px"
             :src="movie.poster"
             fit="contain"
           ></el-image>
         </el-col>
-        <el-col :span="17" id="movie-detail">
+        <el-col :span="18" id="movie-detail">
           <el-row style="height: 100%">
-            <el-col :span="16" class="movie-info">
+            <el-col :span="18" class="movie-info">
               <div class="title">{{ movie.name }}</div>
               <div class="detail">
                 <div>导演：{{ movie.director.join("、") }}</div>
@@ -34,7 +34,7 @@
                 </div>
                 <div>时长：{{ movie.time }}分钟</div>
                 <div class="movie-description">
-                  <div :class="descriptionClose ? 'close' : 'open'">
+                  <div :class="isExpand ? 'close' : 'open'">
                     简介：{{
                       isExpand
                         ? movie.description
@@ -42,12 +42,13 @@
                     }}
                   </div>
                   <span
+                    class="description-expand"
                     @click="
                       () => {
                         isExpand = !isExpand;
                       }
                     "
-                    >展开>>></span
+                    >{{ isExpand ? "收起" : "展开" }}>>></span
                   >
                 </div>
               </div>
@@ -55,28 +56,65 @@
 
             <el-col
               :offset="1"
-              :span="7"
+              :span="5"
               style="height: 100%; position: relative"
             >
+              <div
+                @click="
+                  () => {
+                    isDisplay = !isDisplay;
+                  }
+                "
+              >
+                切换电影
+              </div>
               <div class="movie-statics">
-                <div class="movie-static">
-                  <div class="static-info">
-                    <span class="number">{{ movie.like }}</span>
-                    <span class="tip">人想看</span>
-                    <el-button type="primary" icon="el-icon-view" plain circle></el-button>
-                    <!-- <el-button type="primary" icon="el-icon-edit" circle></el-button> -->
-                  </div>
-                  <div class="static-info">
-                    <span class="number">{{ movie.score }}</span>
-                    <span class="tip">分</span>
-                    <el-rate v-model="value2" :colors="colors"> </el-rate>
-                  </div>
+                <div class="static-info">
+                  <span class="number">{{ movie.like }}</span>
+                  <span class="tip">人想看</span>
+                  <el-button
+                    circle
+                    plain
+                    size="mini"
+                    @click="
+                      () => {
+                        movie.like = movie.like + (isLike ? -1 : +1);
+                        isLike = !isLike;
+                      }
+                    "
+                    ><icon-base
+                      icon-name="like"
+                      width="18"
+                      height="18"
+                      :iconColor="isLike ? '#f82f15' : '#bfbfbf'"
+                      ><icon-heart /></icon-base
+                  ></el-button>
+                </div>
+                <div class="static-info">
+                  <span class="number">{{ movie.score }}</span>
+                  <span class="tip">分</span>
+                  <el-rate v-model="value2" :colors="colors"> </el-rate>
                 </div>
               </div>
             </el-col>
           </el-row>
         </el-col>
       </el-row>
+      <div v-else class="choose">
+        <div class="choose-wrap">
+          <div class="choose-content">
+            <ul class="movie-list">
+              <li v-for="movie in movieList" :key="movie.id">
+                <el-image
+                  style="width: 180px; height: 240px"
+                  :src="movie.poster"
+                  fit="fill"
+                ></el-image>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="schedual">
       <div class="schedual-title">选座购票</div>
@@ -137,19 +175,25 @@
 </template>
 
 <script>
-import { movies as movieList} from "@/lib/movieList";
-// import {movies} from "@/lib/movieList";
+import { movies as movieList } from "@/lib/movieList";
 import schedualList from "@/lib/schedualList";
+
+import IconBase from "@/components/Icon/IconBase.vue";
+import IconHeart from "@/components/Icon/IconHeart.vue";
+import SimpleMovieCard from "@/components/SimpleMovieCard.vue";
+
 export default {
+  components: { IconBase, IconHeart, SimpleMovieCard },
   name: "MovieDetail",
   data() {
-    const movie = movieList[1];
+    const movie = movieList[5];
     const detailStyle = "background-image: url('" + movie.poster + "'); ";
     return {
       movieList,
       movie,
       detailStyle,
       originScheList: schedualList,
+      schedualList: [],
       chosenDate: "",
       chosenSchedual: [],
       tableStyle: {
@@ -158,7 +202,9 @@ export default {
         "font-size": "15px"
       },
       isExpand: false,
-      value2: null,
+      isLike: false,
+      isDisplay: true,
+      value2: 4,
       colors: ["#99A9BF", "#F7BA2A", "#FF9900"] // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
     };
   },
@@ -238,6 +284,7 @@ export default {
 <style scoped>
 .detail-wrap {
   width: 100%;
+  /* margin: 0 -108px; */
   height: auto;
   position: relative;
   background: #42383d;
@@ -288,6 +335,11 @@ export default {
   color: #fff;
 }
 
+#movie-detail .movie-info {
+  height: 100%;
+  overflow: auto;
+}
+
 #movie-detail .movie-info .title {
   font-size: 26px;
   margin-bottom: 20px;
@@ -295,35 +347,70 @@ export default {
 
 #movie-detail .movie-info .detail {
   font-size: 12px;
-  line-height: 20px;
+  line-height: 23px;
 }
 
-.movie-description .close {
-  display: -webkit-inline-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+.movie-description .description-expand {
+  cursor: pointer;
+  color: #eb002a;
+}
+.movie-description .description-expand:hover {
+  cursor: pointer;
+  color: #eb002a;
 }
 
 .movie-statics {
   position: absolute;
   bottom: 50px;
 }
-.movie-statics .movie-static .static-info {
+.movie-statics .static-info {
   margin-bottom: 10px;
-  /* display: inline-block; */
 }
 
-.movie-static .static-info .number {
+.movie-statics .static-info .number {
   color: #ffb400;
   font-size: 30px;
 }
-.movie-static .static-info .tip {
+.movie-statics .static-info .tip {
   color: #fff;
   font-size: 12px;
 }
-.wannnaSee{
-  margin-left: 10px;
+
+.choose {
+  height: 400px;
+  position: relative;
+}
+
+.choose .choose-wrap {
+  width: 864px;
+  min-width: 864px;
+  margin: 0 auto;
+  position: relative;
+  top: 80px;
+}
+
+.choose .choose-wrap .choose-content {
+  width: 100%;
+  overflow: hidden;
+  font-size: 0;
+}
+
+.movie-list {
+  display: block;
+  width: auto;
+  height: 240px;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-left: -48px;
+}
+.movie-list li {
+  display: inline-block;
+  zoom: 1;
+  margin-right: 48px;
+  width: 180px;
+  height: 240px;
+  overflow: hidden;
+  position: relative;
 }
 
 .schedual {
