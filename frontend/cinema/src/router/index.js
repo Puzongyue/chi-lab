@@ -4,6 +4,7 @@ import Home from '@/pages/Home'
 import SearchResult from '@/pages/SearchResult'
 import MovieDetail from '@/pages/MovieDetail'
 import MovieList from '@/pages/MovieList'
+import TicketPurchase from '@/pages/TicketPurchase'
 import Test from '@/pages/Test'
 
 Vue.use(Router)
@@ -31,6 +32,12 @@ export default new Router({
       component: MovieList
     },
     {
+      path: '/purchase',
+      name: 'TicketPurchase',
+      component: TicketPurchase
+    },
+    {
+      name: 'Test',
       path: '/test',
       component : Test
     }
