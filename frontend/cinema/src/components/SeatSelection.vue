@@ -2,7 +2,7 @@
   <div class="main">
     <el-card>
       <el-row>
-        <el-col :offset="2" :span="13" class="seat">
+        <el-col :offset="3" :span="13" class="seat">
           <div class="seat-tip">
             <div class="seat-tip-item">
               <icon-base icon-name="empty-seat" width="28" height="28">
@@ -25,24 +25,82 @@
           </div>
           <div class="screen-center">银幕中央</div>
           <div class="seats">
-              <div class="row" v-for="r in row" :key="r">
+              <div class="row" v-for="r in hall.row" :key="r">
                 <span class="row-id">{{ r }}</span>
                 <div class="seats-container" :style="dynamicPadding">
-                  <span class="single-seat" :style="dynamicWidth" v-for="c in column" :key="c">
-                  <icon-base icon-name="empty-seat" width="28" height="28">
+                  <span class="single-seat" :style="dynamicWidth" v-for="c in hall.column" :key="c" @click="chooseSeat(r, c)">
+                  <icon-base width="28" height="28">
                     <icon-sold-seat v-if="isInSoldSeats(r, c)" />
-                    <!-- <icon-chosen-seat v-else-if="chosenSeats[r][c] === 1"/> -->
-                    <icon-empty-seat v-else @click="choseSeat(r, c)"/>
+                    <icon-chosen-seat v-else-if="chosenSeats[r - 1][c - 1] === 1"/>
+                    <icon-empty-seat v-else />
                   </icon-base>
                   </span>
                 </div>
               </div>
           </div>
         </el-col>
-        <el-col :span="8" class="info">
-          <div class="movie-info"></div>
-          <div class="seat-info"></div>
-          <button class="confirm">确认选座</button>
+        <el-col :span="8">
+          <div class="movie-info">
+            <div class="movie">
+              <div class="poster">
+                <img :src="movie.poster" alt="">
+              </div>
+              <div class="title-and-description">
+                <p class="title">{{ movie.name }}</p>
+                <div class="info-item">
+                  <span>类型：</span>
+                  <span class="value">{{ movie.types.join(" / ") }}</span>
+                </div>
+                <div class="info-item">
+                  <span>时长：</span>
+                  <span class="value">{{ movie.time }}分钟</span>
+                </div>
+              </div>
+            </div>
+            <div class="location">
+              <div class="info-item">
+                <span>影院：</span>
+                <span class="value">NJU-SE</span>
+              </div>
+              <div class="info-item">
+                <span>影厅：</span>
+                <span class="value">{{ hall.name }}</span>
+              </div>
+              <div class="info-item">
+                <span>版本：</span>
+                <span class="value">{{ schedule.version }}</span>
+              </div>
+              <div class="info-item">
+                <span>场次：</span>
+                <span class="value time">{{ formattedDate }}</span>
+              </div>
+              <div class="info-item">
+                <span>票价：</span>
+                <span class="value">{{ schedule.price }}/张</span>
+              </div>
+            </div>
+            <div class="ticket-info">
+              <div class="no-ticket" v-if="chosenSeatsCompressed.length === 0">
+                <p>座位：一次最多选4个座位</p>
+                <p>请<span>点击左侧</span>座位图选择座位</p>
+              </div>
+              <div class="has-ticket" v-else>
+                <span class="text">座位：</span>
+                <div class="chosen-seats">
+                  <span class="ticket" v-for="(seat, index) in chosenSeatsCompressed" :key="index">{{ seat[0] }}排{{ seat[1] }}座</span>
+                </div>
+              </div>
+              <div class="total-price">
+                <span>总价：
+                  <span class="price">￥{{ totalPrice }}</span>
+                </span>
+              </div>
+            </div>
+            <div class="confirm">
+            <el-button type="primary" @click="confirm" :disabled="chosenSeatsCompressed.length === 0">确认选座</el-button>
+            </div>
+          </div>
+          
         </el-col>
       </el-row>
     </el-card>
@@ -59,7 +117,7 @@ export default {
 
   components: { IconBase, IconEmptySeat, IconSoldSeat, IconChosenSeat },
 
-  props: ["row", "column", "soldSeats"],
+  props: ["soldSeats", "movie", "scheduleInfo"],
 
   computed: {
     dynamicWidth: function() {
@@ -85,24 +143,44 @@ export default {
       }
 
       return style;
+    },
+
+    formattedDate: function() {
+      let t = this.schedule.startTime.toTimeString().split(":"),
+          d = this.schedule.startTime.toLocaleDateString().split("/");
+
+      t.length = 2;
+      t = t.join(":");
+      d = d[0] + "年" + d[1] + "月" + d[2] + "日";
+
+      return d + " " + t;
     }
   },
 
   data() {
     return {
-      color: "#d81e06",
-      chosenSeats: [[]]
+      chosenSeats: [[]],
+      chosenSeatsCompressed: [],
+      row: 9,
+      column: 18,
+      hall: {
+        name: "1号厅",
+        row: 9,
+        column: 18
+      },
+      schedule: {
+        version: "国语2D",
+        startTime: new Date(),
+        price: 34.5
+      },
+      totalPrice: 0
     };
   },
 
   created() {
     this.chosenSeats = new Array(this.row);
 
-    console.log(this.chosenSeats);
-
     for (let i = 0; i < this.row; i++) this.chosenSeats[i] = new Array(this.column).fill(0);
-
-    console.log(this.chosenSeats);
   },
 
   methods: {
@@ -110,8 +188,40 @@ export default {
       return this.soldSeats.some(item => item[0] === r && item[1] === c);
     },
 
-    choseSeat(r, c) {
-      this.chosenSeats[r][c] = 1;
+    chooseSeat(r, c) {
+      let tmp = this.chosenSeats[r - 1];
+      if (tmp[c - 1] === 1) {
+        this.cancelSeat(r, c);
+        tmp[c - 1] = 0;
+      }
+      else {
+        if(this.chosenSeatsCompressed.length >= 4) {
+          this.openMsgBox();
+          return;
+        }
+
+        tmp[c - 1] = 1;
+        this.chosenSeatsCompressed.push([r, c]);
+        this.totalPrice += this.schedule.price;
+      }
+
+      this.$set(this.chosenSeats, r - 1, tmp);
+    },
+
+    cancelSeat(r, c) {
+      this.chosenSeatsCompressed = this.chosenSeatsCompressed.filter(item => item[0] !== r || item[1] !== c);
+      this.totalPrice -= this.schedule.price;
+    },
+
+    openMsgBox() {
+      this.$alert('一次最多购买4张票', '提醒', {
+        confirmButtonText: '我知道了'
+      });
+    },
+
+    confirm() {
+      console.log("confirm");
+      this.$emit("confirm", this.chosenSeatsCompressed);
     }
   }
 };
@@ -169,7 +279,126 @@ export default {
   display: inline-block;
 }
 
-.main .info {
-  background-color: bisque;
+.main .movie-info {
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+.main .movie-info .movie .poster {
+  display: inline-block;
+  width: 115px;
+  height: 158px;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 7px 0 hsla(0,0%,53%,.5);
+}
+
+.main .movie-info .movie .poster img {
+  width: 100%;
+  height: 100%;
+}
+
+.main .movie-info .movie .title-and-description {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 30px;
+}
+
+.main .movie-info .movie .title-and-description .title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 14px;
+}
+
+.main .movie-info .info-item {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 4px;
+
+}
+
+.main .movie-info .info-item .value {
+  color: #151515;
+  margin-left: 2px;
+}
+
+.main .movie-info .location {
+  margin-top: 20px;
+}
+
+.main .movie-info .location .info-item {
+  margin-bottom: 9px;
+}
+
+.main .movie-info .location .info-item .time {
+  color: #FF7B00;
+}
+
+.main .movie-info .location .info-item > span {
+  display: inline-block;
+  /* vertical-align: top; */
+  font-size: 14px;
+}
+
+.main .movie-info .ticket-info {
+  padding: 20px 0 10px;
+  border-top: 1px dashed #e5e5e5;
+  border-bottom: 1px dashed #e5e5e5;
+}
+
+.main .movie-info .ticket-info .no-ticket p:first-child {
+  font-size: 14px;
+  color: #999;
+  margin: 0;
+}
+
+.main .movie-info .ticket-info .no-ticket p:last-child {
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+  margin: 28px 0 39px;
+}
+
+.main .movie-info .ticket-info .no-ticket p:last-child span {
+  color: #FF7B00;
+}
+
+.main .movie-info .ticket-info .has-ticket .text {
+  font-size: 14px;
+  color: #999;
+}
+
+.main .movie-info .ticket-info .has-ticket .chosen-seats {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.main .movie-info .ticket-info .has-ticket .ticket {
+  cursor: default;
+  position: relative;
+  font-size: 12px;
+  color: #FF7B00;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  margin: 0 12px 10px 0;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAeCAYAAABwmH1PAAAAAXNSR0IArs4c6QAAAXlJREFUWAlj/Oho7cXAzLTg/89fogzDGDCys71m+PsvgeGji+2r38eP/h/u4Pexo/9BfmUCxSyLhdUwjluI11gsrRhAfmUa9j5F8+Coh9ECZNhxR2N42EUpmodGZgx/TYz9+nvzhn9ogTEsuUysDGxS/548jP4+qe/0l6zUL//fvh2WHoV5ihHGALa0GD872rQxamrm8EybzQMTH070RzsLBngeZmRk/M+7/0jVv9s3rw7n5A33MCgmQZ4GRnn7r3Vrvw+nmEX2C4qHQRLMPxlO/X38kA1Z0XBiY3h4OHkOm18wPPyXncGMWVb+FzbFw0EMxcOgkvo/A0MlW1Aw53DwHDY/wD0Mq5aYVNW1WX0D4OLYNA1lMZavtraSoGT8ydWukklTU5u7uWNY1sGwSGL5zfDrGYuM6ldQMh7OMQv3MIjBPX8xN0xguNPDNq/iirhRD+MKmeEiPhrDwyUmcflj5MUwaM7lz/FjuAJk2IiD/AjyK+NIm0wDAACxUs8MaULTAAAAAElFTkSuQmCC) no-repeat;
+}
+
+
+.main .movie-info .ticket-info .total-price {
+  font-size: 14px;
+  color: #333;
+}
+
+.main .movie-info .ticket-info .total-price .price {
+  color: #FF7B00;
+  font-size: 24px;
+}
+.main .movie-info .confirm {
+  padding: 20px 0;
+  text-align: center;
 }
 </style>
