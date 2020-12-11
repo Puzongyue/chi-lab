@@ -21,7 +21,7 @@ export default new Router({
       component: SearchResult
     },
     {
-      path: '/movie',
+      path: '/movie/:id',
       name: 'MovieDetail',
       component: MovieDetail
     },
