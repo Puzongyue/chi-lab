@@ -9,7 +9,7 @@
       <div id="cinema-icon">SEC</div>
       <el-menu-item index="1" class="header-item">首页</el-menu-item>
       <el-menu-item index="2" class="header-item">电影</el-menu-item>
-      <el-menu-item index="3" class="header-item">咨询</el-menu-item>
+      <el-menu-item index="3" class="header-item">资讯</el-menu-item>
       <el-menu-item index="4" class="header-item">周边</el-menu-item>
 
       <div id="search-bar">
