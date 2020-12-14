@@ -83,7 +83,7 @@
                 </div>
                 <div class="incoming-movie-buy">
                   <el-button type="danger" round class="incoming-movie-buy-btn"
-                    >购票</el-button
+                    >预售</el-button
                   >
                 </div>
               </div>
