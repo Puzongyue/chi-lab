@@ -3,10 +3,15 @@
     :body-style="{ padding: '0px' }"
     class="main"
     >
-    <img
-      :src="movie.poster"
-      class="image"
-    />
+    <div class="poster">
+      <img
+        :src="movie.poster"
+        class="image"
+      />
+    </div>
+    <div class="movie-ver" v-if="movie.score === -1">
+      <a>预售</a>
+    </div>
     <div style="padding: 14px">
       <el-tooltip class="item" effect="dark" :content="movie.name" placement="top">
         <div class="name">{{ movie.name }}</div>
@@ -32,6 +37,23 @@ export default {
   position: relative;
   margin-bottom: 20px;
   /* height: 100px; */
+}
+
+.main .movie-ver {
+  position: absolute;
+  right: 5px;
+  bottom: 80px;
+  padding: 0 3px;
+  height: 18px;
+  line-height: 18px;
+  border-radius: 1px;
+  background-color: #12a2f1;
+}
+
+.main .movie-ver a{
+  color: #fff;
+  font-size: 12px;
+  vertical-align: top;
 }
 
 .main .image {

@@ -14,20 +14,24 @@
 
 <script>
 import SeatSelection from "@/components/SeatSelection.vue";
+import Payment from "@/components/Payment.vue";
 
 export default {
   name: "TicketPurchase",
 
-  components: { SeatSelection },
+  components: { SeatSelection, Payment },
 
   data() {
     return {
       activeStep: 0,
+      // TODO: 获取对应schedule信息
       scheduleId: 0,
+      // TODO: soldSeats的逻辑
       soldSeats: [
         [1, 1],
         [8, 7],
       ],
+      // TODO: 获取对应movie
       mockMovie: {
         id: 6,
         name: "野性的呼唤",
@@ -73,6 +77,7 @@ export default {
 
   methods: {
     confirmSeats(seats) {
+      this.activeStep = 1;
       console.log("seats: ", seats);
     }
   }

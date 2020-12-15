@@ -413,7 +413,7 @@ export function getCurrentMovies() {
   const today = new Date();
 
   movies.map((item) => {
-    if (item.startDay.getTime() < today.getTime()) ans.push(item);
+    if (item.score !== -1) ans.push(item);
   });
 
   moviesOnScreen = ans;
@@ -425,7 +425,7 @@ export function getFutureMovies() {
   const today = new Date();
 
   movies.map((item) => {
-    if (item.startDay.getTime() > today.getTime()) ans.push(item);
+    if (item.score === -1) ans.push(item);
   });
 
   moviesOnScreen = ans;

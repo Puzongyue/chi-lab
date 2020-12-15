@@ -52,7 +52,7 @@ export default {
 
 .main .search-bar {
   height: 20vh;
-  background-color:#ffb400;
+  background-color:#47464a;
 	opacity: 0.7;
 	position: relative;
 }

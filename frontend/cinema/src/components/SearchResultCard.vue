@@ -2,9 +2,12 @@
   <el-card class="el-card" shadow="hover">
     <el-row class="card">
       <!-- <div class="card"> -->
-      <el-col :span="9" :offset="3">
+      <el-col :span="9" :offset="3" class="movie-poster-and-tip">
         <div class="movie-poster" @click="jumpToMovieDetail">
           <img :src="this.movie.poster" />
+        </div>
+        <div class="movie-ver" v-if="this.movie.score === -1">
+          <a>预售</a>
         </div>
       </el-col>
       <el-col :span="10" :offset="2">
@@ -25,6 +28,9 @@
           <div class="movie-start-date">
             {{ this.movie.startDay.toISOString().substring(0, 10) }}上映
           </div>
+        </div>
+        <div class="buy">
+          <el-button type="primary">购票</el-button>
         </div>
       </el-col>
       <!-- </div> -->
@@ -52,6 +58,27 @@ export default {
 }
 .card {
   position: relative;
+}
+
+.card .movie-poster-and-tip {
+  position: relative;
+}
+
+.card .movie-poster-and-tip .movie-ver {
+  position: absolute;
+  right: 50px;
+  bottom: 5px;
+  padding: 0 3px;
+  height: 18px;
+  line-height: 18px;
+  border-radius: 1px;
+  background-color: #12a2f1;
+}
+
+.card .movie-poster-and-tip .movie-ver a{
+  color: #fff;
+  font-size: 12px;
+  vertical-align: top;
 }
 
 .card .movie-poster {
@@ -131,5 +158,9 @@ export default {
   margin-bottom: -1px;
   margin-top: 5px;
   font-size: 16px;
+}
+
+.card .buy {
+  margin-top: 15px;
 }
 </style>
