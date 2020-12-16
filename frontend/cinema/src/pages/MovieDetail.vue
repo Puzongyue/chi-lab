@@ -31,7 +31,7 @@
                 <div>
                   主演：{{
                     movie.stars
-                      .map((star) => star.star + "（ 饰" + star.role + " ）")
+                      .map(star => star.star + "（ 饰" + star.role + " ）")
                       .join("、")
                   }}
                 </div>
@@ -170,9 +170,15 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="language" label="语言版本"> </el-table-column>
-          <el-table-column prop="theater" label="放映厅"> </el-table-column>
-          <el-table-column prop="prize" label="售价（元）"> </el-table-column>
+          <el-table-column prop="language" label="语言版本" />
+          <el-table-column label="放映厅">
+            <template slot-scope="scope">
+              <div class="hall">
+               {{hallList.find(hall => hall.id === scope.row.hallId).name}}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="prize" label="售价（元）" />
           <el-table-column label="选座购票"
             ><template slot-scope="scope">
               <el-button
@@ -195,6 +201,7 @@
 import { movies as movieList } from "@/lib/movieList";
 import { likeMovie } from "@/lib/movieList";
 import schedualList from "@/lib/schedualList";
+import hallList from "@/lib/hallList";
 
 import IconBase from "@/components/Icon/IconBase.vue";
 import IconHeart from "@/components/Icon/IconHeart.vue";
@@ -205,9 +212,11 @@ export default {
   name: "MovieDetail",
   data() {
     const id = this.$route.params.id;
+    console.log(hallList)
     return {
       id,
       movieList,
+      hallList,
       originScheList: schedualList,
       schedualList: [],
       chosenDate: "",
@@ -215,7 +224,7 @@ export default {
       tableStyle: {
         "text-align": "center",
         color: "#333",
-        "font-size": "15px",
+        "font-size": "15px"
       },
       isExpand: false,
       isDisplay: true,
@@ -226,8 +235,8 @@ export default {
         spaceBetween: 14,
         initialSlide: id,
         centeredSlides: true,
-        preventClicks: false,
-      },
+        preventClicks: false
+      }
     };
   },
   computed: {
@@ -238,9 +247,9 @@ export default {
       return (
         "background-image: url('" + this.movieList[this.id].poster + "'); "
       );
-    },
+    }
   },
-  mounted: function () {
+  mounted: function() {
     this.schedualList = this.getScheList();
     this.chosenDate = this.schedualList[0].date;
     this.chosenSchedual = this.schedualList[0].schedual;
@@ -257,19 +266,19 @@ export default {
     next();
   },
   methods: {
-    getScheList: function () {
+    getScheList: function() {
       const curDate = new Date();
       const resMap = new Map();
 
-      this.originScheList.forEach((schedual) => {
+      this.originScheList.forEach(schedual => {
         const scheDate = new Date(schedual.startTime).toLocaleDateString();
         if (schedual.startTime > curDate) {
           const sche = {
             ...schedual,
             time: {
               start: schedual.startTime,
-              end: schedual.endTime,
-            },
+              end: schedual.endTime
+            }
           };
           if (resMap.get(scheDate) !== undefined) {
             resMap.get(scheDate).push(sche);
@@ -294,7 +303,7 @@ export default {
             : `周${weekMap[new Date(value[0].startTime).getDay()]}`;
         list.push({
           date: date + "  " + key.replaceAll("/", "-").substring(5),
-          schedual: value,
+          schedual: value
         });
       });
 
@@ -305,19 +314,19 @@ export default {
       if (!list[0].date.includes("今")) {
         list.splice(0, 1, {
           date: curDate.toLocaleDateString().replaceAll("/", "-"),
-          schedual: [],
+          schedual: []
         });
       }
       this.chosenDate = schedualList[0].date;
       console.log(list);
       return list;
     },
-    dateChange: function (curChosen) {
+    dateChange: function(curChosen) {
       this.chosenSchedual = this.schedualList.find(
-        (v) => v.date === this.chosenDate
+        v => v.date === this.chosenDate
       ).schedual;
     },
-    buyTicket: function (id) {
+    buyTicket: function(id) {
       console.log("schedual id", id);
     },
     slideNext() {
@@ -329,8 +338,8 @@ export default {
     },
     handleLike() {
       likeMovie(this.id);
-    },
-  },
+    }
+  }
 };
 </script>
 
