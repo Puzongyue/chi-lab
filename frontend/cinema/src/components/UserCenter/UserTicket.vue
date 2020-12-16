@@ -1,20 +1,23 @@
 <template>
-    <div class="user-ticket">
-        Ticket List
-    </div>
+  <div class="user-ticket">
+      <TicketOrderCard />
+  </div>
 </template>
 
 <script>
+import TicketOrderCard from "../TicketOrderCard";
 export default {
-    name: "UserTicket",
-    data(){
-        return {}
-    }
-}
+  name: "UserTicket",
+  components: {
+    TicketOrderCard
+  },
+  data() {
+    return {};
+  }
+};
 </script>
 
 <style scoped>
-.user-ticket{
-    
+.user-ticket {
 }
 </style>
