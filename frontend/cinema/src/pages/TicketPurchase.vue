@@ -8,7 +8,8 @@
       </el-steps>
     </div>
 
-    <seat-selection :hallId="0" :soldSeats="soldSeats" :movie="mockMovie" @confirm="confirmSeats"></seat-selection>
+    <seat-selection v-if="activeStep === 0" :hallId="0" :soldSeats="soldSeats" :movie="mockMovie" @confirm="confirmSeats"></seat-selection>
+    <payment v-else-if="activeStep === 1"></payment>
   </div>
 </template>
 
@@ -19,11 +20,11 @@ import Payment from "@/components/Payment.vue";
 export default {
   name: "TicketPurchase",
 
-  components: { SeatSelection, Payment },
+  components: { SeatSelection, Payment},
 
   data() {
     return {
-      activeStep: 0,
+      activeStep: 1,
       // TODO: 获取对应schedule信息
       scheduleId: 0,
       // TODO: soldSeats的逻辑
