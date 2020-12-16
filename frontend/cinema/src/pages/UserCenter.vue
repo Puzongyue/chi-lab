@@ -9,36 +9,10 @@
           router
           @select="handleSelect"
         >
-          <el-submenu index="1">
-            <template slot="title"
-              ><i class="el-icon-menu"></i>我的订单</template
-            >
-            <el-menu-item
-              index="2-3"
-              :route="{
-                path: '/usercenter/orders',
-                query: { status: 'unpaid' }
-              }"
-              >待支付</el-menu-item
-            >
-
-            <el-menu-item
-              index="2-1"
-              :route="{
-                path: '/usercenter/orders',
-                query: { status: 'unused' }
-              }"
-              >待使用</el-menu-item
-            >
-            <el-menu-item
-              index="2-2"
-              :route="{
-                path: '/usercenter/orders',
-                query: { status: 'finished' }
-              }"
-              >已完成</el-menu-item
-            >
-          </el-submenu>
+          <el-menu-item index="1" :route="{ path: '/usercenter/orders' }">
+            <i class="el-icon-menu"></i>
+            <span slot="title">我的电影票</span>
+          </el-menu-item>
           <el-menu-item index="2" :route="{ path: '/usercenter' }">
             <i class="el-icon-setting"></i>
             <span slot="title">基本信息</span>
@@ -63,6 +37,7 @@ export default {
   },
   methods: {
     handleSelect(index, indexPath) {
+      console.log("select", typeof index, indexPath);
       this.title = index === "2" ? "基本信息" : "我的电影票";
     }
   }
