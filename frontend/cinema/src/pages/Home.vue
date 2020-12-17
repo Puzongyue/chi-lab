@@ -78,6 +78,7 @@
               class="incoming-movie-item"
               v-for="item in incomingMoviesInfo"
               v-bind:key="item.id"
+              @click="gotoMovie(item.id)"
             >
               <div
                 class="incoming-movie-item-inner"

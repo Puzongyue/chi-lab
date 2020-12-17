@@ -15,10 +15,10 @@
           id="icon-pic"
         />
       </div>
-      <el-menu-item index="1" class="header-item" :route="{ path: '/' }"
+      <el-menu-item index="/" class="header-item" :route="{ path: '/' }"
         >首页</el-menu-item
       >
-      <el-menu-item index="2" class="header-item" :route="{ path: '/list' }"
+      <el-menu-item index="/list" class="header-item" :route="{ path: '/list' }"
         >电影</el-menu-item
       >
       <el-menu-item index="3" class="header-item">资讯</el-menu-item>
@@ -59,7 +59,7 @@ export default {
   name: "Header",
   data() {
     return {
-      activeIndex: "1",
+      activeIndex: "/",
       circleUrl:
         "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
       keyword: "",
@@ -80,10 +80,10 @@ export default {
     },
   },
   watch: {
-    activeIndex() {
-      console.log("trigger watch");
-      this.$refs.menu.activeIndex = this.activeIndex;
-      console.log(this.$refs.menu.activeIndex);
+    $route() {
+      if(this.$route.path.includes("/movie")) {
+        this.$refs.menu.activeIndex = "/list";
+      }
     },
   },
 };
