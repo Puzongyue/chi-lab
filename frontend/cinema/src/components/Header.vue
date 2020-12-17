@@ -44,8 +44,8 @@
             ></i>
           </div>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>基本信息</el-dropdown-item>
-            <el-dropdown-item>我的订单</el-dropdown-item>
+            <el-dropdown-item command="0">基本信息</el-dropdown-item>
+            <el-dropdown-item command="1">我的订单</el-dropdown-item>
             <el-dropdown-item>登出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -73,16 +73,27 @@ export default {
       this.movies = getMoviesByKeyword(this.keyword);
       keyPath = [];
     },
-    gotoUserCenter() {
-      this.activeIndex = "4";
-      console.log(this.$refs.menu.activeIndex);
-      this.$router.push("/usercenter");
+    gotoUserCenter(command) {
+      if (command == "0") {
+        this.$router.push("/usercenter");
+      } else if (command == "1") {
+        this.$router.push("/usercenter/orders?status=unpaid");
+      }
     },
   },
   watch: {
     $route() {
-      if(this.$route.path.includes("/movie")) {
+      let currentPath = this.$route.path;
+      if (
+        currentPath.includes("/movie") ||
+        currentPath.includes("/list") ||
+        currentPath.includes("/search")
+      ) {
         this.$refs.menu.activeIndex = "/list";
+      } else if (currentPath == "/") {
+        this.$refs.menu.activeIndex = "/";
+      } else if (currentPath.includes("/usercenter")) {
+        this.$refs.menu.activeIndex = "";
       }
     },
   },
