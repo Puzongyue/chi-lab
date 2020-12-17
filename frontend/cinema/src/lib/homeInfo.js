@@ -2,10 +2,16 @@ import { sort } from "semver";
 import { movies } from "../lib/movieList";
 // import movies from "../lib/movieList";
 
-let carouselInfo = [
-    "https://www.qfaxing.cn/upload/20201121/74b807b455dd63e9ad15a279242e7a4d.jpg",
-    "http://p1.meituan.net/movie/3b8dfbb74191487d65ec272d15561626532684.jpg"
-]
+let test = [
+    {
+        poster : "https://www.qfaxing.cn/upload/20201121/74b807b455dd63e9ad15a279242e7a4d.jpg",
+        id: 9
+    },
+    {
+        poster: "http://p1.meituan.net/movie/3b8dfbb74191487d65ec272d15561626532684.jpg",
+        id: 1
+    }
+];
 
 let currentMovies = [];
 let incomingMovies = [];
@@ -65,10 +71,10 @@ currentMovies.forEach(item => {
 });
 
 let homeInfo = {
-    "currentMoviesInfo": currentMoviesInfo,
-    "carouselInfo": carouselInfo,
-    "incomingMoviesInfo": incomingMoviesInfo,
-    "movieRankInfo": movieRankInfo
+    currentMoviesInfo: currentMoviesInfo,
+    incomingMoviesInfo: incomingMoviesInfo,
+    movieRankInfo: movieRankInfo,
+    test: test
 }
 
 export default homeInfo;
