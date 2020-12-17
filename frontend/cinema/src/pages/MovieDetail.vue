@@ -440,6 +440,7 @@ export default {
 .choose {
   height: 400px;
   position: relative;
+  cursor: pointer;
 }
 
 .choose .choose-content {
@@ -462,6 +463,10 @@ export default {
   right: 150px;
 }
 
+
+.movie-content .go{
+  cursor: pointer;
+}
 .choose .back,
 .movie-content .go {
   position: absolute;
