@@ -94,3 +94,10 @@ export const orders = [
     status: 0
   }
 ];
+
+
+export const Status = {
+  "unpaid": 0,
+  "unused": 1,
+  "finished": 3,
+}

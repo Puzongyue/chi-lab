@@ -317,7 +317,6 @@ export default {
         });
       }
       this.chosenDate = schedualList[0].date;
-      console.log(list);
       return list;
     },
     dateChange: function(curChosen) {
@@ -326,7 +325,7 @@ export default {
       ).schedual;
     },
     buyTicket: function(id) {
-      console.log("schedual id", id);
+      this.$router.push({path: "/purchase", query:{id: id}})
     },
     slideNext() {
       // this.swiper.slideNext();

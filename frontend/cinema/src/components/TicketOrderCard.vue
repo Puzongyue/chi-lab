@@ -15,10 +15,10 @@
             ></el-image>
           </div>
           <div class="schedual-detail">
-            <div class="movie-name">《少女佳禾》</div>
-            <div class="shcedual-hall">1号激光厅</div>
-            <div class="movie-time">109 分钟</div>
-            <div class="schedual-time">12-13 周四 15:04</div>
+            <div class="movie-name">{{ orderAll.name }}</div>
+            <div class="shcedual-hall">{{ orderAll.hall }}</div>
+            <div class="movie-time">{{ orderAll.time }}} 分钟</div>
+            <div class="schedual-time">{{ orderAll.startTime }}</div>
           </div>
         </el-col>
         <el-col :offset="1" :span="6" class="order-seats">
@@ -33,14 +33,45 @@
 </template>
 
 <script>
+import schedualList from "@/lib/schedualList";
+import hallList from "@/lib/hallList";
+import { movies } from "@/lib/movieList";
+
 export default {
   name: "TicketOrderCard",
   data() {
-    return {};
-  }
-  // props: {
-  //   ticket
-  // }
+    return {
+      orderAll: {}
+    };
+  },
+  props: {
+    order: Object
+  },
+  created() {
+    const weekMap = ["日", "一", "二", "三", "四", "五", "六"];
+    const schedual = schedualList[this.order.schedualId];
+    const time = new Date(schedual.startTime);
+    const movie = movies[schedual.movieId];
+
+    this.orderAll = {
+      ...this.order,
+      name: movie.name,
+      startTime:
+        time
+          .toLocaleDateString()
+          .substring(5)
+          .replace("/", ".") +
+        " " +
+        "周" +
+        weekMap[time.getDay()] +
+        " " +
+        time.toTimeString().substring(0, 5),
+      time: movie.time,
+      hall: hallList[schedual.hallId].name,
+      prize: schedual.prize
+    };
+  },
+  methods: {}
 };
 </script>
 
@@ -90,10 +121,10 @@ export default {
 }
 .schedual-detail .schedual-time {
   font-size: 12px;
-  color:#ff4500;
+  color: #ff4500;
 }
 
-.order .order-seats span{
+.order .order-seats span {
   display: inline-block;
   margin-right: 5px;
 }

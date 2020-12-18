@@ -336,7 +336,7 @@ export const movies = [
         role: "Pancho",
       },
       {
-        start: "朱利安·阿鲁蒂",
+        star: "朱利安·阿鲁蒂",
         role: "Skippy",
       },
     ],

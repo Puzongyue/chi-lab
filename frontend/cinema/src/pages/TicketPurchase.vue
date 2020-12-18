@@ -24,7 +24,7 @@ export default {
 
   data() {
     return {
-      activeStep: 1,
+      activeStep: 0,
       // TODO: 获取对应schedule信息
       scheduleId: 0,
       // TODO: soldSeats的逻辑
