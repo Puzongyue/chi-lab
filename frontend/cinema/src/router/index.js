@@ -51,11 +51,13 @@ export default new Router({
       children: [
         {
           path: "/",
-          component: BasicInfo
+          component: BasicInfo,
+          name: "UserInfo"
         },
         {
           path: "orders",
-          component: UserTicket
+          component: UserTicket,
+          name: "UserOrder"
         }
       ]
     },
