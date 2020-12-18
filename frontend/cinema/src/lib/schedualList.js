@@ -2,7 +2,7 @@ const curTime = new Date();
 
 const schedualList = [
   {
-    id: "0",
+    id: 0,
     movieId: 0,
     hallId: 0,
     startTime: curTime.setTime(curTime.setHours(curTime.getHours() + 1)),
@@ -11,7 +11,7 @@ const schedualList = [
     prize: 33.0
   },
   {
-    id: "1",
+    id: 1,
     movieId: 0,
     hallId: 2,
     startTime: curTime.setTime(curTime.setHours(curTime.getHours() + 3)),
@@ -20,7 +20,7 @@ const schedualList = [
     prize: 34.0
   },
   {
-    id: "2",
+    id: 2,
     movieId: 0,
     hallId: 2,
     startTime: curTime.setTime(curTime.setHours(curTime.getHours() + 10)),
@@ -29,7 +29,7 @@ const schedualList = [
     prize: 35.0
   },
   {
-    id: "3",
+    id: 3,
     movieId: 0,
     hallId: 2,
     startTime: curTime.setTime(curTime.setHours(curTime.getHours() + 24)),
@@ -38,7 +38,7 @@ const schedualList = [
     prize: 36.0
   },
   {
-    id: "4",
+    id: 4,
     movieId: 0,
     hallId: 1,
     startTime: curTime.setTime(curTime.setHours(curTime.getHours() + 45)),
@@ -47,7 +47,7 @@ const schedualList = [
     prize: 37.0
   },
   {
-    id: "5",
+    id: 5,
     movieId: 0,
     hallId: 0,
     startTime: curTime.setTime(curTime.setHours(curTime.getHours() + 48)),
