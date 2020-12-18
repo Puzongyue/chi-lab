@@ -28,7 +28,13 @@ export default new Router({
     {
       path: "/movie/:id",
       name: "MovieDetail",
-      component: MovieDetail
+      component: MovieDetail,
+      beforeEnter:  (to, from, next) => {
+        // console.log("router" ,to , from)
+        window.scrollTo(0,0)
+        console.log("window", window)
+        next();
+      }
     },
     {
       path: "/list",

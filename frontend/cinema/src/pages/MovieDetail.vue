@@ -174,7 +174,7 @@
           <el-table-column label="放映厅">
             <template slot-scope="scope">
               <div class="hall">
-               {{hallList.find(hall => hall.id === scope.row.hallId).name}}
+                {{ hallList.find(hall => hall.id === scope.row.hallId).name }}
               </div>
             </template>
           </el-table-column>
@@ -212,7 +212,7 @@ export default {
   name: "MovieDetail",
   data() {
     const id = this.$route.params.id;
-    console.log(hallList)
+    console.log(hallList);
     return {
       id,
       movieList,
@@ -251,8 +251,10 @@ export default {
   },
   mounted: function() {
     this.schedualList = this.getScheList();
-    this.chosenDate = this.schedualList[0].date;
-    this.chosenSchedual = this.schedualList[0].schedual;
+    this.chosenDate =
+      this.schedualList.length === 0 ? "" : this.schedualList[0].date;
+    this.chosenSchedual =
+      this.schedualList.length === 0 ? [] : this.schedualList[0].schedual;
   },
   beforeRouteUpdate(to, from, next) {
     if (to.params.id !== from.params.id) {
@@ -260,8 +262,10 @@ export default {
       this.swiperOptions.initialSlide = this.id;
       this.isDisplay = true;
       this.schedualList = this.getScheList();
-      this.chosenDate = this.schedualList[0].date;
-      this.chosenSchedual = this.schedualList[0].schedual;
+      this.chosenDate =
+        this.schedualList.length === 0 ? "" : this.schedualList[0].date;
+      this.chosenSchedual =
+        this.schedualList.length === 0 ? [] : this.schedualList[0].schedual;
     }
     next();
   },
@@ -272,21 +276,16 @@ export default {
 
       this.originScheList.forEach(schedual => {
         const scheDate = new Date(schedual.startTime).toLocaleDateString();
-        if (schedual.startTime > curDate) {
-          const sche = {
-            ...schedual,
-            time: {
-              start: schedual.startTime,
-              end: schedual.endTime
-            }
-          };
+        if (schedual.movieId == this.id && schedual.startTime > curDate) {
           if (resMap.get(scheDate) !== undefined) {
-            resMap.get(scheDate).push(sche);
+            resMap.get(scheDate).push(schedual);
           } else {
-            resMap.set(scheDate, [sche]);
+            resMap.set(scheDate, [schedual]);
           }
         }
       });
+
+      if (resMap.size === 0) return [];
 
       const list = [];
       const weekMap = ["日", "一", "二", "三", "四", "五", "六"];
@@ -441,6 +440,7 @@ export default {
 .choose {
   height: 400px;
   position: relative;
+  cursor: pointer;
 }
 
 .choose .choose-content {
@@ -463,6 +463,10 @@ export default {
   right: 150px;
 }
 
+
+.movie-content .go{
+  cursor: pointer;
+}
 .choose .back,
 .movie-content .go {
   position: absolute;

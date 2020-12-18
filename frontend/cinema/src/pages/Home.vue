@@ -2,8 +2,12 @@
   <div class="home">
     <el-row id="carousel-row">
       <el-carousel :interval="4000" height="370px" id="movie-ad">
-        <el-carousel-item v-for="url in carouselInfo" :key="url">
-          <img class="carousel-poster" alt="poster" :src="url" />
+        <el-carousel-item
+          v-for="item in carouselInfo"
+          :key="item.id"
+          @click.native="gotoMovie(item.id)"
+        >
+          <img class="carousel-poster" alt="poster" :src="item.poster"/>
         </el-carousel-item>
       </el-carousel>
     </el-row>
@@ -12,13 +16,20 @@
         <div id="current-movies">
           <div id="current-movies-header">
             <h2 class="module-header">{{ currentMoviesTitle }}</h2>
-            <div class="hint-font" id="show-all-movies">查看全部</div>
+            <div
+              class="hint-font"
+              id="show-all-movies"
+              @click="gotoMovieList(0)"
+            >
+              查看全部
+            </div>
           </div>
           <div id="current-movies-content">
             <div
               class="current-movie-item"
               v-for="item in currentMoviesInfo"
               v-bind:key="item.id"
+              @click="gotoMovie(item.id)"
             >
               <div
                 class="current-movie-item-inner"
@@ -54,13 +65,20 @@
         <div id="incoming-movies">
           <div id="incoming-movies-header">
             <h2 class="module-header">{{ incomingMoviesTitle }}</h2>
-            <div class="hint-font" id="show-all-incoming-movies">查看全部</div>
+            <div
+              class="hint-font"
+              id="show-all-incoming-movies"
+              @click="gotoMovieList(1)"
+            >
+              查看全部
+            </div>
           </div>
           <div id="incoming-movies-content">
             <div
               class="incoming-movie-item"
               v-for="item in incomingMoviesInfo"
               v-bind:key="item.id"
+              @click="gotoMovie(item.id)"
             >
               <div
                 class="incoming-movie-item-inner"
@@ -101,6 +119,7 @@
             :class="{ topItem: item.rank < 4 }"
             v-for="item in movieRankInfo"
             v-bind:key="item.id"
+            @click="gotoMovie(item.id)"
           >
             <div class="rank-item-inner" v-if="item.rank < 4">
               <span class="item-rank top-item-rank">{{ item.rank }}</span>
@@ -141,7 +160,7 @@ export default {
   data() {
     return {
       msg: "Home",
-      carouselInfo: homeInfo.carouselInfo,
+      carouselInfo: homeInfo.test,
       currentMoviesInfo: homeInfo.currentMoviesInfo,
       incomingMoviesInfo: homeInfo.incomingMoviesInfo,
       movieRankInfo: homeInfo.movieRankInfo,
@@ -150,6 +169,14 @@ export default {
       incomingMoviesTitle: "即将上映",
       movieRankTitle: "票房排行",
     };
+  },
+  methods: {
+    gotoMovie(id) {
+      this.$router.push("/movie/" + id);
+    },
+    gotoMovieList(type) {
+      this.$router.push("/list");
+    },
   },
 };
 </script>
@@ -184,6 +211,7 @@ export default {
 .carousel-poster {
   width: 100%;
   height: 100%;
+  cursor: pointer;
 }
 
 .el-carousel__item h3 {
@@ -411,6 +439,5 @@ export default {
   display: inline-block;
   line-height: 20px;
   width: 20%;
-
 }
 </style>
