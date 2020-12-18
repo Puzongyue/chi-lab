@@ -503,3 +503,8 @@ export function likeMovie(id) {
     movies[changeMovieIndex].like + (isLike ? -1 : +1);
   movies[changeMovieIndex].isLiked = !isLike;
 }
+
+export function getMovieById(id) {
+  let ans = movies.filter(item => item.id === id);
+  return ans[0];
+}
