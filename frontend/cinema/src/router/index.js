@@ -8,6 +8,9 @@ import TicketPurchase from "@/pages/TicketPurchase";
 import UserCenter from "@/pages/UserCenter";
 import BasicInfo from "../components/UserCenter/BasicInfo.vue";
 import UserTicket from "../components/UserCenter/UserTicket.vue";
+import SeatSelection from "../components/SeatSelection.vue";
+import Payment from "../components/Payment.vue";
+import PaymentSuccess from "../components/PaymentSuccess.vue";
 
 import Test from "@/pages/Test";
 
@@ -42,7 +45,24 @@ export default new Router({
     {
       path: "/purchase",
       name: "TicketPurchase",
-      component: TicketPurchase
+      component: TicketPurchase,
+      children: [
+        {
+          path: "selection",
+          component: SeatSelection,
+          name: "SeatSelection"
+        },
+        {
+          path: "payment",
+          component: Payment,
+          name: "Payment"
+        },
+        {
+          path: "success",
+          component: PaymentSuccess,
+          name: "PaymentSuccess"
+        }
+      ]
     },
     {
       path: "/usercenter",

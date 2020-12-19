@@ -8,20 +8,23 @@
       </el-steps>
     </div>
 
-    <seat-selection v-if="activeStep === 0" :scheduleId="scheduleId" @confirm="confirmSeats"></seat-selection>
+  <router-view>
+    <!-- <seat-selection v-if="activeStep === 0" :scheduleId="scheduleId" @confirm="confirmSeats"></seat-selection>
     <payment v-else-if="activeStep === 1" :orderId="orderId" @hasPaid="paySuccessfully"></payment>
+    <payment-success v-else-if="activeStep === 2"></payment-success> -->
+  </router-view>
   </div>
 </template>
 
 <script>
 import SeatSelection from "@/components/SeatSelection.vue";
 import Payment from "@/components/Payment.vue";
-import { addOrder } from "@/lib/orderList";
+import PaymentSuccess from "@/components/PaymentSuccess.vue";
 
 export default {
   name: "TicketPurchase",
 
-  components: { SeatSelection, Payment },
+  components: { SeatSelection, Payment, PaymentSuccess },
 
   data() {
     return {
@@ -40,23 +43,10 @@ export default {
     this.activeStep = this.$route.isContinued === undefined? 0 : 1;
   },
 
-  methods: {
-    confirmSeats(seats) {
-      this.activeStep = 1;
-      let order = {};
-      order["schedualId"] = this.scheduleId;
-      order["userId"] = 0;
-      order["tickets"] = seats;
-      order["placeTime"] = new Date();
-      order["status"] = 0;
-
-      this.orderId = addOrder(order);
-    },
-
-    paySuccessfully() {
-      console.log("paid");
-      this.activeStep = 2;
-    }
+  updated() {
+    const stepName = ["SeatSelection", "Payment", "PaymentSuccess"];
+    const name = this.$route.name;
+    this.activeStep = stepName.indexOf(name);
   }
 };
 </script>

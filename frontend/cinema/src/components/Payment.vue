@@ -88,8 +88,6 @@ import { getOrderById } from "../lib/orderList";
 export default {
   name: "Payment",
 
-  props: ["orderId"],
-
   computed: {
     totalPrice() {
       return this.orderData.reduce((prev, curr) => {
@@ -100,6 +98,7 @@ export default {
 
   data() {
     return {
+      orderId: 0,
       orderData: [],
       minutes: 0,
       seconds: 30,
@@ -109,12 +108,14 @@ export default {
   },
 
   mounted() {
-    this.countDown();
     this.init();
+    this.countDown();
   },
 
   methods: {
     init() {
+      this.orderId = parseInt(this.$route.query.id);
+
       const tableData = { id: 0 };
       const orderInfo = getOrderById(this.orderId);
       const scheduleInfo = getScheduleById(orderInfo.schedualId);
@@ -141,19 +142,19 @@ export default {
     },
 
     countDown() {
-      // const order = getOrderById(this.orderId);
-      // const placeMSEC = order.placeTime.getTime();
-      // const fifteenLaterMSEC = placeMSEC + 15 * 60 * 1000;
-      // const currentDiffMSEC = fifteenLaterMSEC - new Date().getTime();
+      const order = getOrderById(this.orderId);
+      const placeMSEC = order.placeTime.getTime();
+      const fifteenLaterMSEC = placeMSEC + 15 * 60 * 1000;
+      const currentDiffMSEC = fifteenLaterMSEC - new Date().getTime();
 
-      // if (currentDiffMSEC < 0) {
-      //   this.expire();
-      //   return;
-      // }
+      if (currentDiffMSEC < 0) {
+        this.expire();
+        return;
+      }
 
-      // const oneMinuteMSEC = 60000;
-      // this.minutes = Math.floor(currentDiffMSEC / oneMinuteMSEC);
-      // this.seconds = ((currentDiffMSEC % oneMinuteMSEC) / 1000).toFixed(0);
+      const oneMinuteMSEC = 60000;
+      this.minutes = Math.floor(currentDiffMSEC / oneMinuteMSEC);
+      this.seconds = ((currentDiffMSEC % oneMinuteMSEC) / 1000).toFixed(0);
 
       let timer = window.setInterval(() => {
         if (this.seconds === 0 && this.minutes !== 0) {
@@ -193,7 +194,7 @@ export default {
 
     paySuccessfully() {
       this.dialogVisible = false;
-      this.$emit("hasPaid");
+      this.$router.push({ path:"/purchase/success" });
     }
     
   },
