@@ -2,7 +2,7 @@
   <div class="ticket-card" shadow="hover">
     <div class="card-header">
       <span>2020-12-13</span>
-      <i class="el-icon-delete"></i>
+      <i class="el-icon-delete" @click="deleteOrder(allOrder.id)"></i>
     </div>
     <div class="card-body">
       <el-row type="flex" align="middle" class="order">
@@ -103,9 +103,13 @@ export default {
         path: "/purchase",
         querys: {
           id: id,
+          userId: this.userId,
           isContinued: true
         }
       })
+    },
+    deleteOrder(id){
+      console.log(id)
     }
   }
 };
