@@ -324,7 +324,7 @@ export default {
       ).schedual;
     },
     buyTicket: function(id) {
-      this.$router.push({path: "/purchase", query:{id: id, userId: 0}})
+      this.$router.push({path: "/purchase/selection", query:{id: id, userId: 0}})
     },
     slideNext() {
       // this.swiper.slideNext();

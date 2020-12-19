@@ -116,14 +116,13 @@ import { getScheduleById } from "../lib/schedualList";
 import { getMovieById } from "../lib/movieList";
 import { getSoldSeats } from "../lib/orderList";
 import { getHallById } from "../lib/hallList";
+import { addOrder } from "@/lib/orderList";
 
 export default {
   name: "SeatSelection",
 
   components: { IconBase, IconEmptySeat, IconSoldSeat, IconChosenSeat },
-
-  props: ["scheduleId"],
-
+  
   computed: {
     dynamicWidth: function() {
       const style = {};
@@ -164,17 +163,22 @@ export default {
 
   data() {
     return {
+      scheduleId: 0,
+      userId: 0,
       chosenSeats: [[]],
       chosenSeatsCompressed: [],
       hall: {},
       schedule: {},
       soldSeats: [],
       movie: {},
-      totalPrice: 0
+      totalPrice: 0,
+      orderId: 0
     };
   },
 
   created() {
+    this.scheduleId = parseInt(this.$route.query.id);
+    this.userId = parseInt(this.$route.query.userId);
     this.schedule = getScheduleById(this.scheduleId);
     this.movie = getMovieById(this.schedule.movieId);
     this.soldSeats = getSoldSeats(this.scheduleId);
@@ -224,7 +228,16 @@ export default {
     },
 
     confirm() {
-      this.$emit("confirm", this.chosenSeatsCompressed);
+      let order = {};
+      order["schedualId"] = this.scheduleId;
+      order["userId"] = this.userId;
+      order["tickets"] = this.chosenSeatsCompressed;
+      order["placeTime"] = new Date();
+      order["status"] = 0;
+
+      this.orderId = addOrder(order);
+      this.$router.push({ path:"/purchase/payment", query: { id: this.orderId }});
+
     }
   }
 };
