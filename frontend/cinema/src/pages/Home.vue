@@ -178,6 +178,9 @@ export default {
       this.$router.push("/list");
     },
   },
+  updated() {
+        window.scroll(0, 0);
+    }
 };
 </script>
 
