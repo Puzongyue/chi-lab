@@ -1,8 +1,8 @@
 <template>
   <div class="ticket-card" shadow="hover">
     <div class="card-header">
-      <span>2020-12-13</span>
-      <i class="el-icon-delete" @click="deleteOrder(allOrder.id)"></i>
+      <span>{{ orderAll.day }}</span>
+      <i class="el-icon-delete" @click="deleteOrder(orderAll.id)"></i>
     </div>
     <div class="card-body">
       <el-row type="flex" align="middle" class="order">
@@ -18,7 +18,13 @@
             <div class="movie-name">{{ orderAll.name }}</div>
             <div class="shcedual-hall">{{ orderAll.hall }}</div>
             <div class="movie-time">{{ orderAll.time }} 分钟</div>
-            <div class="schedual-time">{{ orderAll.startTime }}</div>
+            <div class="schedual-time">{{ orderAll.startTimeFormat }}</div>
+            <div class="to-schedual-time" v-if="orderAll.status === 1">
+              距离开场还有：
+              <span v-if="orderAll.distance.hour !== 0"
+                >{{ orderAll.distance.hour }}小时</span
+              >{{ orderAll.distance.minute }}分钟
+            </div>
             <el-button
               class="continue-pay"
               type="primary"
@@ -55,6 +61,7 @@
 import schedualList from "@/lib/schedualList";
 import hallList from "@/lib/hallList";
 import { movies } from "@/lib/movieList";
+import { deleteOrder } from "@/lib/orderList";
 
 export default {
   name: "TicketOrderCard",
@@ -76,13 +83,21 @@ export default {
     const weekMap = ["日", "一", "二", "三", "四", "五", "六"];
     const schedual = schedualList[this.order.schedualId];
     const time = new Date(schedual.startTime);
+    const distance = Math.floor((time - new Date()) / 1000 / 60);
+    const hour = Math.floor(distance / 60);
+    const minute = distance % 60;
     const movie = movies[schedual.movieId];
 
     this.orderAll = {
       ...this.order,
       name: movie.name,
       poster: movie.poster,
-      startTime:
+      day: this.order.placeTime.toLocaleDateString().replaceAll("/", "-"),
+      distance: {
+        hour: hour,
+        minute: minute
+      },
+      startTimeFormat:
         time
           .toLocaleDateString()
           .substring(5)
@@ -98,18 +113,18 @@ export default {
     };
   },
   methods: {
-    continuePay(id){
+    continuePay(id) {
       this.$router.push({
         path: "/purchase",
-        querys: {
+        query: {
           id: id,
           userId: this.userId,
           isContinued: true
         }
-      })
+      });
     },
-    deleteOrder(id){
-      console.log(id)
+    deleteOrder(id) {
+      this.$emit("deleteOrder", id);
     }
   }
 };
@@ -124,7 +139,6 @@ export default {
   justify-content: space-between;
 }
 .ticket-card .card-body {
-  /* height: 100px; */
   padding: 20px 40px;
 }
 .order .order-seats,
@@ -173,7 +187,12 @@ export default {
   left: -4px;
   bottom: 1px;
 }
-
+.schedual-detail .to-schedual-time {
+  font-size: 12px;
+  color: #666;
+  position: absolute;
+  bottom: 3px;
+}
 .order .order-seats span {
   display: inline-block;
   width: 25%;

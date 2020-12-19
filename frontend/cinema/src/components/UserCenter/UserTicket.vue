@@ -2,7 +2,7 @@
   <div class="user-order">
     <div class="order-list">
       <div class="order-item" v-for="order in orderList" :key="order.id">
-        <TicketOrderCard :order="order" />
+        <TicketOrderCard :order="order" @deleteOrder="deleteOrder" />
       </div>
     </div>
   </div>
@@ -10,7 +10,7 @@
 
 <script>
 import TicketOrderCard from "../TicketOrderCard";
-import { orders, Status } from "@/lib/orderList.js";
+import { orders, Status,deleteOrder } from "@/lib/orderList.js";
 export default {
   name: "UserTicket",
   components: {
@@ -52,6 +52,10 @@ export default {
         });
       }
       return orderList;
+    },
+    deleteOrder(id){
+      deleteOrder(id);
+      this.orderList = this.getOrderList(Status[this.$route.query.status]);
     }
   }
 };

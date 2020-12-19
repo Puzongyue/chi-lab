@@ -130,4 +130,5 @@ export function updateOrderStatus(orderId, status) {
 export function deleteOrder(id) {
   const index = orders.findIndex(order => order.id === id);
   orders.splice(index, 1);
+  console.log(orders)
 }
