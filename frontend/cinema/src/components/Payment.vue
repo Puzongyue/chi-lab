@@ -83,7 +83,7 @@
 import { getHallById } from "../lib/hallList";
 import { getScheduleById } from "../lib/schedualList";
 import { getMovieById } from "../lib/movieList";
-import { getOrderById } from "../lib/orderList";
+import { getOrderById, updateOrderStatus } from "../lib/orderList";
 
 export default {
   name: "Payment",
@@ -194,6 +194,7 @@ export default {
 
     paySuccessfully() {
       this.dialogVisible = false;
+      updateOrderStatus(this.orderId, 1);
       this.$router.push({ path:"/purchase/success" });
     }
     

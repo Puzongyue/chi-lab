@@ -125,7 +125,10 @@ export function addOrder(order) {
 }
 
 export function updateOrderStatus(orderId, status) {
-
+  for (let i = 0; i < orders.length; i++) {
+    const o = orders[i];
+    if (o.id === orderId) o.status = status;
+  }
 }
 export function deleteOrder(id) {
   const index = orders.findIndex(order => order.id === id);

@@ -35,8 +35,7 @@ export default {
       userId: 0
     };
   },
-
-// TODO: 刷新页面会回到activeStep = 0问题
+  
   mounted() {
     this.scheduleId = parseInt(this.$route.query.id);
     this.userId = parseInt(this.$route.userId);
