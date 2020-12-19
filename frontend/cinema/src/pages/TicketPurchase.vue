@@ -16,11 +16,12 @@
 <script>
 import SeatSelection from "@/components/SeatSelection.vue";
 import Payment from "@/components/Payment.vue";
+import { addOrder } from "@/lib/orderList";
 
 export default {
   name: "TicketPurchase",
 
-  components: { SeatSelection, Payment},
+  components: { SeatSelection, Payment },
 
   data() {
     return {
@@ -32,32 +33,26 @@ export default {
   },
 
   mounted() {
-    this.scheduleId = this.$route.query.id;
-    
+    this.scheduleId = parseInt(this.$route.query.id);
   },
 
   methods: {
-    // TODO: 生成订单并将订单id传给payment
     confirmSeats(seats) {
       this.activeStep = 1;
-      console.log("seats: ", seats);
+      let order = {};
+      order["schedualId"] = this.scheduleId;
+      order["userId"] = 0;
+      order["tickets"] = seats;
+      order["placeTime"] = new Date();
+      order["status"] = 0;
+
+      this.orderId = addOrder(order);
     },
   }
 };
 </script>
 
 <style scoped>
-/* .main {
-  position: relative;
-} */
-
-/* .main .step-bar {
-  position: absolute;
-  width: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-} */
-
 .main .step-bar {
   margin: 30px auto;
   width: 100%;

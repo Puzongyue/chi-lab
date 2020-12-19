@@ -1,6 +1,5 @@
 // order status:[0: 未付款, 1: 已付款, 2:已失效(未付款且超过15分钟) , 3: 已过期]
 // 本系统唯一可活动用户 id = 0
-
 export const orders = [
   //1号厅
   {
@@ -118,6 +117,16 @@ export function getOrderById(id) {
   return order[0];
 }
 
+export function addOrder(order) {
+  const id = orders[orders.length - 1].id + 1;
+  order["id"] = id;
+  orders.push(order);
+  return id;
+}
+
+export function updateOrderStatus(orderId, status) {
+
+}
 export function deleteOrder(id) {
   const index = orders.findIndex(order => order.id === id);
   orders.splice(index, 1);

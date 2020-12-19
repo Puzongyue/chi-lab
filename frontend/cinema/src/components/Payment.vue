@@ -94,6 +94,7 @@ export default {
     init() {
       const tableData = { id: 0 };
       const orderInfo = getOrderById(this.orderId);
+      console.log(orderInfo);
       const scheduleInfo = getScheduleById(orderInfo.schedualId);
       const movieInfo = getMovieById(scheduleInfo.movieId);
       const hallInfo = getHallById(scheduleInfo.hallId);
