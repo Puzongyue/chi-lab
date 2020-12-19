@@ -9,31 +9,37 @@
     </div>
 
     <seat-selection v-if="activeStep === 0" :scheduleId="scheduleId" @confirm="confirmSeats"></seat-selection>
-    <payment v-else-if="activeStep === 1" :orderId="orderId"></payment>
+    <payment v-else-if="activeStep === 1" :orderId="orderId" @hasPaid="paySuccessfully"></payment>
+    <payment-success v-else-if="activeStep === 2"></payment-success>
   </div>
 </template>
 
 <script>
 import SeatSelection from "@/components/SeatSelection.vue";
 import Payment from "@/components/Payment.vue";
+import PaymentSuccess from "@/components/PaymentSuccess.vue";
 import { addOrder } from "@/lib/orderList";
 
 export default {
   name: "TicketPurchase",
 
-  components: { SeatSelection, Payment },
+  components: { SeatSelection, Payment, PaymentSuccess },
 
   data() {
     return {
-      activeStep: 0,
+      activeStep: 2,
       scheduleId: 0,
       soldSeats: [],
-      orderId: 0
+      orderId: 0,
+      userId: 0
     };
   },
 
+// TODO: 刷新页面会回到activeStep = 0问题
   mounted() {
     this.scheduleId = parseInt(this.$route.query.id);
+    this.userId = parseInt(this.$route.userId);
+    this.activeStep = this.$route.isContinued === undefined? 0 : 1;
   },
 
   methods: {
@@ -48,6 +54,11 @@ export default {
 
       this.orderId = addOrder(order);
     },
+
+    paySuccessfully() {
+      console.log("paid");
+      this.activeStep = 2;
+    }
   }
 };
 </script>
