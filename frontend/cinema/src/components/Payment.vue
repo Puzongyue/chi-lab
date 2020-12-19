@@ -16,7 +16,7 @@
       请仔细核对场次信息，出票后将<span class="attention">无法退票和改签</span>
     </p>
     <div class="seats">
-      <el-table class="seats-table" border stripe :data="mockSeatsInfo">
+      <el-table class="seats-table" border stripe :data="orderData">
         <el-table-column
           prop="movie"
           label="影片"
@@ -39,8 +39,8 @@
               v-for="(ticket, index) in scope.row.seat"
               :key="ticket.id"
             >
-              <i>{{ ticket[0] }}</i
-              >排<i>{{ ticket[1] }}</i
+              <i>{{ ticket[0] + 1 }}</i
+              >排<i>{{ ticket[1] + 1 }}</i
               >座
             </span>
           </template>
@@ -59,13 +59,19 @@
 </template>
 
 <script>
-// TODO: 倒计时
+import { getHallById } from "../lib/hallList";
+import { getScheduleById } from "../lib/schedualList";
+import { getMovieById } from "../lib/movieList";
+import { getOrderById } from "../lib/orderList";
+
 export default {
   name: "Payment",
 
+  props: ["orderId"],
+
   computed: {
     totalPrice() {
-      return this.mockSeatsInfo.reduce((prev, curr) => {
+      return this.orderData.reduce((prev, curr) => {
         return prev + curr.price;
       }, 0);
     },
@@ -73,47 +79,35 @@ export default {
 
   data() {
     return {
-      mockSeatsInfo: [
-        {
-          id: 0,
-          movie: "《哆啦A梦：大雄的新恐龙longlonglonglonglonglong》",
-          date: new Date(),
-          hall: "1号厅",
-          seat: [
-            [3, 4],
-            [3, 5],
-            [3, 6],
-            [3, 3],
-            [3, 9],
-          ],
-          price: 88.5,
-        },
-        {
-          id: 0,
-          movie: "《哆啦A梦：大雄的新恐龙longlonglonglonglonglong》",
-          date: new Date(),
-          hall: "1号厅",
-          seat: [
-            [3, 4],
-            [3, 5],
-            [3, 6],
-            [3, 3],
-            [3, 9],
-          ],
-          price: 88.5,
-        },
-      ],
-
-      minutes: 1,
+      orderData: [],
+      minutes: 15,
       seconds: 0,
     };
   },
 
   mounted() {
-    this.run();
+    this.countDown();
+    this.init();
   },
 
   methods: {
+    init() {
+      const tableData = { id: 0 };
+      const orderInfo = getOrderById(this.orderId);
+      const scheduleInfo = getScheduleById(orderInfo.schedualId);
+      const movieInfo = getMovieById(scheduleInfo.movieId);
+      const hallInfo = getHallById(scheduleInfo.hallId);
+
+      tableData["movie"] = movieInfo.name;
+      tableData["date"] = new Date(scheduleInfo.startTime);
+      tableData["hall"] = hallInfo.name;
+      tableData["seat"] = orderInfo.tickets;
+      tableData["price"] = scheduleInfo.prize * orderInfo.tickets.length;
+
+      this.orderData.push(tableData);
+
+    },
+
     formateDate(date) {
       const week = ["日", "一", "二", "三", "四", "五", "六"];
       const dateArr = date.toLocaleDateString().split("/");
@@ -123,7 +117,21 @@ export default {
       }日 ${time.join(":")}`;
     },
 
-    run() {
+    countDown() {
+      const order = getOrderById(this.orderId);
+      const placeMSEC = order.placeTime.getTime();
+      const fifteenLaterMSEC = placeMSEC + 15 * 60 * 1000;
+      const currentDiffMSEC = fifteenLaterMSEC -  new Date().getTime();
+
+      if (currentDiffMSEC < 0) {
+        this.expire();
+        return;
+      }
+
+      const oneMinuteMSEC = 60000;
+      this.minutes = Math.floor(currentDiffMSEC / oneMinuteMSEC);
+      this.seconds = ((currentDiffMSEC % oneMinuteMSEC) / 1000).toFixed(0);
+
       let timer = window.setInterval(() => {
         if (this.seconds === 0 && this.minutes !== 0) {
           this.seconds = 59;

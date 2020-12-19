@@ -68,7 +68,7 @@
               </div>
               <div class="info-item">
                 <span>版本：</span>
-                <span class="value">{{ schedule.version }}</span>
+                <span class="value">{{ schedule.language }}</span>
               </div>
               <div class="info-item">
                 <span>场次：</span>
@@ -76,7 +76,7 @@
               </div>
               <div class="info-item">
                 <span>票价：</span>
-                <span class="value">{{ schedule.price }}/张</span>
+                <span class="value">￥{{ schedule.prize }} / 张</span>
               </div>
             </div>
             <div class="ticket-info">
@@ -112,23 +112,28 @@ import IconBase from "@/components/Icon/IconBase.vue";
 import IconEmptySeat from "@/components/Icon/IconEmptySeat.vue";
 import IconSoldSeat from "@/components/Icon/IconSoldSeat.vue";
 import IconChosenSeat from "@/components/Icon/IconChosenSeat.vue";
+import { getScheduleById } from "../lib/schedualList";
+import { getMovieById } from "../lib/movieList";
+import { getSoldSeats } from "../lib/orderList";
+import { getHallById } from "../lib/hallList";
+
 export default {
   name: "SeatSelection",
 
   components: { IconBase, IconEmptySeat, IconSoldSeat, IconChosenSeat },
 
-  props: ["soldSeats", "movie", "scheduleInfo"],
+  props: ["scheduleId"],
 
   computed: {
     dynamicWidth: function() {
       const style = {};
-      style.width = 500 / this.column + "px";
+      style.width = 500 / this.hall.column + "px";
       return style;
     },
 
     dynamicPadding: function() {
       const style = {};
-      switch(this.column) {
+      switch(this.hall.column) {
         case 18:
           style["padding-left"] = 50 + "px";
           break;
@@ -146,8 +151,8 @@ export default {
     },
 
     formattedDate: function() {
-      let t = this.schedule.startTime.toTimeString().split(":"),
-          d = this.schedule.startTime.toLocaleDateString().split("/");
+      let t = new Date(this.schedule.startTime).toTimeString().split(":"),
+          d = new Date(this.schedule.startTime).toLocaleDateString().split("/");
 
       t.length = 2;
       t = t.join(":");
@@ -161,31 +166,30 @@ export default {
     return {
       chosenSeats: [[]],
       chosenSeatsCompressed: [],
-      row: 9,
-      column: 18,
-      hall: {
-        name: "1号厅",
-        row: 9,
-        column: 18
-      },
-      schedule: {
-        version: "国语2D",
-        startTime: new Date(),
-        price: 34.5
-      },
+      hall: {},
+      schedule: {},
+      soldSeats: [],
+      movie: {},
       totalPrice: 0
     };
   },
 
   created() {
-    this.chosenSeats = new Array(this.row);
+    this.schedule = getScheduleById(this.scheduleId);
+    this.movie = getMovieById(this.schedule.movieId);
+    this.soldSeats = getSoldSeats(this.scheduleId);
+    this.hall = getHallById(this.schedule.hallId);
 
-    for (let i = 0; i < this.row; i++) this.chosenSeats[i] = new Array(this.column).fill(0);
+    this.chosenSeats = new Array(this.hall.row);
+
+    for (let i = 0; i < this.hall.row; i++) this.chosenSeats[i] = new Array(this.hall.column).fill(0);
+
+    // console.log(this.schedule, this.movie, this.soldSeats, this.hall);
   },
 
   methods: {
     isInSoldSeats(r, c) {
-      return this.soldSeats.some(item => item[0] === r && item[1] === c);
+      return this.soldSeats.some(item => item[0] === r - 1 && item[1] === c - 1);
     },
 
     chooseSeat(r, c) {
@@ -202,7 +206,7 @@ export default {
 
         tmp[c - 1] = 1;
         this.chosenSeatsCompressed.push([r, c]);
-        this.totalPrice += this.schedule.price;
+        this.totalPrice += this.schedule.prize;
       }
 
       this.$set(this.chosenSeats, r - 1, tmp);
@@ -210,7 +214,7 @@ export default {
 
     cancelSeat(r, c) {
       this.chosenSeatsCompressed = this.chosenSeatsCompressed.filter(item => item[0] !== r || item[1] !== c);
-      this.totalPrice -= this.schedule.price;
+      this.totalPrice -= this.schedule.prize;
     },
 
     openMsgBox() {
@@ -220,7 +224,6 @@ export default {
     },
 
     confirm() {
-      console.log("confirm");
       this.$emit("confirm", this.chosenSeatsCompressed);
     }
   }
