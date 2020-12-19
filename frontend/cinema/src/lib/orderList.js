@@ -11,7 +11,7 @@ export const orders = [
       [0, 0],
       [0, 1]
     ],
-    placeTime: new Date("2020-12-19 13:35:00"),
+    placeTime: new Date(),
     status: 0
   },
   {
@@ -95,17 +95,20 @@ export const orders = [
   }
 ];
 
-
 export const Status = {
-  "unpaid": 0,
-  "unused": 1,
-  "finished": 3,
-}
+  unpaid: 0,
+  unused: 1,
+  finished: 3
+};
 
 export function getSoldSeats(scheduleId) {
   let ans = [];
-  orders.forEach((item) => {
-    if (item.schedualId === scheduleId && (item.status === 0 || item.status === 1)) ans.push(...item.tickets);
+  orders.forEach(item => {
+    if (
+      item.schedualId === scheduleId &&
+      (item.status === 0 || item.status === 1)
+    )
+      ans.push(...item.tickets);
   });
   return ans;
 }
@@ -113,4 +116,9 @@ export function getSoldSeats(scheduleId) {
 export function getOrderById(id) {
   let order = orders.filter(item => item.id === id);
   return order[0];
+}
+
+export function deleteOrder(id) {
+  const index = orders.findIndex(order => order.id === id);
+  orders.splice(index, 1);
 }

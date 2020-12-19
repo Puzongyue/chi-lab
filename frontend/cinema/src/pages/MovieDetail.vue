@@ -212,7 +212,6 @@ export default {
   name: "MovieDetail",
   data() {
     const id = this.$route.params.id;
-    console.log(hallList);
     return {
       id,
       movieList,
@@ -325,7 +324,7 @@ export default {
       ).schedual;
     },
     buyTicket: function(id) {
-      this.$router.push({path: "/purchase", query:{id: id}})
+      this.$router.push({path: "/purchase", query:{id: id, userId: 0}})
     },
     slideNext() {
       // this.swiper.slideNext();
