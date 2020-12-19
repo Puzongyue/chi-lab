@@ -100,7 +100,7 @@ export default {
   methods: {
     continuePay(id){
       this.$router.push({
-        path: "purchase",
+        path: "/purchase",
         querys: {
           id: id,
           isContinued: true

@@ -1,6 +1,5 @@
 // order status:[0: 未付款, 1: 已付款, 2:已失效(未付款且超过15分钟) , 3: 已过期]
 // 本系统唯一可活动用户 id = 0
-
 export const orders = [
   //1号厅
   {
@@ -11,7 +10,7 @@ export const orders = [
       [0, 0],
       [0, 1]
     ],
-    placeTime: new Date("2020-12-19 13:35:00"),
+    placeTime: new Date("2020-12-19 13:15:00"),
     status: 0
   },
   {
@@ -113,4 +112,15 @@ export function getSoldSeats(scheduleId) {
 export function getOrderById(id) {
   let order = orders.filter(item => item.id === id);
   return order[0];
+}
+
+export function addOrder(order) {
+  const id = orders[orders.length - 1].id + 1;
+  order["id"] = id;
+  orders.push(order);
+  return id;
+}
+
+export function updateOrderStatus(orderId, status) {
+
 }
