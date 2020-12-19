@@ -87,7 +87,6 @@ export default {
   },
   watch: {
     $route() {
-      console.log("current", this.getIndex())
       const currentIndex = this.getIndex();
       if (currentIndex !== "2"){
       }
