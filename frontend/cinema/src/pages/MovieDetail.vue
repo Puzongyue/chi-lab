@@ -81,7 +81,7 @@
                       ><icon-heart /></icon-base
                   ></el-button>
                 </div>
-                <div class="static-info">
+                <div class="static-info" v-if="movie.score !== -1">
                   <span class="number">{{ movie.score }}</span>
                   <span class="tip">分</span>
                   <el-rate v-model="value2" :colors="colors"> </el-rate>
@@ -112,7 +112,8 @@
                 ></el-image>
                 <span class="movie-footer">
                   <strong class="name">{{ movie.name }}</strong>
-                  <strong class="score">{{ movie.score }}</strong>
+                  <strong class="score" v-if="movie.score !== -1">{{ movie.score }}</strong>
+                  <strong class="preSell" v-else>预售</strong>
                 </span>
               </router-link>
             </div>
@@ -507,6 +508,8 @@ export default {
   width: 20%;
   overflow: hidden;
 }
+.choose-movie .movie-footer .preSell{
+  color:darkorange}
 
 .schedual {
   width: 100%;
