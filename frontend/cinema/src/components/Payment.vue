@@ -39,8 +39,8 @@
               v-for="(ticket, index) in scope.row.seat"
               :key="ticket.id"
             >
-              <i>{{ ticket[0] + 1 }}</i
-              >排<i>{{ ticket[1] + 1 }}</i
+              <i>{{ ticket[0] }}</i
+              >排<i>{{ ticket[1] }}</i
               >座
             </span>
           </template>
@@ -55,10 +55,31 @@
         <el-button type="primary" @click="confirm">确认支付</el-button>
       </div>
     </div>
+
+    <div class="pay">
+      <el-dialog
+        title="支付订单"
+        :visible.sync="dialogVisible"
+        width="50%"
+        :before-close="handleClose"
+        center
+      >
+        <div class="QR-code">
+          <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1608370386624&di=f992948aba88572346e7f0dc23bde18a&imgtype=0&src=http%3A%2F%2Fimg.haote.com%2Fupload%2Fqrcode%2F1664%2Fhaote0e9f46a410ad140c3a5a9d75bf5b1227.png" alt="">
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <!-- <el-button @click="dialogVisible = false">取 消</el-button> -->
+          <el-button type="primary" @click="paySuccessfully"
+            >我已成功支付</el-button
+          >
+        </span>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
 <script>
+// TODO: 遮罩
 import { getHallById } from "../lib/hallList";
 import { getScheduleById } from "../lib/schedualList";
 import { getMovieById } from "../lib/movieList";
@@ -80,8 +101,10 @@ export default {
   data() {
     return {
       orderData: [],
-      minutes: 15,
-      seconds: 0,
+      minutes: 0,
+      seconds: 30,
+      dialogVisible: false,
+      movieId: 0
     };
   },
 
@@ -94,7 +117,6 @@ export default {
     init() {
       const tableData = { id: 0 };
       const orderInfo = getOrderById(this.orderId);
-      console.log(orderInfo);
       const scheduleInfo = getScheduleById(orderInfo.schedualId);
       const movieInfo = getMovieById(scheduleInfo.movieId);
       const hallInfo = getHallById(scheduleInfo.hallId);
@@ -106,7 +128,7 @@ export default {
       tableData["price"] = scheduleInfo.prize * orderInfo.tickets.length;
 
       this.orderData.push(tableData);
-
+      this.movieId - scheduleInfo.movieId;
     },
 
     formateDate(date) {
@@ -119,19 +141,19 @@ export default {
     },
 
     countDown() {
-      const order = getOrderById(this.orderId);
-      const placeMSEC = order.placeTime.getTime();
-      const fifteenLaterMSEC = placeMSEC + 15 * 60 * 1000;
-      const currentDiffMSEC = fifteenLaterMSEC -  new Date().getTime();
+      // const order = getOrderById(this.orderId);
+      // const placeMSEC = order.placeTime.getTime();
+      // const fifteenLaterMSEC = placeMSEC + 15 * 60 * 1000;
+      // const currentDiffMSEC = fifteenLaterMSEC - new Date().getTime();
 
-      if (currentDiffMSEC < 0) {
-        this.expire();
-        return;
-      }
+      // if (currentDiffMSEC < 0) {
+      //   this.expire();
+      //   return;
+      // }
 
-      const oneMinuteMSEC = 60000;
-      this.minutes = Math.floor(currentDiffMSEC / oneMinuteMSEC);
-      this.seconds = ((currentDiffMSEC % oneMinuteMSEC) / 1000).toFixed(0);
+      // const oneMinuteMSEC = 60000;
+      // this.minutes = Math.floor(currentDiffMSEC / oneMinuteMSEC);
+      // this.seconds = ((currentDiffMSEC % oneMinuteMSEC) / 1000).toFixed(0);
 
       let timer = window.setInterval(() => {
         if (this.seconds === 0 && this.minutes !== 0) {
@@ -147,15 +169,33 @@ export default {
     },
 
     confirm() {
-      console.log("confirm");
+      this.dialogVisible = true;
     },
 
-    // TODO: 提醒后跳转到哪里？
     expire() {
+      const path = "/movie/" + this.movieId;
       this.$alert("您的订单未在规定时间内支付，请重新操作", "支付超时提醒", {
         confirmButtonText: "我知道了",
+        callback: () => {
+          this.$router.push(path);
+        }
       });
     },
+
+    handleClose(done) {
+      this.$confirm('确认放弃本次支付？')
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
+    },
+
+
+    paySuccessfully() {
+      this.dialogVisible = false;
+      this.$emit("hasPaid");
+    }
+    
   },
 };
 </script>
@@ -253,5 +293,14 @@ export default {
 .main .price-and-confirm .price span::before {
   content: "\FFE5";
   font-size: 24px;
+}
+
+.main .pay .QR-code {
+  text-align: center;
+}
+
+.main .pay .QR-code img{
+  width: 300px;
+  height: 300px;
 }
 </style>

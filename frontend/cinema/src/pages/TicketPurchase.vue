@@ -9,7 +9,7 @@
     </div>
 
     <seat-selection v-if="activeStep === 0" :scheduleId="scheduleId" @confirm="confirmSeats"></seat-selection>
-    <payment v-else-if="activeStep === 1" :orderId="orderId"></payment>
+    <payment v-else-if="activeStep === 1" :orderId="orderId" @hasPaid="paySuccessfully"></payment>
   </div>
 </template>
 
@@ -28,12 +28,16 @@ export default {
       activeStep: 0,
       scheduleId: 0,
       soldSeats: [],
-      orderId: 0
+      orderId: 0,
+      userId: 0
     };
   },
 
+// TODO: 刷新页面会回到activeStep = 0问题
   mounted() {
     this.scheduleId = parseInt(this.$route.query.id);
+    this.userId = parseInt(this.$route.userId);
+    this.activeStep = this.$route.isContinued === undefined? 0 : 1;
   },
 
   methods: {
@@ -48,6 +52,11 @@ export default {
 
       this.orderId = addOrder(order);
     },
+
+    paySuccessfully() {
+      console.log("paid");
+      this.activeStep = 2;
+    }
   }
 };
 </script>
