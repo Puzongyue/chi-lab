@@ -112,7 +112,9 @@
                 ></el-image>
                 <span class="movie-footer">
                   <strong class="name">{{ movie.name }}</strong>
-                  <strong class="score" v-if="movie.score !== -1">{{ movie.score }}</strong>
+                  <strong class="score" v-if="movie.score !== -1">{{
+                    movie.score
+                  }}</strong>
                   <strong class="preSell" v-else>预售</strong>
                 </span>
               </router-link>
@@ -325,7 +327,10 @@ export default {
       ).schedual;
     },
     buyTicket: function(id) {
-      this.$router.push({path: "/purchase/selection", query:{id: id, userId: 0}})
+      this.$router.push({
+        path: "/purchase/selection",
+        query: { id: id, userId: 0 }
+      });
     },
     slideNext() {
       // this.swiper.slideNext();
@@ -462,8 +467,7 @@ export default {
   right: 150px;
 }
 
-
-.movie-content .go{
+.movie-content .go {
   cursor: pointer;
 }
 .choose .back,
@@ -508,8 +512,9 @@ export default {
   width: 20%;
   overflow: hidden;
 }
-.choose-movie .movie-footer .preSell{
-  color:darkorange}
+.choose-movie .movie-footer .preSell {
+  color: darkorange;
+}
 
 .schedual {
   width: 100%;
