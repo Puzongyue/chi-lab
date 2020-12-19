@@ -1,12 +1,8 @@
 <template>
   <div class="user-order">
     <div class="order-list">
-      <div
-        class="order-item"
-        v-for="(order, index) in orderList"
-        :key="index"
-      >
-      <TicketOrderCard :order="order" />
+      <div class="order-item" v-for="order in orderList" :key="order.id">
+        <TicketOrderCard :order="order" />
       </div>
     </div>
   </div>
@@ -27,15 +23,35 @@ export default {
     };
   },
   mounted() {
-    this.getOrderList();
+    this.orderList = this.getOrderList(Status[this.$route.query.status]);
+  },
+  beforeRouteUpdate(to, from, next) {
+    if (to.query.status !== from.query.status) {
+      this.orderList = this.getOrderList(Status[to.query.status]);
+    }
+    next();
   },
   methods: {
-    getOrderList() {
-      const status = Status[this.$route.query.status];
-      const orderList = orders.filter(order => {
-        return order.userId === this.userId && order.status === status;
-      });
-      this.orderList = orderList;
+    getOrderList(status) {
+      const orderList = [];
+      if (status === 0) {
+        orders.forEach(order => {
+          if (order.userId === this.userId && order.status === status) {
+            if (new Date() - order.placeTime < 1000 * 60 * 15) {
+              orderList.push(order);
+            } else {
+              order.status = 2;
+            }
+          }
+        });
+      } else if (status !== 2) {
+        orders.forEach(order => {
+          if (order.userId === this.userId && order.status === status) {
+            orderList.push(order);
+          }
+        });
+      }
+      return orderList;
     }
   }
 };

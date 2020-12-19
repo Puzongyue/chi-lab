@@ -11,22 +11,40 @@
             <el-image
               style="width: 100%; height: 100%"
               fit="contain"
-              src="https://p0.meituan.net/movie/59b5174b5eb82aeed2cb738eb261b18d797572.jpg@464w_644h_1e_1c"
+              :src="orderAll.poster"
             ></el-image>
           </div>
           <div class="schedual-detail">
             <div class="movie-name">{{ orderAll.name }}</div>
             <div class="shcedual-hall">{{ orderAll.hall }}</div>
-            <div class="movie-time">{{ orderAll.time }}} 分钟</div>
+            <div class="movie-time">{{ orderAll.time }} 分钟</div>
             <div class="schedual-time">{{ orderAll.startTime }}</div>
+            <el-button
+              class="continue-pay"
+              type="primary"
+              v-if="orderAll.status === 0"
+              size="mini"
+              round
+              >继续支付</el-button
+            >
           </div>
         </el-col>
         <el-col :offset="1" :span="6" class="order-seats">
-          <span>5排7座</span>
-          <span>5排7座</span>
+          <span v-for="(ticket, index) in orderAll.tickets" :key="index"
+            >{{ ticket[0] + 1 }}排{{ ticket[1] + 1 }}列</span
+          >
         </el-col>
-        <el-col :offset="1" :span="4" class="order-prize">￥68</el-col>
-        <el-col :offset="1" :span="4" class="order-status">待支付</el-col>
+        <el-col :offset="2" :span="4" class="order-prize"
+          >￥{{ orderAll.prize * orderAll.tickets.length.toFixed(2) }}</el-col
+        >
+        <el-col :offset="2" :span="4" class="order-status">
+          <div
+            :style="{ color: statusList[orderAll.status].color }"
+            class="status-content"
+          >
+            {{ statusList[orderAll.status].content }}
+          </div>
+        </el-col>
       </el-row>
     </div>
   </div>
@@ -41,7 +59,13 @@ export default {
   name: "TicketOrderCard",
   data() {
     return {
-      orderAll: {}
+      orderAll: {},
+      statusList: [
+        { content: "待支付", color: "#FF4500" },
+        { content: "待使用", color: "#67C23A" },
+        {},
+        { content: "已完成", color: "#606266" }
+      ]
     };
   },
   props: {
@@ -56,6 +80,7 @@ export default {
     this.orderAll = {
       ...this.order,
       name: movie.name,
+      poster: movie.poster,
       startTime:
         time
           .toLocaleDateString()
@@ -102,13 +127,17 @@ export default {
   border: 2px solid #fff;
   box-shadow: 0 1px 2px 0 hsla(0, 0%, 53%, 0.5);
   font-size: 0;
-  width: 90px;
-  height: 120px;
+  width: 105px;
+  height: 140px;
   margin-right: 20px;
 }
 
+.schedual-detail {
+  position: relative;
+}
+
 .schedual-detail .movie-name {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   color: #333;
   margin: 4px 0 10px -6px;
@@ -122,10 +151,17 @@ export default {
 .schedual-detail .schedual-time {
   font-size: 12px;
   color: #ff4500;
+  margin-bottom: 10px;
+}
+.schedual-detail .continue-pay {
+  position: absolute;
+  left: -4px;
+  bottom: 1px;
 }
 
 .order .order-seats span {
   display: inline-block;
+  width: 25%;
   margin-right: 5px;
 }
 </style>

@@ -4,17 +4,19 @@
       <el-col :span="4" class="user-menu">
         <h2 class="menu-title">个人中心</h2>
         <el-menu
-          default-active="2"
+          :default-active="activeIndex"
+          :default-openeds="['1']"
           class="el-menu-vertical-demo"
           router
           @select="handleSelect"
+          ref="userMenu"
         >
           <el-submenu index="1">
             <template slot="title"
               ><i class="el-icon-menu"></i>我的订单</template
             >
             <el-menu-item
-              index="2-3"
+              index="1.1"
               :route="{
                 path: '/usercenter/orders',
                 query: { status: 'unpaid' }
@@ -23,7 +25,7 @@
             >
 
             <el-menu-item
-              index="2-1"
+              index="1.2"
               :route="{
                 path: '/usercenter/orders',
                 query: { status: 'unused' }
@@ -31,7 +33,7 @@
               >待使用</el-menu-item
             >
             <el-menu-item
-              index="2-2"
+              index="1.3"
               :route="{
                 path: '/usercenter/orders',
                 query: { status: 'finished' }
@@ -58,12 +60,38 @@ export default {
   name: "UserCenter",
   data() {
     return {
-      title: this.$route.path === "/usercenter" ? "基本信息" : "我的电影票"
+      title: this.$route.path === "/usercenter" ? "基本信息" : "我的电影票",
+      activeIndex: "",
+      
     };
+  },
+  mounted() {
+    this.activeIndex = this.getIndex();
   },
   methods: {
     handleSelect(index, indexPath) {
       this.title = index === "2" ? "基本信息" : "我的电影票";
+    },
+    getIndex() {
+      const route = this.$route;
+      const currentIndex =
+        route.name === "UserInfo"
+          ? "2"
+          : route.query.status === "unpaid"
+          ? "1.1"
+          : route.query.status === "unused"
+          ? "1.2"
+          : "1.3";
+      return currentIndex;
+    }
+  },
+  watch: {
+    $route() {
+      console.log("current", this.getIndex())
+      const currentIndex = this.getIndex();
+      if (currentIndex !== "2"){
+      }
+      this.$refs.userMenu.activeIndex = currentIndex;
     }
   }
 };
