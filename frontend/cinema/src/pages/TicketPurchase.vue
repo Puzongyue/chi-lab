@@ -10,22 +10,24 @@
 
     <seat-selection v-if="activeStep === 0" :scheduleId="scheduleId" @confirm="confirmSeats"></seat-selection>
     <payment v-else-if="activeStep === 1" :orderId="orderId" @hasPaid="paySuccessfully"></payment>
+    <payment-success v-else-if="activeStep === 2"></payment-success>
   </div>
 </template>
 
 <script>
 import SeatSelection from "@/components/SeatSelection.vue";
 import Payment from "@/components/Payment.vue";
+import PaymentSuccess from "@/components/PaymentSuccess.vue";
 import { addOrder } from "@/lib/orderList";
 
 export default {
   name: "TicketPurchase",
 
-  components: { SeatSelection, Payment },
+  components: { SeatSelection, Payment, PaymentSuccess },
 
   data() {
     return {
-      activeStep: 0,
+      activeStep: 2,
       scheduleId: 0,
       soldSeats: [],
       orderId: 0,
