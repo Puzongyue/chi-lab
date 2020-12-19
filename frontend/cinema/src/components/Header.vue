@@ -30,6 +30,7 @@
           v-model="keyword"
           class="search-input"
           @change="searchMovie"
+          @keyup.enter.native="searchMovie"
         >
           <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
@@ -70,8 +71,10 @@ export default {
       // console.log(key, keyPath);
     },
     searchMovie() {
-      this.movies = getMoviesByKeyword(this.keyword);
-      keyPath = [];
+      if (!this.$route.path.includes("/search")) {
+        this.$router.push("/search");
+      }
+      this.bus.$emit("searchKey", this.keyword);
     },
     gotoUserCenter(command) {
       if (command == "0") {
