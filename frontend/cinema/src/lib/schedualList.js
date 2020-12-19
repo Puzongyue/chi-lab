@@ -58,3 +58,8 @@ const schedualList = [
 ];
 
 export default schedualList;
+
+export function getScheduleById(id) {
+  let schedule = schedualList.filter(item => item.id === id);
+  return schedule[0];
+}

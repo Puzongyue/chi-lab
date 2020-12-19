@@ -22,3 +22,8 @@ const halls = [
 ];
 
 export default halls;
+
+export function getHallById(id) {
+  let ans = halls.filter(item => item.id === id);
+  return ans[0];
+}
