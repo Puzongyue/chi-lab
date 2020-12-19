@@ -25,7 +25,8 @@
               v-if="orderAll.status === 0"
               size="mini"
               round
-              >继续支付</el-button
+              @click="continuePay(orderAll.id)"
+              >去支付</el-button
             >
           </div>
         </el-col>
@@ -96,7 +97,17 @@ export default {
       prize: schedual.prize
     };
   },
-  methods: {}
+  methods: {
+    continuePay(id){
+      this.$router.push({
+        path: "purchase",
+        querys: {
+          id: id,
+          isContinued: true
+        }
+      })
+    }
+  }
 };
 </script>
 
