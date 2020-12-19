@@ -10,7 +10,7 @@
 
 <script>
 import TicketOrderCard from "../TicketOrderCard";
-import { orders, Status,deleteOrder } from "@/lib/orderList.js";
+import { orders, Status, deleteOrder } from "@/lib/orderList.js";
 export default {
   name: "UserTicket",
   components: {
@@ -53,7 +53,7 @@ export default {
       }
       return orderList;
     },
-    deleteOrder(id){
+    deleteOrder(id) {
       deleteOrder(id);
       this.orderList = this.getOrderList(Status[this.$route.query.status]);
     }
