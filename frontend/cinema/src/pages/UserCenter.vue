@@ -1,7 +1,7 @@
 <template>
   <div class="user-center">
     <el-row :gutter="32">
-      <el-col :span="4" class="user-menu">
+      <el-col :span="5" class="user-menu">
         <h2 class="menu-title">个人中心</h2>
         <el-menu
           :default-active="activeIndex"
@@ -47,7 +47,7 @@
           </el-menu-item>
         </el-menu>
       </el-col>
-      <el-col :span="20" class="user-content">
+      <el-col :span="19" class="user-content">
         <div class="title">{{ title }}</div>
         <router-view />
       </el-col>
