@@ -31,7 +31,7 @@
                 <div>
                   主演：{{
                     movie.stars
-                      .map(star => star.star + "（ 饰" + star.role + " ）")
+                      .map((star) => star.star + "（ 饰" + star.role + " ）")
                       .join("、")
                   }}
                 </div>
@@ -102,38 +102,44 @@
         >
           回到详情<el-icon class="el-icon-d-arrow-left" />
         </div>
-        <swiper ref="mySwiper" class="choose-content" :options="swiperOptions">
-          <swiper-slide class="side" v-for="movie in movieList" :key="movie.id">
-            <div class="choose-movie">
-              <router-link :to="/movie/ + movie.id">
-                <el-image
-                  style="width: 150px; height: 200px"
-                  :src="movie.poster"
-                ></el-image>
-                <span class="movie-footer">
-                  <strong class="name">{{ movie.name }}</strong>
-                  <strong class="score" v-if="movie.score !== -1">{{
-                    movie.score
-                  }}</strong>
-                  <strong class="preSell" v-else>预售</strong>
-                </span>
-              </router-link>
-            </div>
-          </swiper-slide>
-        </swiper>
-        <!-- <div class="slide-switch prev" @click="slidePre">前进👈</div> -->
-        <el-button
-          circle
-          class="slide-switch prev"
-          icon="el-icon-arrow-left"
-          @click="slidePre"
-        />
-        <el-button
-          circle
-          class="slide-switch next"
-          icon="el-icon-arrow-right"
-          @click="slideNext"
-        />
+        <div class="choose-content">
+          <swiper ref="mySwiper" :options="swiperOptions">
+            <swiper-slide
+              class="side"
+              v-for="movie in movieList"
+              :key="movie.id"
+            >
+              <div class="choose-movie">
+                <router-link :to="/movie/ + movie.id">
+                  <el-image
+                    style="width: 150px; height: 200px"
+                    :src="movie.poster"
+                  ></el-image>
+                  <span class="movie-footer">
+                    <strong class="name">{{ movie.name }}</strong>
+                    <strong class="score" v-if="movie.score !== -1">{{
+                      movie.score
+                    }}</strong>
+                    <strong class="preSell" v-else>预售</strong>
+                  </span>
+                </router-link>
+              </div>
+            </swiper-slide>
+          </swiper>
+          <!-- <div class="slide-switch prev" @click="slidePre">前进👈</div> -->
+          <el-button
+            circle
+            class="slide-switch prev"
+            icon="el-icon-arrow-left"
+            @click="slidePre"
+          />
+          <el-button
+            circle
+            class="slide-switch next"
+            icon="el-icon-arrow-right"
+            @click="slideNext"
+          />
+        </div>
       </div>
     </div>
     <div class="schedual">
@@ -177,7 +183,7 @@
           <el-table-column label="放映厅">
             <template slot-scope="scope">
               <div class="hall">
-                {{ hallList.find(hall => hall.id === scope.row.hallId).name }}
+                {{ hallList.find((hall) => hall.id === scope.row.hallId).name }}
               </div>
             </template>
           </el-table-column>
@@ -226,7 +232,7 @@ export default {
       tableStyle: {
         "text-align": "center",
         color: "#333",
-        "font-size": "15px"
+        "font-size": "15px",
       },
       isExpand: false,
       isDisplay: true,
@@ -237,8 +243,8 @@ export default {
         spaceBetween: 14,
         initialSlide: id,
         centeredSlides: true,
-        preventClicks: false
-      }
+        preventClicks: false,
+      },
     };
   },
   computed: {
@@ -249,9 +255,9 @@ export default {
       return (
         "background-image: url('" + this.movieList[this.id].poster + "'); "
       );
-    }
+    },
   },
-  mounted: function() {
+  mounted: function () {
     this.schedualList = this.getScheList();
     this.chosenDate =
       this.schedualList.length === 0 ? "" : this.schedualList[0].date;
@@ -272,11 +278,11 @@ export default {
     next();
   },
   methods: {
-    getScheList: function() {
+    getScheList: function () {
       const curDate = new Date();
       const resMap = new Map();
 
-      this.originScheList.forEach(schedual => {
+      this.originScheList.forEach((schedual) => {
         const scheDate = new Date(schedual.startTime).toLocaleDateString();
         if (schedual.movieId == this.id && schedual.startTime > curDate) {
           if (resMap.get(scheDate) !== undefined) {
@@ -304,7 +310,7 @@ export default {
             : `周${weekMap[new Date(value[0].startTime).getDay()]}`;
         list.push({
           date: date + "  " + key.replaceAll("/", "-").substring(5),
-          schedual: value
+          schedual: value,
         });
       });
 
@@ -315,21 +321,21 @@ export default {
       if (!list[0].date.includes("今")) {
         list.splice(0, 1, {
           date: curDate.toLocaleDateString().replaceAll("/", "-"),
-          schedual: []
+          schedual: [],
         });
       }
       this.chosenDate = schedualList[0].date;
       return list;
     },
-    dateChange: function(curChosen) {
+    dateChange: function (curChosen) {
       this.chosenSchedual = this.schedualList.find(
-        v => v.date === this.chosenDate
+        (v) => v.date === this.chosenDate
       ).schedual;
     },
-    buyTicket: function(id) {
+    buyTicket: function (id) {
       this.$router.push({
         path: "/purchase/selection",
-        query: { id: id, userId: 0 }
+        query: { id: id, userId: 0 },
       });
     },
     slideNext() {
@@ -341,8 +347,8 @@ export default {
     },
     handleLike() {
       likeMovie(this.id);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -457,14 +463,16 @@ export default {
 
 .choose .slide-switch {
   position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
 }
 
 .choose .prev {
-  left: 150px;
+  left: -80px;
 }
 
 .choose .next {
-  right: 150px;
+  right: -80px;
 }
 
 .movie-content .go {
