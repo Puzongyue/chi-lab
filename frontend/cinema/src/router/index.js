@@ -12,8 +12,6 @@ import SeatSelection from "../components/SeatSelection.vue";
 import Payment from "../components/Payment.vue";
 import PaymentSuccess from "../components/PaymentSuccess.vue";
 
-import Test from "@/pages/Test";
-
 Vue.use(Router);
 
 export default new Router({
@@ -81,10 +79,5 @@ export default new Router({
         }
       ]
     },
-    {
-      name: "Test",
-      path: "/test",
-      component: Test
-    }
   ]
 });
