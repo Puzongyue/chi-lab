@@ -13,7 +13,7 @@ const schedualList = [
   {
     id: 1,
     movieId: 0,
-    hallId: 2,
+    hallId: 0,
     startTime: curTime.setTime(curTime.setHours(curTime.getHours() + 3)),
     endTime: curTime.setTime(curTime.setHours(curTime.getHours() + 5)),
     language: "原版3D",

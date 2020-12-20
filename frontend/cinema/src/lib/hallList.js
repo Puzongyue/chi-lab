@@ -16,8 +16,8 @@ const halls = [
   {
     id: 2,
     name: "3号厅",
-    row: 12,
-    column: 18
+    row: 8,
+    column: 10
   }
 ];
 

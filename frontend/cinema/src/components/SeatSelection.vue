@@ -2,7 +2,7 @@
   <div class="main">
     <el-card>
       <el-row>
-        <el-col :offset="3" :span="13" class="seat">
+        <el-col :offset="1" :span="13" class="seat">
           <div class="seat-tip">
             <div class="seat-tip-item">
               <icon-base icon-name="empty-seat" width="28" height="28">
@@ -39,7 +39,7 @@
               </div>
           </div>
         </el-col>
-        <el-col :span="8">
+        <el-col :offset="2" :span="8">
           <div class="movie-info">
             <div class="movie">
               <div class="poster">
@@ -133,7 +133,7 @@ export default {
     dynamicPadding: function() {
       const style = {};
       switch(this.hall.column) {
-        case 18:
+        case 10:
           style["padding-left"] = 50 + "px";
           break;
         case 8:
@@ -269,6 +269,10 @@ export default {
   display: inline-block;
   vertical-align: top;
   margin-top: 3px;
+}
+
+.main .seats {
+  margin-top: 10px;
 }
 
 .main .seats .row {
