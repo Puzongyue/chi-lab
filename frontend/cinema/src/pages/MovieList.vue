@@ -230,6 +230,6 @@ export default {
 
 .tab .sort {
   /* background-color: aquamarine; */
-  margin: 50px 0 10px 0;
+  margin: 80px 0 10px 0;
 }
 </style>

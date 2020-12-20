@@ -50,6 +50,7 @@ export default {
 
   created() {
     this.bus.$on("searchKey", (value) => {
+      console.log("result: " + value);
       this.keyword = value;
       this.searchMovie();
     });
