@@ -39,8 +39,8 @@
               v-for="(ticket, index) in scope.row.seat"
               :key="ticket.id"
             >
-              <i>{{ ticket[0] }}</i
-              >排<i>{{ ticket[1] }}</i
+              <i>{{ ticket[0] + 1 }}</i
+              >排<i>{{ ticket[1] + 1 }}</i
               >座
             </span>
           </template>
@@ -65,7 +65,10 @@
         center
       >
         <div class="QR-code">
-          <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1608370386624&di=f992948aba88572346e7f0dc23bde18a&imgtype=0&src=http%3A%2F%2Fimg.haote.com%2Fupload%2Fqrcode%2F1664%2Fhaote0e9f46a410ad140c3a5a9d75bf5b1227.png" alt="">
+          <img
+            src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1608370386624&di=f992948aba88572346e7f0dc23bde18a&imgtype=0&src=http%3A%2F%2Fimg.haote.com%2Fupload%2Fqrcode%2F1664%2Fhaote0e9f46a410ad140c3a5a9d75bf5b1227.png"
+            alt=""
+          />
         </div>
         <span slot="footer" class="dialog-footer">
           <!-- <el-button @click="dialogVisible = false">取 消</el-button> -->
@@ -93,7 +96,7 @@ export default {
       return this.orderData.reduce((prev, curr) => {
         return prev + curr.price;
       }, 0);
-    },
+    }
   },
 
   data() {
@@ -135,7 +138,11 @@ export default {
     formateDate(date) {
       const week = ["日", "一", "二", "三", "四", "五", "六"];
       const dateArr = date.toLocaleDateString().split("/");
-      const time = date.toTimeString().split(" ")[0].split(":").slice(0, 2);
+      const time = date
+        .toTimeString()
+        .split(" ")[0]
+        .split(":")
+        .slice(0, 2);
       return `周${week[date.getDay()]} ${dateArr[0]}年${dateArr[1]}月${
         dateArr[2]
       }日 ${time.join(":")}`;
@@ -184,21 +191,19 @@ export default {
     },
 
     handleClose(done) {
-      this.$confirm('确认放弃本次支付？')
+      this.$confirm("确认放弃本次支付？")
         .then(_ => {
           done();
         })
         .catch(_ => {});
     },
 
-
     paySuccessfully() {
       this.dialogVisible = false;
       updateOrderStatus(this.orderId, 1);
-      this.$router.push({ path:"/purchase/success" });
+      this.$router.push({ path: "/purchase/success" });
     }
-    
-  },
+  }
 };
 </script>
 
@@ -301,7 +306,7 @@ export default {
   text-align: center;
 }
 
-.main .pay .QR-code img{
+.main .pay .QR-code img {
   width: 300px;
   height: 300px;
 }
