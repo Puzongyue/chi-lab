@@ -8,7 +8,7 @@
       router
       ref="menu"
     >
-      <div id="cinema-icon">
+      <div id="cinema-icon" @click="gotoHome">
         <img
           src="https://p.pstatp.com/origin/1383d0002e72253ecf7dc"
           alt="logo"
@@ -83,6 +83,11 @@ export default {
         this.$router.push("/usercenter/orders?status=unpaid");
       }
     },
+    gotoHome() {
+      if (this.$route.path !== "/") {
+        this.$router.push("/");
+      }
+    },
   },
   watch: {
     $route() {
@@ -93,7 +98,7 @@ export default {
         currentPath.includes("/search")
       ) {
         this.$refs.menu.activeIndex = "/list";
-      } else if (currentPath == "/") {
+      } else if (currentPath === "/") {
         this.$refs.menu.activeIndex = "/";
       } else if (currentPath.includes("/usercenter")) {
         this.$refs.menu.activeIndex = "";
@@ -131,6 +136,8 @@ export default {
   align-items: center;
   justify-content: center;
   border: hidden;
+
+  cursor: pointer;
 }
 
 #cinema-icon:focus {

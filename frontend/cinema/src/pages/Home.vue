@@ -128,21 +128,21 @@
                 alt="poster"
                 width="100px"
                 height="65px"
-                src="https://p1.meituan.net/movie/80a0afab60ba5bc548a0c606635fef291479960.jpg@120w_80h_1e_1c"
+                :src="item.poster"
               />
               <div class="item-name top-item-name">
                 <span>{{ item.name }}</span>
                 <span class="top-item-type">{{ item.types.join(" / ") }}</span>
               </div>
               <span class="item-boxoffice hint-font"
-                >{{ item.boxOffice }}万</span
+                >{{ item.boxOffice / 100000 }} 亿</span
               >
             </div>
             <div class="rank-item-inner" v-else>
               <span class="item-rank">{{ item.rank }}</span>
               <span class="item-name">{{ item.name }}</span>
               <span class="item-boxoffice hint-font"
-                >{{ item.boxOffice }}万</span
+                >{{ item.boxOffice / 100000}} 亿</span
               >
             </div>
           </div>
