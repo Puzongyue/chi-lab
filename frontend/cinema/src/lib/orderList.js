@@ -118,6 +118,8 @@ export function getOrderById(id) {
 }
 
 export function addOrder(order) {
+  coverUnfinishedOrder(order.userId);
+
   const id = orders[orders.length - 1].id + 1;
   order["id"] = id;
   orders.push(order);
@@ -134,4 +136,14 @@ export function deleteOrder(id) {
   const index = orders.findIndex(order => order.id === id);
   orders.splice(index, 1);
   console.log(orders)
+}
+
+
+export function coverUnfinishedOrder(userId) {
+  for (let i = 0; i < orders.length; i++) {
+    const o = orders[i];
+    if (o.userId === userId && o.status === 0) {
+      o.status = 2;
+    }
+  }
 }
