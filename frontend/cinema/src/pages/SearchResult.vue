@@ -46,12 +46,13 @@ export default {
     $route(to, from) {
       this.keyword = this.$route.query.keyword || "";
       this.searchMovie();
-    }
+    },
   },
 
   methods: {
     searchMovie() {
       this.movies = getMoviesByKeyword(this.keyword);
+      this.$router.push({ path: "/search", query: { keyword: this.keyword } });
     },
   },
 

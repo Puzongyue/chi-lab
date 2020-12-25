@@ -88,6 +88,7 @@ export default {
   },
   watch: {
     $route() {
+      this.keyword = this.$route.query.keyword || "";
       let currentPath = this.$route.path;
       if (
         currentPath.includes("/movie") ||
