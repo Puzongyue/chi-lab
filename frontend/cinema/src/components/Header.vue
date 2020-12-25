@@ -71,10 +71,7 @@ export default {
       // console.log(key, keyPath);
     },
     searchMovie() {
-      if (!this.$route.path.includes("/search")) {
-        this.$router.push("/search");
-      }
-      this.bus.$emit("searchKey", this.keyword);
+      this.$router.push({path: "/search", query: { keyword: this.keyword}});
     },
     gotoUserCenter(command) {
       if (command == "0") {

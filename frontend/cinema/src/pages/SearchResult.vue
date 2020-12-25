@@ -42,25 +42,22 @@ export default {
     };
   },
 
+  watch: {
+    $route(to, from) {
+      this.keyword = this.$route.query.keyword || "";
+      this.searchMovie();
+    }
+  },
+
   methods: {
     searchMovie() {
       this.movies = getMoviesByKeyword(this.keyword);
     },
   },
 
-  created() {
-    this.bus.$on("searchKey", (value) => {
-      console.log("result: " + value);
-      this.keyword = value;
-      this.searchMovie();
-    });
-  },
-
   mounted() {
-    this.bus.$on("searchKey", (value) => {
-      this.keyword = value;
-      this.searchMovie();
-    });
+    this.keyword = this.$route.query.keyword || "";
+    this.searchMovie();
   },
 };
 </script>
