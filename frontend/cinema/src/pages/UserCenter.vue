@@ -1,6 +1,6 @@
 <template>
   <div class="user-center">
-    <el-row :gutter="32">
+    <el-row :gutter="16">
       <el-col :span="5" class="user-menu">
         <h2 class="menu-title">个人中心</h2>
         <el-menu

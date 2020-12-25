@@ -1,5 +1,4 @@
 /*
-  票房和喜欢数这连个字段没有填真实值
   注意导演和地区是list
   解析出来的日期比填进去的早一天，目前把日期填晚了一天
 */
@@ -11,11 +10,11 @@ export const movies = [
     types: ["剧情", "犯罪"],
     location: ["中国大陆"],
     time: 104,
-    boxOffice: 96280, // 以k为单位
+    boxOffice: 131000, // 以k为单位
     poster:
       "https://p1.meituan.net/movie/13cb85d810b0530b951625430c2f35044951112.jpg@464w_644h_1e_1c",
     score: 8.7,
-    like: 0,
+    like: 433,
     isLiked: false,
     startDay: new Date(2020, 10, 28),
     description: `二十世纪七十年代中期，看电影是人们重要的精神享受。
@@ -50,11 +49,11 @@ export const movies = [
     types: ["爱情", "青春", "奇幻"],
     location: ["中国大陆"],
     time: 102,
-    boxOffice: 96281, // 以k为单位
+    boxOffice: 331000, // 以k为单位
     poster:
       "https://p1.meituan.net/movie/f6ec2a022d3644ef493f881d359f65303190471.jpg@464w_644h_1e_1c",
     score: 8.0,
-    like: 5000, // 以k为单位
+    like: 524, // 以k为单位
     isLiked: true,
     startDay: new Date(2020, 11, 5),
     description: `如果你喜欢的女孩，得了抑郁症，你该怎么办？
@@ -90,11 +89,11 @@ export const movies = [
     types: ["奇幻", "古装", "喜剧"],
     location: ["中国大陆"],
     time: 125,
-    boxOffice: 96282, // 以k为单位
+    boxOffice: 184000, // 以k为单位
     poster:
       "https://p0.meituan.net/movie/303c2e671cc4df875c151d688ecbd8962085989.jpg@464w_644h_1e_1c",
     score: 7.7,
-    like: 0,
+    like: 336,
     isLiked: false,
     startDay: new Date(2020, 11, 5),
     description: `清贫书生王子进（陈立农 饰）进京赶考，被来到人界取丹的狐妖白十三（李现 饰）盯上。
@@ -121,11 +120,11 @@ export const movies = [
     types: ["犯罪", "剧情", "动作"],
     location: ["中国香港", "中国大陆"],
     time: 95,
-    boxOffice: 96288, // 以k为单位
+    boxOffice: 537000, // 以k为单位
     poster:
       "https://p1.meituan.net/movie/38dd31a0e1b18e1b00aeb2170c5a65b13885486.jpg@464w_644h_1e_1c",
     score: 8.6,
-    like: 0,
+    like: 879,
     isLiked: false,
     startDay: new Date(2020, 10, 21),
     description: `上世纪90年代，刑警钟诚受命追捕悍匪集团“老鹰帮”。这群悍匪犯下惊天连环劫案，
@@ -150,11 +149,11 @@ export const movies = [
     types: ["喜剧", "动画", "冒险"],
     location: ["美国"],
     time: 96,
-    boxOffice: 96290, // 以k为单位
+    boxOffice: 328000, // 以k为单位
     poster:
       "https://p1.meituan.net/moviemachine/6fb1855f663f9856bfc47b7d013e0474651230.jpg@464w_644h_1e_1c",
     score: 9.1,
-    like: 0,
+    like: 768,
     isLiked: false,
     startDay: new Date(2020, 10, 28),
     description: `影片主要讲述了咕噜家族需要一个新的栖息地。于是，这一史前首个家族踏上征途，
@@ -191,11 +190,11 @@ export const movies = [
     types: ["剧情", "冒险"],
     location: ["美国"],
     time: 100,
-    boxOffice: 96280, // 以k为单位
+    boxOffice: 34200, // 以k为单位
     poster:
       "https://p0.meituan.net/moviemachine/cf7d6942f2aa9189cce20519b490b6b1879487.jpg@464w_644h_1e_1c",
     score: 9.2,
-    like: 0,
+    like: 12,
     isLiked: false,
     startDay: new Date(2020, 10, 14),
     description: `巴克是一只体型庞大、脾气暴躁的圣伯纳犬与苏格兰牧羊犬混血，
@@ -236,7 +235,7 @@ export const movies = [
     poster:
       "https://p1.meituan.net/movie/7335afbfd567ca5261d28a11d5bab706106991.jpg@464w_644h_1e_1c",
     score: -1,
-    like: 0,
+    like: 897,
     isLiked: false,
     startDay: new Date(2020, 11, 12),
     description: `大雄把恐龙展发现的化石带回家，借助哆啦A梦的时光包袱竟然成功孵化出两只从未被发现过的长着翅膀的新恐龙。
@@ -273,7 +272,7 @@ export const movies = [
     poster:
       "https://p0.meituan.net/moviemachine/70be7bb482b0edc1c74f93e02d95a88a3068051.jpg@464w_644h_1e_1c",
     score: -1,
-    like: 0,
+    like: 472,
     isLiked: false,
     startDay: new Date(2020, 11, 19),
     description: `倾覆沉没的钻井平台，顺流直冲的运油车头，直坠入海的满载客机。
@@ -313,7 +312,7 @@ export const movies = [
     poster:
       "https://p0.meituan.net/movie/80b9ec1d4bc6bb7e727a252d9e4e54432714531.jpg@464w_644h_1e_1c",
     score: -1,
-    like: 0,
+    like: 243,
     isLiked: false,
     startDay: new Date(2020, 11, 12),
     description: `北条司著名漫画《城市猎人》的法国真人版，Nicky Larson（寒羽良）是人称“城市猎人”的私家侦探，
@@ -351,7 +350,7 @@ export const movies = [
     poster:
       "https://p0.meituan.net/movie/59b5174b5eb82aeed2cb738eb261b18d797572.jpg@464w_644h_1e_1c",
     score: -1,
-    like: 0,
+    like: 455,
     isLiked: false,
     startDay: new Date(2020, 11, 12),
     description: `两年前，母亲（李娟 饰）的意外遇害，令李佳禾（邓恩熙 饰）的生活彻底“黑暗”起来。

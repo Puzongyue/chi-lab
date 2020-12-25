@@ -195,7 +195,7 @@ export default {
 }
 .order .order-seats span {
   display: inline-block;
-  width: 25%;
+  width: 30%;
   margin-right: 5px;
 }
 </style>
