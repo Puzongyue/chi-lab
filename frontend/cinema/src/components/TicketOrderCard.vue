@@ -6,7 +6,7 @@
     </div>
     <div class="card-body" @click="toMovie(orderAll.movieId)">
       <el-row type="flex" align="middle" class="order">
-        <el-col :span="6" class="order-detail">
+        <el-col :span="7" class="order-detail">
           <div class="movie-poster">
             <el-image
               style="width: 100%; height: 100%"
@@ -161,7 +161,7 @@ export default {
   border: 2px solid #fff;
   box-shadow: 0 1px 2px 0 hsla(0, 0%, 53%, 0.5);
   font-size: 0;
-  width: 105px;
+  width: 125px;
   height: 140px;
   margin-right: 20px;
 }

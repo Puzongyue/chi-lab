@@ -19,7 +19,7 @@
               index="1.1"
               :route="{
                 path: '/usercenter/orders',
-                query: { status: 'unpaid' }
+                query: { status: 'unpaid' },
               }"
               >待支付</el-menu-item
             >
@@ -28,7 +28,7 @@
               index="1.2"
               :route="{
                 path: '/usercenter/orders',
-                query: { status: 'unused' }
+                query: { status: 'unused' },
               }"
               >待使用</el-menu-item
             >
@@ -36,7 +36,7 @@
               index="1.3"
               :route="{
                 path: '/usercenter/orders',
-                query: { status: 'finished' }
+                query: { status: 'finished' },
               }"
               >已完成</el-menu-item
             >
@@ -60,9 +60,8 @@ export default {
   name: "UserCenter",
   data() {
     return {
-      title: this.$route.path === "/usercenter" ? "基本信息" : "我的电影票",
+      title: this.$route.path === "/usercenter" ? "基本信息" : "我的订单",
       activeIndex: "",
-      
     };
   },
   mounted() {
@@ -70,7 +69,7 @@ export default {
   },
   methods: {
     handleSelect(index, indexPath) {
-      this.title = index === "2" ? "基本信息" : "我的电影票";
+      this.title = index === "2" ? "基本信息" : "我的订单";
     },
     getIndex() {
       const route = this.$route;
@@ -83,16 +82,19 @@ export default {
           ? "1.2"
           : "1.3";
       return currentIndex;
-    }
+    },
   },
   watch: {
     $route() {
       const currentIndex = this.getIndex();
-      if (currentIndex !== "2"){
+      if (currentIndex !== "2") {
+        this.title = "我的订单";
+      } else {
+        this.title = "基本信息";
       }
       this.$refs.userMenu.activeIndex = currentIndex;
-    }
-  }
+    },
+  },
 };
 </script>
 
