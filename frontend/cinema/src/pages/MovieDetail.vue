@@ -71,7 +71,7 @@
               <div class="movie-statics">
                 <div class="static-info">
                   <span class="number">{{ movie.like }}</span>
-                  <span class="tip">人想看</span>
+                  <span class="tip">位邻居想看</span>
                   <el-button circle plain size="mini" @click="handleLike"
                     ><icon-base
                       icon-name="like"
@@ -411,6 +411,16 @@ export default {
   overflow: auto;
 }
 
+
+#movie-detail .movie-info::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+#movie-detail .movie-info::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 10px;
+}
+
 #movie-detail .movie-info .title {
   font-size: 26px;
   margin-bottom: 20px;
@@ -484,7 +494,7 @@ export default {
   font-size: 18px;
   color: #fff;
   top: 50px;
-  right: 120px;
+  right: 7.4%;
   z-index: 10;
 }
 .choose-movie {
