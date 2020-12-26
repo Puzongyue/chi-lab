@@ -4,7 +4,7 @@
       <span>{{ orderAll.day }}</span>
       <i class="el-icon-delete" @click="deleteOrder(orderAll.id)"></i>
     </div>
-    <div class="card-body">
+    <div class="card-body" @click="toMovie(orderAll.movieId)">
       <el-row type="flex" align="middle" class="order">
         <el-col :span="6" class="order-detail">
           <div class="movie-poster">
@@ -72,12 +72,12 @@ export default {
         { content: "待支付", color: "#FF4500" },
         { content: "待使用", color: "#67C23A" },
         {},
-        { content: "已完成", color: "#606266" }
-      ]
+        { content: "已完成", color: "#606266" },
+      ],
     };
   },
   props: {
-    order: Object
+    order: Object,
   },
   created() {
     const weekMap = ["日", "一", "二", "三", "四", "五", "六"];
@@ -91,17 +91,15 @@ export default {
     this.orderAll = {
       ...this.order,
       name: movie.name,
+      movieId: movie.id,
       poster: movie.poster,
       day: this.order.placeTime.toLocaleDateString().replaceAll("/", "-"),
       distance: {
         hour: hour,
-        minute: minute
+        minute: minute,
       },
       startTimeFormat:
-        time
-          .toLocaleDateString()
-          .substring(5)
-          .replace("/", ".") +
+        time.toLocaleDateString().substring(5).replace("/", ".") +
         " " +
         "周" +
         weekMap[time.getDay()] +
@@ -109,7 +107,7 @@ export default {
         time.toTimeString().substring(0, 5),
       time: movie.time,
       hall: hallList[schedual.hallId].name,
-      prize: schedual.prize
+      prize: schedual.prize,
     };
   },
   methods: {
@@ -119,14 +117,21 @@ export default {
         query: {
           id: id,
           userId: this.userId,
-          isContinued: true
-        }
+          isContinued: true,
+        },
       });
     },
     deleteOrder(id) {
       this.$emit("deleteOrder", id);
-    }
-  }
+    },
+
+    toMovie(id) {
+      if (this.order.id !== 0)
+        this.$router.push({
+          path: "/movie/" + id,
+        });
+    },
+  },
 };
 </script>
 
