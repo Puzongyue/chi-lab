@@ -4,7 +4,7 @@
     <div class="complete"><span>已完成支付</span></div>
     <div class="to-order-page">
       前往
-      <el-link type="primary" class="link" href="/#/usercenter/orders?status=finished">我的订单</el-link>
+      <el-link type="primary" class="link" href="/#/usercenter/orders?status=unused">我的订单</el-link>
       查看
     </div>
   </div>
