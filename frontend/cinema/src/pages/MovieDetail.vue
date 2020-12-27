@@ -433,7 +433,7 @@ export default {
 
 .movie-description .description-expand {
   cursor: pointer;
-  color: #eb002a;
+  color: #fff;
 }
 .movie-description .description-expand:hover {
   cursor: pointer;
