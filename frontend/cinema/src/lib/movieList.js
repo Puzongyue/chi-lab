@@ -1,6 +1,5 @@
 /*
   注意导演和地区是list
-  解析出来的日期比填进去的早一天，目前把日期填晚了一天
 */
 
 export const movies = [
@@ -16,7 +15,7 @@ export const movies = [
     score: 8.7,
     like: 433,
     isLiked: false,
-    startDay: new Date(2020, 10, 28),
+    startDay: new Date(2020, 10, 27),
     description: `二十世纪七十年代中期，看电影是人们重要的精神享受。
                       西北某地，没赶上场次的张九声怅然若失，他悄悄从农场溜出来，就是为了看一场电影，
                       那是一盘宣传性质的新闻胶卷带，他相信在那盘胶片中有他已经去世的女儿的“一秒钟”影像。
@@ -55,7 +54,7 @@ export const movies = [
     score: 8.1,
     like: 524, // 以k为单位
     isLiked: true,
-    startDay: new Date(2020, 11, 5),
+    startDay: new Date(2020, 11, 4),
     description: `如果你喜欢的女孩，得了抑郁症，你该怎么办？
                 辛唐（孙晨竣 饰）拥有通过声音给他人制造快乐的能力，
                 但对同一人使用三次后，性命就会和此人绑定，只有对方开心，
@@ -95,7 +94,7 @@ export const movies = [
     score: 7.7,
     like: 336,
     isLiked: false,
-    startDay: new Date(2020, 11, 5),
+    startDay: new Date(2020, 11, 4),
     description: `清贫书生王子进（陈立农 饰）进京赶考，被来到人界取丹的狐妖白十三（李现 饰）盯上。
               为了骗取书生信任，狐妖联合各路妖鬼，设下重重陷阱。一场奇幻旅程等待着他们……`,
     director: ["宋灏霖", "伊力奇"],
@@ -126,7 +125,7 @@ export const movies = [
     score: 8.6,
     like: 879,
     isLiked: false,
-    startDay: new Date(2020, 10, 21),
+    startDay: new Date(2020, 10, 20),
     description: `上世纪90年代，刑警钟诚受命追捕悍匪集团“老鹰帮”。这群悍匪犯下惊天连环劫案，
                 训练有素且纪律严明，首领张隼更屡次恶意挑衅，矛头直指钟诚。
                 为将“老鹰帮”捉拿归案，钟诚带领刑警小队咬死不放，誓与恶势力斗争到底。
@@ -155,7 +154,7 @@ export const movies = [
     score: 9.1,
     like: 768,
     isLiked: false,
-    startDay: new Date(2020, 10, 28),
+    startDay: new Date(2020, 10, 27),
     description: `影片主要讲述了咕噜家族需要一个新的栖息地。于是，这一史前首个家族踏上征途，
                   寻找一片可以称之为“家”的安定之所。当他们在一片高墙内，发现一块符合他们全部设想的天堂般的田园时，
                   他们以为一切迎刃而解了……除了一个小问题：已经有另一支家族生活在这里。他们就是：
@@ -196,7 +195,7 @@ export const movies = [
     score: 9.2,
     like: 12,
     isLiked: false,
-    startDay: new Date(2020, 10, 14),
+    startDay: new Date(2020, 10, 13),
     description: `巴克是一只体型庞大、脾气暴躁的圣伯纳犬与苏格兰牧羊犬混血，
                   它和米勒法官一家在美国加州的圣克拉拉市一起居住。但巴克不幸被绑架，
                   并被卖了出去，成了一只奴役狗。后来巴克成了佩罗（奥马·希 饰）的狗拉雪橇队中一员，
@@ -237,7 +236,7 @@ export const movies = [
     score: -1,
     like: 897,
     isLiked: false,
-    startDay: new Date(2020, 11, 12),
+    startDay: new Date(2020, 11, 11),
     description: `大雄把恐龙展发现的化石带回家，借助哆啦A梦的时光包袱竟然成功孵化出两只从未被发现过的长着翅膀的新恐龙。
                 大雄和小伙伴们决定将小恐龙们带回到属于它们的时代，一场惊心动魄的白垩纪大冒险即将上演。
                 本片是《哆啦A梦》漫画连载50周年纪念作品，同时也是《哆啦A梦》系列电影的第40部作品，
@@ -274,7 +273,7 @@ export const movies = [
     score: -1,
     like: 472,
     isLiked: false,
-    startDay: new Date(2020, 11, 19),
+    startDay: new Date(2020, 11, 18),
     description: `倾覆沉没的钻井平台，顺流直冲的运油车头，直坠入海的满载客机。
                   交通海上应急反应特勤队队长高谦（彭于晏 饰）、机长方宇凌（辛芷蕾 饰）
                   和绞车手赵呈（王彦霖 饰）一次次带领队伍第一时间抵达，站在水火咆哮的最前面，
@@ -314,7 +313,7 @@ export const movies = [
     score: -1,
     like: 243,
     isLiked: false,
-    startDay: new Date(2020, 11, 12),
+    startDay: new Date(2020, 11, 11),
     description: `北条司著名漫画《城市猎人》的法国真人版，Nicky Larson（寒羽良）是人称“城市猎人”的私家侦探，
                   他集幽默、正义、欣赏美女的天性于一身，擅长处理五花八门的棘手任务，深受委托人信赖。
                   阿香与寒羽良为多年搭档，两人看似相爱相杀，实则互相关心，有一天，阿香为两人接来了
@@ -352,7 +351,7 @@ export const movies = [
     score: -1,
     like: 455,
     isLiked: false,
-    startDay: new Date(2020, 11, 12),
+    startDay: new Date(2020, 11, 11),
     description: `两年前，母亲（李娟 饰）的意外遇害，令李佳禾（邓恩熙 饰）的生活彻底“黑暗”起来。
                   面对同学的霸凌和懦弱的父亲（吴国华 饰），少女佳禾逐渐养成了有仇必报的刚硬性格。
                   一次车祸，她撞见了在工读学校表现良好而提前归来的“少年犯”于镭（李感 饰），
