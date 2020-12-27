@@ -19,7 +19,7 @@
             <div
               class="hint-font"
               id="show-all-movies"
-              @click="gotoMovieList(0)"
+              @click="gotoMovieList('current')"
             >
               查看全部
             </div>
@@ -68,7 +68,7 @@
             <div
               class="hint-font"
               id="show-all-incoming-movies"
-              @click="gotoMovieList(1)"
+              @click="gotoMovieList('future')"
             >
               查看全部
             </div>
@@ -175,7 +175,7 @@ export default {
       this.$router.push("/movie/" + id);
     },
     gotoMovieList(type) {
-      this.$router.push("/list");
+      this.$router.push({path: "/list", query: { type: type}});
     },
   },
   updated() {

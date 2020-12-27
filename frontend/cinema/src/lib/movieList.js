@@ -52,7 +52,7 @@ export const movies = [
     boxOffice: 331000, // 以k为单位
     poster:
       "https://p1.meituan.net/movie/f6ec2a022d3644ef493f881d359f65303190471.jpg@464w_644h_1e_1c",
-    score: 8.0,
+    score: 8.1,
     like: 524, // 以k为单位
     isLiked: true,
     startDay: new Date(2020, 11, 5),

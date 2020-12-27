@@ -107,8 +107,16 @@ export default {
     };
   },
 
+  watch: {
+    $route(to, from) {
+      this.activeName = this.$route.query.type;
+      this.movies = this.activeName === "current"? getCurrentMovies() : getFutureMovies();
+    },
+  },
+
   mounted() {
-    this.movies = getCurrentMovies();
+    this.activeName = this.$route.query.type;
+    this.movies = this.activeName === "current"? getCurrentMovies() : getFutureMovies();
     this.allTypes = getAllMovieTypes();
     this.allLocations = getAllMovieLocations();
     this.sortMovie();
@@ -120,6 +128,13 @@ export default {
       this.currentTypeIdx = -1; // default type
       this.currentLocationIdx = -1; // default location
 
+      this.activeName = this.$route.query.type;
+      if(this.activeName === "current") {
+        this.$router.push({path: "/list", query: { type: "future"}});
+      }
+      else {
+        this.$router.push({path: "/list", query: { type: "current"}});
+      }
       this.movies = this.activeName === "current"? getCurrentMovies() : getFutureMovies();
       this.sortMovie();
       this.filterType(-1);
