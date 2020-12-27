@@ -18,7 +18,10 @@
       <el-menu-item index="/" class="header-item" :route="{ path: '/' }"
         >首页</el-menu-item
       >
-      <el-menu-item index="/list" class="header-item" :route="{ path: '/list' }"
+      <el-menu-item
+        index="/list"
+        class="header-item"
+        :route="{ path: '/list', query: { type: 'current' } }"
         >电影</el-menu-item
       >
       <el-menu-item index="3" class="header-item">资讯</el-menu-item>
@@ -71,7 +74,7 @@ export default {
       // console.log(key, keyPath);
     },
     searchMovie() {
-      this.$router.push({path: "/search", query: { keyword: this.keyword}});
+      this.$router.push({ path: "/search", query: { keyword: this.keyword } });
     },
     gotoUserCenter(command) {
       if (command == "0") {
