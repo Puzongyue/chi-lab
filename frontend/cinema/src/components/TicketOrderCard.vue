@@ -126,7 +126,7 @@ export default {
     },
 
     toMovie(id) {
-      if (this.order.id !== 0)
+      if (this.order.status !== 0)
         this.$router.push({
           path: "/movie/" + id,
         });
