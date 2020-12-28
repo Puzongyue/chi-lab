@@ -15,7 +15,7 @@
 
 <script>
 import TicketOrderCard from "../TicketOrderCard";
-import { orders, Status, deleteOrder } from "@/lib/orderList.js";
+import { orders, Status, deleteOrder, updateAllOrderStatus } from "@/lib/orderList.js";
 export default {
   name: "UserTicket",
   components: {
@@ -40,7 +40,7 @@ export default {
   methods: {
     getOrderList(status) {
       this.status=status;
-      console.log(status, status === 0)
+      updateAllOrderStatus();
       const orderList = [];
       if (status === 0) {
         orders.forEach(order => {

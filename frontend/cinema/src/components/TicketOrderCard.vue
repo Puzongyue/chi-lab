@@ -6,7 +6,7 @@
     </div>
     <div class="card-body" @click="toMovie(orderAll.movieId)">
       <el-row type="flex" align="middle" class="order">
-        <el-col :span="8" class="order-detail">
+        <el-col :span="9" class="order-detail">
           <div class="movie-poster">
             <el-image
               style="width: 100%; height: 100%"
@@ -20,8 +20,9 @@
             <div class="movie-time">{{ orderAll.time }} 分钟</div>
             <div class="schedual-time">{{ orderAll.startTimeFormat }}</div>
             <div class="to-schedual-time" v-if="orderAll.status === 1">
-              距离开场还有：
-              <span v-if="orderAll.distance.hour !== 0"
+              距离开场还有：<span v-if="orderAll.distance.day !== 0"
+                >{{ orderAll.distance.day }}天</span
+              ><span v-if="orderAll.distance.hour !== 0"
                 >{{ orderAll.distance.hour }}小时</span
               >{{ orderAll.distance.minute }}分钟
             </div>
@@ -84,7 +85,8 @@ export default {
     const schedual = schedualList[this.order.schedualId];
     const time = new Date(schedual.startTime);
     const distance = Math.floor((time - new Date()) / 1000 / 60);
-    const hour = Math.floor(distance / 60);
+    const day = Math.floor(distance / 60 / 24);
+    const hour = Math.floor((distance - day * 60 * 24) / 60);
     const minute = distance % 60;
     const movie = movies[schedual.movieId];
 
@@ -95,6 +97,7 @@ export default {
       poster: movie.poster,
       day: this.order.placeTime.toLocaleDateString().replaceAll("/", "-"),
       distance: {
+        day: day,
         hour: hour,
         minute: minute,
       },
@@ -167,7 +170,8 @@ export default {
 }
 
 .schedual-detail {
-  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .schedual-detail .movie-name {
@@ -197,6 +201,8 @@ export default {
   color: #666;
   position: absolute;
   bottom: 3px;
+  align-self: flex-end;
+  left: 130px;
 }
 .order .order-seats span {
   display: inline-block;

@@ -1,5 +1,8 @@
 // order status:[0: 未付款, 1: 已付款, 2:已失效(未付款且超过15分钟) , 3: 已过期]
 // 本系统唯一可活动用户 id = 0
+
+import schedualList from "./schedualList";
+
 export const orders = [
   //1号厅
   {
@@ -146,4 +149,19 @@ export function coverUnfinishedOrder(userId) {
       o.status = 2;
     }
   }
+}
+
+export function updateAllOrderStatus(){
+  orders.forEach(order =>{
+     if (order.status === 0){
+       if (new Date() - order.placeTime > 15 * 60 * 1000){
+         order.status = 2;
+       }
+     }
+     else if (order.status === 1){
+       if (new Date() > schedualList[order.schedualId].startTime){
+         order.status = 3;
+       }
+     } 
+  })
 }
