@@ -8,7 +8,7 @@ export const movies = [
     name: "一秒钟",
     types: ["剧情", "犯罪"],
     location: ["中国大陆"],
-    time: 104,
+    time: 128,
     boxOffice: 131000, // 以k为单位
     poster:
       "https://p1.meituan.net/movie/13cb85d810b0530b951625430c2f35044951112.jpg@464w_644h_1e_1c",
