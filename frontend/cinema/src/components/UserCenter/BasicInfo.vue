@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import {userInfo, updateInfo} from "@/lib/userInfo.js"
+import { userInfo, updateInfo } from "@/lib/userInfo.js";
 export default {
   name: "BasicInfo",
   data() {
@@ -47,7 +47,12 @@ export default {
   },
   methods: {
     onSubmit() {
-        console.log(this.userInfo)
+      console.log(this.userInfo);
+      this.$message({
+        showClose: true,
+        message: "保存成功",
+        type: "success"
+      });
     }
   }
 };
