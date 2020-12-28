@@ -30,7 +30,7 @@
           </div>
         </div>
         <div class="buy">
-          <el-button type="primary">购票</el-button>
+          <el-button type="primary" @click="jumpToMovieDetail">购票</el-button>
         </div>
       </el-col>
       <!-- </div> -->
@@ -46,7 +46,7 @@ export default {
 
   methods: {
     jumpToMovieDetail() {
-      console.log(this.movie.id);
+      this.$router.push(`/movie/${this.movie.id}`);
     },
   },
 };
@@ -111,6 +111,8 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.2;
+
+  cursor: pointer;
 }
 
 .card .movie-info {
