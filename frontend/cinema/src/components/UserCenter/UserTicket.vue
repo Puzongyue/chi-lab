@@ -4,6 +4,11 @@
       <div class="order-item" v-for="order in orderList" :key="order.id">
         <TicketOrderCard :order="order" @deleteOrder="deleteOrder" />
       </div>
+      <div v-if="orderList.length === 0" class="order-none">
+        暂无{{
+          status === 0 ? "待支付" : status === 1 ? "待使用" : "已完成"
+        }}订单
+      </div>
     </div>
   </div>
 </template>
@@ -19,7 +24,8 @@ export default {
   data() {
     return {
       userId: 0,
-      orderList: []
+      orderList: [],
+      status: 0
     };
   },
   mounted() {
@@ -33,6 +39,8 @@ export default {
   },
   methods: {
     getOrderList(status) {
+      this.status=status;
+      console.log(status, status === 0)
       const orderList = [];
       if (status === 0) {
         orders.forEach(order => {
