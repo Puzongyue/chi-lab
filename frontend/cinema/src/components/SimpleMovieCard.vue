@@ -76,6 +76,10 @@ export default {
   /* height: 100px; */
 }
 
+.main .poster .buy-btn {
+  border-radius: 20px;
+}
+
 .main .buy {
   position: absolute;
   width: 100%;
