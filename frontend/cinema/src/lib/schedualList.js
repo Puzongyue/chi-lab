@@ -451,6 +451,15 @@ const schedualList = [
     language: "原版3D",
     prize: 38.0
   },
+  {
+    id: 50,
+    movieId: 1,
+    hallId: 0,
+    startTime: new Date("2020-12-20 21:25"),
+    endTime: new Date("2021-12-20 23:33"),
+    language: "原版3D",
+    prize: 38.0
+  },
 ];
 
 export default schedualList;

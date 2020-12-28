@@ -34,7 +34,7 @@ export const orders = [
   },
   {
     id: 3,
-    schedualId: 0,
+    schedualId: 50,
     userId: 0,
     tickets: [
       [3, 0],

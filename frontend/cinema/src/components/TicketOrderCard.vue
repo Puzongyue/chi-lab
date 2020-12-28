@@ -6,7 +6,7 @@
     </div>
     <div class="card-body" @click="toMovie(orderAll.movieId)">
       <el-row type="flex" align="middle" class="order">
-        <el-col :span="7" class="order-detail">
+        <el-col :span="8" class="order-detail">
           <div class="movie-poster">
             <el-image
               style="width: 100%; height: 100%"
@@ -36,15 +36,15 @@
             >
           </div>
         </el-col>
-        <el-col :offset="1" :span="6" class="order-seats">
+        <el-col :offset="2" :span="6" class="order-seats">
           <span v-for="(ticket, index) in orderAll.tickets" :key="index"
             >{{ ticket[0] + 1 }}排{{ ticket[1] + 1 }}列</span
           >
         </el-col>
-        <el-col :offset="2" :span="4" class="order-prize"
+        <el-col :offset="2" :span="3" class="order-prize"
           >￥{{ orderAll.prize * orderAll.tickets.length.toFixed(2) }}</el-col
         >
-        <el-col :offset="2" :span="4" class="order-status">
+        <el-col :offset="1" :span="3" class="order-status">
           <div
             :style="{ color: statusList[orderAll.status].color }"
             class="status-content"
@@ -161,7 +161,7 @@ export default {
   border: 2px solid #fff;
   box-shadow: 0 1px 2px 0 hsla(0, 0%, 53%, 0.5);
   font-size: 0;
-  width: 125px;
+  width: 105px;
   height: 140px;
   margin-right: 20px;
 }
