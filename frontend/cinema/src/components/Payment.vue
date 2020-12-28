@@ -132,7 +132,7 @@ export default {
       tableData["price"] = scheduleInfo.prize * orderInfo.tickets.length;
 
       this.orderData.push(tableData);
-      this.movieId - scheduleInfo.movieId;
+      this.movieId = scheduleInfo.movieId;
     },
 
     formateDate(date) {
@@ -170,7 +170,10 @@ export default {
         } else if (this.minutes === 0 && this.seconds === 0) {
           window.clearInterval(timer);
           this.expire();
-        } else {
+        } else if (getOrderById(this.orderId).status !== 0) {
+          window.clearInterval(timer);
+        }
+        else {
           this.seconds--;
         }
       }, 1000);
